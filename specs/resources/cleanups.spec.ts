@@ -18,7 +18,7 @@ afterEach(() => {
 
 describe('sdk-utils.cleanups suite', () => {
 
-	it('cleanups.prepareCleanups', async () => {
+	it('cleanups.split', async () => {
 
 		const cleanupMaxSize = 100
 		const customersCount = await cl.customers.count()
@@ -50,7 +50,7 @@ describe('sdk-utils.cleanups suite', () => {
 	})
 
 
-	it('cleanups.cleanupsToBatchTasks', async () => {
+	it('cleanups.toBatchTasks', async () => {
 
 		const cleanups: CleanupCreate[] = [
 			{ resource_type: 'customers' },

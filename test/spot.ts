@@ -1,5 +1,5 @@
-import CommerceLayer, { SkuUpdate } from "@commercelayer/sdk"
-import { CommerceLayerUtils, updateAll } from "../lib/cjs"
+import CommerceLayer, { ImportCreate } from "@commercelayer/sdk"
+import { CommerceLayerUtils, splitImport, updateAll } from "../lib/cjs"
 
 
 
@@ -13,14 +13,20 @@ const utils = CommerceLayerUtils(cl)
 
 const test = async (): Promise<void> => {
 
-  const newSku: SkuUpdate = {
-    id: '',
-    reference_origin: 'new-reference-origin'
+  const inputs: Record<string, any>[] = []
+
+  for (let i = 0; i < 1000; i++) {
+    inputs.push({ attr: 'input_' + i })
   }
 
-  const skus = await updateAll('skus', newSku, { fields: ['reference_origin'] })
+  const ic: ImportCreate = {
+    resource_type: 'customers',
+    inputs
+  }
 
-  console.log(skus)
+  const imports = splitImport(ic, 100)
+
+  console.log(imports)
 
 }
 

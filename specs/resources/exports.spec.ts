@@ -19,7 +19,7 @@ afterEach(() => {
 
 describe('sdk-utils.exports suite', () => {
 
-	it('exports.prepareExports', async () => {
+	it('exports.split', async () => {
 
 		const exportMaxSize = 100
 		const customersCount = await cl.customers.count()
@@ -51,7 +51,7 @@ describe('sdk-utils.exports suite', () => {
 	})
 
 
-	it('exports.exportsToBatchTasks', async () => {
+	it('exports.toBatchTasks', async () => {
 
 		const exports: ExportCreate[] = [
 			{ resource_type: 'customers' },

@@ -15,13 +15,6 @@ export type ResourceJob = ResourceJobOutput | ResourceJobInput
 export type ResourceJobOutput = ExportCreate | CleanupCreate
 export type ResourceJobInput = ImportCreate
 
-/*
-type ResourceJobResult = ResourceJobOutputResult | ResourceJobInputResult
-
-type ResourceJobOutputResult = Export | Cleanup
-type ResourceJobInputResult = Import
-*/
-
 
 
 export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: JobInputType, jobSize?: number): JI[] => {
@@ -97,7 +90,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 }
 
 
-export const jobsToBatchTasks = (jobs: ResourceJob[], jobType: JobOutputType, baseTask?: TemplateTask): Array<Task & { operation: 'create' }> => {
+export const jobsToBatchTasks = (jobs: ResourceJob[], jobType: JobType, baseTask?: TemplateTask): Array<Task & { operation: 'create' }> => {
 
 	return jobs.map(job => {
 

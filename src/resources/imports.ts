@@ -1,6 +1,6 @@
 import type { Import, ImportCreate } from "@commercelayer/sdk"
 import type { Task, TemplateTask } from "../batch"
-import { splitInputJob, jobsToBatchTasks, type JobOptions } from "../jobs"
+import { splitInputJob, jobsToBatchTasks, type JobOptions, executeJobs } from "../jobs"
 
 
 
@@ -18,15 +18,20 @@ export const importsToBatchTasks = (imports: ImportCreate[], baseTask?: Template
 }
 
 
-/*
-export const executeExports = async (exports: ExportCreate[]): Promise<ExportResult[]> => {
-	return executeOutputJobs<Export>(exports, 'exports')
+export const executeSplitImports = async (imports: ImportCreate[], options?: JobOptions): Promise<ImportResult[]> => {
+	return executeJobs<Import>(imports, 'imports', options)
 }
-*/
+
+
+export const executeImport = async (imp: ImportCreate, options?: JobOptions): Promise<ImportResult[]> => {
+	const imports = splitImport(imp, options)
+	return executeSplitImports(imports, options)
+}
 
 
 
 export const imports = {
 	split: splitImport,
+	execute: executeImport,
 	toBatchTasks: importsToBatchTasks,
 }

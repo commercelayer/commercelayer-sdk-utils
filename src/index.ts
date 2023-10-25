@@ -14,13 +14,13 @@ export type { Batch, BatchOptions, Task, TaskResult, InvalidTokenError } from '.
 // RESOURCES //
 
 // Cleanups
-export { cleanups, splitCleanup, cleanupsToBatchTasks } from './resources/cleanups'
+export { cleanups, splitCleanup, cleanupsToBatchTasks, executeCleanup } from './resources/cleanups'
 
 // Exports
-export { exportz, splitExport, exportsToBatchTasks } from './resources/exports'
+export { exportz, splitExport, exportsToBatchTasks, executeExport } from './resources/exports'
 
 // Imports
-export { imports, splitImport, importsToBatchTasks } from './resources/imports'
+export { imports, splitImport, importsToBatchTasks, executeImport } from './resources/imports'
 
 // Webhooks
 export { webhooks, denormalizePayload } from './resources/webhooks'

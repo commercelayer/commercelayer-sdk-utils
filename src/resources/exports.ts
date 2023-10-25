@@ -17,6 +17,7 @@ export const exportsToBatchTasks = (exports: ExportCreate[], baseTask?: Template
 	return jobsToBatchTasks(exports as ResourceJobOutput[], 'exports',  baseTask)
 }
 
+
 export const executeSplitExports = async (exports: ExportCreate[], options?: JobOptions): Promise<ExportResult[]> => {
 	return executeJobs<Export>(exports, 'exports', options)
 }
@@ -24,7 +25,7 @@ export const executeSplitExports = async (exports: ExportCreate[], options?: Job
 
 export const executeExport = async (exp: ExportCreate, options?: JobOptions): Promise<ExportResult[]> => {
 	const exportz = await splitExport(exp, options)
-	return executeJobs<Export>(exportz, 'exports', options)
+	return executeSplitExports(exportz, options)
 }
 
 

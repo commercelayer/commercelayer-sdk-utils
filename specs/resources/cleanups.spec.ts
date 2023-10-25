@@ -1,6 +1,6 @@
 
 import type { CleanupCreate } from '@commercelayer/sdk'
-import { splitCLeanup, cleanupsToBatchTasks, type Task, type TaskResult } from '../../src'
+import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult } from '../../src'
 import { initialize, cl } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
 
@@ -31,7 +31,7 @@ describe('sdk-utils.cleanups suite', () => {
 			resource_type: resourceType
 		}
 
-		const cleanups = await splitCLeanup(clpCreate, { size: cleanupMaxSize, delay: 700 })
+		const cleanups = await splitCleanup(clpCreate, { size: cleanupMaxSize, delay: 700 })
 
 		expect(cleanups.length).toBe(expectedCleanups)
 

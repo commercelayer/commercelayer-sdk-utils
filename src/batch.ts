@@ -32,7 +32,7 @@ export type SuccessCallback = (output: TaskResult, task: Task) => Promise<void> 
 export type FailureCallback = (error: SdkError, task: Task) => Promise<boolean> | boolean
 export type TokenCallback = (error: InvalidTokenError, task: Task) => Promise<string> | string
 
-type PrepareResourceResult = TaskResourceParam | undefined
+export type PrepareResourceResult = TaskResourceParam | undefined
 export type PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult) => Promise<PrepareResourceResult> | PrepareResourceResult
 
 export type TemplateTask = Partial<Task>

@@ -3,14 +3,15 @@ import type { ListableResourceType } from "@commercelayer/sdk/lib/cjs/api"
 import { config } from "./config"
 import type { QueryFilter } from "@commercelayer/sdk/lib/cjs/query"
 import { type Task, type TemplateTask } from "./batch"
-import type { CleanupCreate, ExportCreate, ImportCreate } from "@commercelayer/sdk"
-import { sleep } from "./common"
+import type { Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate } from "@commercelayer/sdk"
+import { groupUID, sleep } from "./common"
 import { computeRateLimits, headerRateLimits } from "./rate_limit"
 
 
 export type JobOptions = {
-	size?: number
-	delay?: number
+	size?: number			// The output size of the jobs
+	delay?: number			// Delay to use between requests if made in conjunction with other external calls
+	queueLength?: number	// Max length of remote queue of jobs
 }
 
 export type JobOutputType = 'exports' | 'cleanups'
@@ -21,12 +22,17 @@ export type ResourceJob = ResourceJobOutput | ResourceJobInput
 export type ResourceJobOutput = ExportCreate | CleanupCreate
 export type ResourceJobInput = ImportCreate
 
+export type ResourceJobResult = ResourceJobOutputResult | ResourceJobInputResult
+export type ResourceJobOutputResult = Export | Cleanup
+export type ResourceJobInputResult = Import
+
 
 
 export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: JobInputType, options?: JobOptions): JI[] => {
 
 	const jobs: JI[] = []
 	if (!job?.inputs || (job.inputs.length === 0)) return jobs
+	const groupId = groupUID()
 
 	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
@@ -35,11 +41,23 @@ export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: Job
 	const totJobs = Math.ceil(allInputs.length / jobMaxSize)
 
 	let jobNum = 0
-	while (allInputs.length > 0) jobs.push({
-		...job,
-		inputs: allInputs.splice(0, jobMaxSize),
-		metadata: { ...job.metadata, progress_number: `${++jobNum}/${totJobs}` }
-	})
+	while (allInputs.length > 0) {
+
+		jobNum++
+
+		const jobCreate: JI = {
+			...job,
+			reference: `${groupId}-${jobNum}`,
+			inputs: allInputs.splice(0, jobMaxSize),
+			metadata: { ...job.metadata }
+		}
+		if (!jobCreate.metadata) jobCreate.metadata = {}
+		jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
+		jobCreate.metadata.group_id = groupId
+
+		jobs.push(jobCreate)
+
+	}
 
 	return jobs
 
@@ -70,6 +88,8 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 
 
 	const jobs: JO[] = []
+	const groupId = groupUID()
+
 	let startId = null
 	let stopId = null
 	let jobPage = 0
@@ -77,12 +97,18 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 
 	for (let curJob = 0; curJob < totJobs; curJob++) {
 
+		const jobNum = curJob +1 
+
 		const jobCreate: JO = {
 			...job,
+			reference: `${groupId}-${jobNum}`,
 			filters: { ...job.filters },
 			metadata: { ...job.metadata }
 		}
 		if (!jobCreate.filters) jobCreate.filters = {}
+		if (!jobCreate.metadata) jobCreate.metadata = {}
+		jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
+		jobCreate.metadata.group_id = groupId
 
 		const pageSize = 1
 		const curJobRecords = Math.min(jobMaxSize, totRecords - (jobMaxSize * curJob))
@@ -95,11 +121,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 		stopId = curJobLastPage.last()?.id
 		
 		if (startId) jobCreate.filters.id_gt = startId
-		if ((curJob + 1 < totJobs)) jobCreate.filters.id_lteq = stopId
-
-
-		if (!jobCreate.metadata) jobCreate.metadata = {}
-		jobCreate.metadata.progress_number = `${curJob + 1}/${totJobs}`
+		if ((jobNum < totJobs)) jobCreate.filters.id_lteq = stopId
 
 		jobs.push(jobCreate)
 
@@ -136,31 +158,40 @@ export const jobsToBatchTasks = (jobs: ResourceJob[], jobType: JobType, baseTask
 }
 
 
-/*
-const countRunning = (jobs: ResourceJobResult[]): number => {
-	return jobs.filter(j => (!j.status || ['pending', 'in_progress'].includes(j.status))).length
+const isRunning = (job: ResourceJobResult): boolean => {
+	return (!job.status || ['pending', 'in_progress'].includes(job.status))
 }
 
-const countFinished = (jobs: ResourceJobResult[]): number => {
-	return jobs.filter(j => ['completed', 'interrupted'].includes(j.status)).length
+const countRunning = (jobs: ResourceJobResult[]): number => {
+	return jobs.filter(j => isRunning(j)).length
 }
-*/
-/*
-export const executeOutputJobs = async <J extends ResourceJobOutputResult>(jobs: ResourceJobOutput[], jobType: JobOutputType, queueLength?: number): Promise<J[]> => {
+
+const isCompleted = (job: ResourceJobResult): boolean => {
+	return ['completed', 'interrupted'].includes(job.status)
+}
+
+const countCompleted = (jobs: ResourceJobResult[]): number => {
+	return jobs.filter(j => isCompleted(j)).length
+}
+
+
+export const executeJobs = async <J extends ResourceJobResult>(jobs: ResourceJob[], jobType: JobType, options?: JobOptions): Promise<J[]> => {
+
+	const checkInterval = 1000	// ms
 
 	const cl = CommerceLayerUtils().sdk
 	const rrr = cl.addRawResponseReader({ headers: true })
 	const resSdk = cl[jobType]
-
 	const results: J[] = []
 
-	const queueMax = queueLength || jobs.length
+	const queueMax = options?.queueLength || config[jobType].queue_size || jobs.length
 	let delay = -1
 
 	do {
 
-		while (countRunning(results) < queueMax) {
-			const job = await resSdk.create(jobs[results.length])
+		// Create job if there are slots available
+		while ((countRunning(results) < queueMax) && (results.length < jobs.length)) {
+			const job = await resSdk.create(jobs[results.length] as any)
 			results.push(job as J)
 			if (delay < 0) {
 				const rateLimits = headerRateLimits(rrr.headers)
@@ -170,15 +201,18 @@ export const executeOutputJobs = async <J extends ResourceJobOutputResult>(jobs:
 			} else await sleep(delay)
 		}
 
+		// Check job status
 		for (const job of results) {
+			if (isCompleted(job)) continue
 			await sleep(delay)
 			const j = await resSdk.retrieve(job)
-			
+			Object.assign(job, j)
 		}
 
-	} while (countFinished(results) < jobs.length)
+		await sleep(checkInterval)
+
+	} while (countCompleted(results) < jobs.length)
 
 	return results
 
 }
-*/

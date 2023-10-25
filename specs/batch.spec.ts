@@ -4,7 +4,7 @@ import { currentAccessToken, initClient, initialize, cl } from '../test/common'
 import { executeBatch } from '../src'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
 import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
-import type { TaskResourceParam, TaskResourceResult } from '../lib/cjs/batch'
+import type { PrepareResourceResult, TaskResourceParam, TaskResourceResult } from '../src/batch'
 
 
 
@@ -308,8 +308,9 @@ describe('sdk-utils.batch suite', () => {
 			operation: 'update',
 			resourceType: 'customers',
 			resource: { id: fixedId },
-			prepareResource: (res: TaskResourceParam, last: TaskResourceResult) => {
+			prepareResource: (res: TaskResourceParam, last: TaskResourceResult): PrepareResourceResult => {
 				(res as Resource).reference = (last as Resource).id
+				return res
 			}
 		})
 

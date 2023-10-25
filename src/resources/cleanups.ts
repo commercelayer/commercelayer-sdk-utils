@@ -1,6 +1,6 @@
 import type { Cleanup, CleanupCreate } from "@commercelayer/sdk"
 import type { Task, TemplateTask } from "../batch"
-import { type ResourceJobOutput, splitOutputJob, jobsToBatchTasks, type JobOptions } from "../jobs"
+import { type ResourceJobOutput, splitOutputJob, jobsToBatchTasks, type JobOptions, executeJobs } from "../jobs"
 
 
 
@@ -8,7 +8,7 @@ export type CleanupResult = Cleanup
 
 
 
-export const splitCLeanup = async (clp: CleanupCreate, options?: JobOptions): Promise<CleanupCreate[]> => {
+export const splitCleanup = async (clp: CleanupCreate, options?: JobOptions): Promise<CleanupCreate[]> => {
 	return splitOutputJob<CleanupCreate>(clp, 'cleanups', options)
 }
 
@@ -18,15 +18,20 @@ export const cleanupsToBatchTasks = (cleanups: CleanupCreate[], baseTask?: Templ
 }
 
 
-/*
-export const executeCleanups = async (cleanups: CleanupCreate[]): Promise<CleanupResult[]> => {
-	return executeOutputJobs<Cleanup>(cleanups, 'cleanups')
+export const executeSplitCleanups = async (cleanups: CleanupCreate[], options?: JobOptions): Promise<CleanupResult[]> => {
+	return executeJobs<Cleanup>(cleanups, 'cleanups', options)
 }
-*/
+
+
+export const executeCleanup = async (clp: CleanupCreate, options?: JobOptions): Promise<CleanupResult[]> => {
+	const cleanups = await splitCleanup(clp, options)
+	return executeJobs<Cleanup>(cleanups, 'cleanups', options)
+}
 
 
 
 export const cleanups = {
-	split: splitCLeanup,
+	split: splitCleanup,
+	execute: executeCleanup,
 	toBatchTasks: cleanupsToBatchTasks,
 }

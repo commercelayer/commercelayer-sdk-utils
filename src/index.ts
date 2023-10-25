@@ -14,7 +14,7 @@ export type { Batch, BatchOptions, Task, TaskResult, InvalidTokenError } from '.
 // RESOURCES //
 
 // Cleanups
-export { cleanups, splitCLeanup, cleanupsToBatchTasks } from './resources/cleanups'
+export { cleanups, splitCleanup, cleanupsToBatchTasks } from './resources/cleanups'
 
 // Exports
 export { exportz, splitExport, exportsToBatchTasks } from './resources/exports'

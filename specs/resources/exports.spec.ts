@@ -4,6 +4,7 @@ import { splitExport, exportsToBatchTasks } from '../../src'
 import type { Task, TaskResult } from '../../src'
 import { initialize, cl } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
+import { executeExport } from '../../src/resources/exports'
 
 
 const resourceType = 'prices'
@@ -36,7 +37,9 @@ describe('sdk-utils.exports suite', () => {
 		expect(exports.length).toBe(expectedExports)
 
 		for (let i = 0; i < exports.length; i++) {
+
 			const exp = exports[i]
+			
 			expect(exp.filters).toBeDefined()
 			if (!exp.filters) exp.filters = {}
 			if (i === 0) {
@@ -44,21 +47,25 @@ describe('sdk-utils.exports suite', () => {
 				expect(exp.filters['id_lteq']).toBeDefined()
 			} else {
 				if (i === exports.length-1) {
-					console.log(exp)
 					const expPre = exports[i-1]
 					if (!expPre.filters) expPre.filters = {}
 					expect(exp.filters['id_gt']).toBe(expPre.filters['id_lteq'])
 					expect(exp.filters['id_lteq']).toBeUndefined()
 				} else 
 				if (i < exports.length-1) {
-					console.log(i)
-					console.log(exp)
 					const expPre = exports[i-1]
 					if (!expPre.filters) expPre.filters = {}
 					expect(exp.filters['id_gt']).toBe(expPre.filters['id_lteq'])
 					expect(exp.filters['id_gt']).not.toBe(exp.filters['id_lteq'])
 				}
 			}
+
+			expect(exp.metadata).toBeDefined()
+			if (exp.metadata) {
+				expect(exp.metadata['group_id']).toBeDefined
+				expect(exp.metadata['progress_number']).toBeDefined()
+			}
+
 		}
 
 	})
@@ -98,6 +105,37 @@ describe('sdk-utils.exports suite', () => {
 			expect(tsk.onSuccess?.callback).toBeDefined()
 
 		}
+
+	})
+
+
+	it('exports.execute', async () => {
+
+		const exportMaxSize = 5
+		const queueLength = 5
+		const resourceCount = await cl[resourceType].count()
+		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
+		
+		const expCreate = {
+			resource_type: resourceType
+		}
+
+		const exports = await executeExport(expCreate, { size: exportMaxSize, queueLength })
+
+		expect(exports.length).toBe(expectedExports)
+
+		for (const exp of exports) {
+			expect(exp.records_count).toBeLessThanOrEqual(exportMaxSize)
+			expect(exp.reference).toBeDefined()
+			expect(exp.metadata).toBeDefined()
+			if (exp.metadata) {
+				expect(exp.metadata['group_id']).toBeDefined
+				expect(exp.metadata['progress_number']).toBeDefined()
+			}
+			expect(['completed', 'interrupted']).toContain(exp.status)
+		}
+
+		console.log(exports[0].metadata?.group_id)
 
 	})
 

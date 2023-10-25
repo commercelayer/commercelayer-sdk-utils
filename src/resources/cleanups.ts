@@ -25,7 +25,7 @@ export const executeSplitCleanups = async (cleanups: CleanupCreate[], options?: 
 
 export const executeCleanup = async (clp: CleanupCreate, options?: JobOptions): Promise<CleanupResult[]> => {
 	const cleanups = await splitCleanup(clp, options)
-	return executeJobs<Cleanup>(cleanups, 'cleanups', options)
+	return executeSplitCleanups(cleanups, options)
 }
 
 

@@ -8,11 +8,11 @@
     "lint": "eslint ./src --ext .ts",
     "lintspec": "eslint ./specs/ --ext .spec.ts",
     "build": "tsc -b tsconfig.json tsconfig.esm.json --verbose",
-    "start": "ts-node src/index.ts",
+    "start": "tsx src/index.ts",
     "prepare": "npm run build",
     "test": "jest",
-    "test-local": "ts-node test/spot.ts",
-    "test-webhook": "ts-node test/webhook.ts",
+    "test-local": "tsx test/spot.ts",
+    "test-webhook": "tsx test/webhook.ts",
     "coverage": "jest --coverage",
     "size": "size-limit",
     "analyze": "size-limit --why",
@@ -32,7 +32,7 @@
     "lib/**/*"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.0",
@@ -50,7 +50,7 @@
     "jsonapi-typescript": "^0.1.3",
     "minimize-js": "^1.4.0",
     "semantic-release": "^22.0.12",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.7.1",
     "typescript": "^5.4.2"
   },
   "peerDependencies": {

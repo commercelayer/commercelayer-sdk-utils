@@ -187,16 +187,16 @@ const executeTask = async (cl: CommerceLayerClient, task: Task, options: BatchOp
 }
 
 
-const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult): undefined => {
+const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
 	/*
-	if (!last) return
+	if (!last) return resource
 	let lastResult: Resource
 	if (Array.isArray(last)) {
-		if (last.length === 0) return
+		if (last.length === 0) return resource
 		lastResult = last[0]
 	} else lastResult = last
 
-	Object.entries(resource.).forEach(([k, v]) => {
+	Object.entries(resource).forEach(([k, v]) => {
 		const val = String(v)
 		const vars = val.match(/{{[\w]{2,}\([\d]\)?}}/g)
 		if (vars?.length) for (const v of vars) {
@@ -205,6 +205,8 @@ const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourcePara
 		}
 	})
 	*/
+	return resource
+
 }
 
 

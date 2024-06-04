@@ -1,9 +1,8 @@
 
-import type { CustomerUpdate, SdkError, Sku } from '@commercelayer/sdk'
+import type { SdkError, Resource, Customer, ListResponse } from '@commercelayer/sdk'
 import { currentAccessToken, initClient, initialize, cl } from '../test/common'
 import { executeBatch } from '../src'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
-import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
 import type { PrepareResourceResult, TaskResourceParam, TaskResourceResult } from '../src/batch'
 
 
@@ -26,7 +25,7 @@ describe('sdk-utils.batch suite', () => {
 		const tasks: Task[] = []
 
 		for (let i = 1; i <= tasksNumber; i++) {
-			const email = `${String(Date.now()+i)}@batch-test.org`
+			const email = `${String(Date.now() + i)}@batch-test.org`
 			tasks.push({
 				resourceType: 'customers',
 				operation: 'create',
@@ -52,7 +51,7 @@ describe('sdk-utils.batch suite', () => {
 		const tasks: Task[] = []
 
 		for (let i = 1; i <= tasksNumber; i++) {
-			const email = (i === errorTask)? 'fake-email' : `${String(Date.now()+i)}@batch-test.org`
+			const email = (i === errorTask) ? 'fake-email' : `${String(Date.now() + i)}@batch-test.org`
 			tasks.push({
 				resourceType: 'customers',
 				operation: 'create',
@@ -63,7 +62,7 @@ describe('sdk-utils.batch suite', () => {
 			})
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(err => { })
 
 		let index = 0
 		for (const t of tasks) {
@@ -85,7 +84,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	
+
 	it('batch.error.no_halt', async () => {
 
 		const tasksNumber = 3
@@ -93,7 +92,7 @@ describe('sdk-utils.batch suite', () => {
 		const tasks: Task[] = []
 
 		for (let i = 1; i <= tasksNumber; i++) {
-			const email = (i === errorTask)? 'fake-email' : `${String(Date.now()+i)}@batch-test.org`
+			const email = (i === errorTask) ? 'fake-email' : `${String(Date.now() + i)}@batch-test.org`
 			tasks.push({
 				resourceType: 'customers',
 				operation: 'create',
@@ -101,7 +100,7 @@ describe('sdk-utils.batch suite', () => {
 			})
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(err => { })
 
 		let index = 0
 		for (const t of tasks) {
@@ -123,6 +122,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
+
 	it('batch.tokenCallback', async () => {
 
 		const tasksNumber = 2
@@ -131,12 +131,12 @@ describe('sdk-utils.batch suite', () => {
 		function tokenRefresh(error: InvalidTokenError, task: Task): string {
 			initClient()
 			return currentAccessToken
-		} 
+		}
 
-		cl.config({ accessToken: 'fake-token'})
+		cl.config({ accessToken: 'fake-token' })
 
 		for (let i = 1; i <= tasksNumber; i++) {
-			const email = `${String(Date.now()+i)}@batch-test.org`
+			const email = `${String(Date.now() + i)}@batch-test.org`
 			const task: Task = {
 				resourceType: 'customers',
 				operation: 'create',
@@ -145,10 +145,10 @@ describe('sdk-utils.batch suite', () => {
 			tasks.push(task)
 		}
 
-		const b: Batch = { tasks, options: { refreshToken: tokenRefresh} }
+		const b: Batch = { tasks, options: { refreshToken: tokenRefresh } }
 		if (b.options) jest.spyOn(b.options, 'refreshToken')
 
-		await executeBatch(b).catch(err => {})
+		await executeBatch(b).catch(err => { })
 
 		for (const t of tasks) {
 			expect(t.executed).toBeTruthy()
@@ -163,6 +163,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
+
 	it('batch.errorCallback', async () => {
 
 		const tasksNumber = 3
@@ -171,11 +172,11 @@ describe('sdk-utils.batch suite', () => {
 
 		function errorCallback(error: SdkError, task: Task): boolean {
 			return true
-		} 
+		}
 
 
 		for (let i = 1; i <= tasksNumber; i++) {
-			const email = (i === errorTask)? 'fake-email' : `${String(Date.now()+i)}@batch-test.org`
+			const email = (i === errorTask) ? 'fake-email' : `${String(Date.now() + i)}@batch-test.org`
 			const task: Task = {
 				resourceType: 'customers',
 				operation: 'create',
@@ -186,7 +187,7 @@ describe('sdk-utils.batch suite', () => {
 			if (task.onFailure) jest.spyOn(task.onFailure, 'errorHandler')
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(err => { })
 
 		let index = 0
 		for (const t of tasks) {
@@ -210,18 +211,19 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
+
 	it('batch.successCallback', async () => {
 
 		const tasksNumber = 3
 		const tasks: Task[] = []
 
 		function successCallback(output: TaskResult, task: Task): void {
-			
-		} 
+
+		}
 
 
 		for (let i = 1; i <= tasksNumber; i++) {
-			const email = `${String(Date.now()+i)}@batch-test.org`
+			const email = `${String(Date.now() + i)}@batch-test.org`
 			const task: Task = {
 				resourceType: 'customers',
 				operation: 'create',
@@ -232,7 +234,7 @@ describe('sdk-utils.batch suite', () => {
 			if (task.onSuccess) jest.spyOn(task.onSuccess, 'callback')
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(err => { })
 
 		for (const t of tasks) {
 			expect(t.executed).toBeTruthy()
@@ -246,6 +248,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
+
 	it('batch.prepareResource', async () => {
 
 		const fixedId = 'nBrBhrAmqn'
@@ -254,7 +257,7 @@ describe('sdk-utils.batch suite', () => {
 
 		const prepareResource = (res: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
 			const isList = Array.isArray(last)
-			const id =isList? last.first()?.id : last.id
+			const id = isList ? last.first()?.id : last.id
 			const mod = {
 				...res,
 				id,
@@ -324,6 +327,59 @@ describe('sdk-utils.batch suite', () => {
 
 		const c3 = await cl.customers.retrieve(fixedId)
 		expect(c3.reference = c2.id)
+
+	})
+
+
+
+	it('batch.placeholders', async () => {
+
+		const batch: Batch = {
+			tasks: [
+				{
+					resourceType: 'customers',
+					operation: 'list',
+					params: { pageSize: 1, pageNumber: Math.ceil((Math.random() * 10)) }
+				},
+				{
+					resourceType: 'customers',
+					operation: 'update',
+					resource: {
+						id: '{{id}}',
+						email: 'x_{{email}}',
+						reference: 'id:{{id}}_email:{{email}}',
+						reference_origin: '{{pippo}}'
+					}
+				},
+				{
+					resourceType: 'customers',
+					operation: 'retrieve',
+					resource: {
+						id: '{{id}}',
+						type: 'customers'
+					}
+				}
+			]
+		}
+
+		const result = await executeBatch(batch)
+
+		const list = batch.tasks[0].onSuccess?.result as ListResponse<Customer>
+		const c0 = list[0]
+		expect(c0).toBeDefined()
+
+		const c1 = batch.tasks[1].onSuccess?.result as Customer
+		expect(c1).toBeDefined()
+
+		const c2 = batch.tasks[2].onSuccess?.result as Customer
+		expect(c2).toBeDefined()
+
+		if (c0 && c1 && c2) {
+			expect(c2.reference_origin).toBe('{{pippo}}')
+			expect(c2.email).toBe(`x_${c0.email}`)
+			expect(c2.id).toBe(c1.id)
+			expect(c2.reference).toBe(`id:${c0.id}_email:${c0.email}`)
+		}
 
 	})
 

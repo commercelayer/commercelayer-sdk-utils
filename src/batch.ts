@@ -12,7 +12,7 @@ retrieveAll:	OK, list all resources with pagination, zero offset and token refre
 
 export type TaskOperation = 'retrieve' | 'list' | 'create' | 'update' | 'delete'
 
-export type TaskResourceParam = ResourceId | ResourceCreate | ResourceUpdate
+export type TaskResourceParam = Record<string, any>
 export type TaskResourceResult = Resource | ListResponse<Resource>
 export type TaskResult = TaskResourceResult | undefined
 
@@ -187,9 +187,10 @@ const executeTask = async (cl: CommerceLayerClient, task: Task, options: BatchOp
 }
 
 
-const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
-	/*
+export const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
+
 	if (!last) return resource
+	
 	let lastResult: Resource
 	if (Array.isArray(last)) {
 		if (last.length === 0) return resource
@@ -198,13 +199,21 @@ const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourcePara
 
 	Object.entries(resource).forEach(([k, v]) => {
 		const val = String(v)
-		const vars = val.match(/{{[\w]{2,}\([\d]\)?}}/g)
-		if (vars?.length) for (const v of vars) {
-			const newVal = lastResult[v as keyof typeof lastResult]
-
+		// const vars = val.match(/{{[\w]{2,}\([\d]\)?}}/g)
+		const vars = val.match(/{{[\w]{2,}?}}/g)
+		if (vars?.length) {
+			let newVal = val
+			for (const ph of vars) {
+				const varKey = ph.replace('{{', '').replace('}}', '')
+				if (varKey in lastResult) {
+					const varVal = String(lastResult[varKey as keyof typeof lastResult])
+					newVal = newVal.replace(ph, varVal)
+				}
+			}
+			resource[k] = newVal
 		}
 	})
-	*/
+
 	return resource
 
 }

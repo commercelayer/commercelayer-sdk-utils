@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.1.0...v2.1.1) (2024-06-19)
+
+
+### Bug Fixes
+
+* fix packagejson wrong paths ([9c72604](https://github.com/commercelayer/commercelayer-sdk-utils/commit/9c726042fe0f6fb289e5617e4131570eb3f9b736))
+
 # [2.1.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.1...v2.1.0) (2024-05-07)
 
 

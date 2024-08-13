@@ -31,6 +31,7 @@ Common functions
 - [executeBatch](#executebatch) - execute a list of prepared API requests
 - [retrieveAll](#retrieveall) - fetch all existing resources
 - [updateAll](#updateall) - apply changes to a set of resources
+- [retrievePage](#retrievepage) - retrieve a custom page of resources
 
 Cleanups
 
@@ -105,9 +106,10 @@ const task: Task = {
 ##### retrieveAll
 
 This function allows to fetch all existing resources of a specific type executing all necessary API requests respecting current API rate limits.
+The `limit` option can be used to retrieve only a limited number of resources.
 
 ```ts
-const skus = await retrieveAll<Sku>('skus')
+const skus = await retrieveAll<Sku>('skus', { limit: 100 })
 ```
 
 ##### updateAll
@@ -120,6 +122,15 @@ const skuData = { reference_origin: 'legacy-system-0' }
 const filters = { created_at_lt: '2023-01-01' }
 
 const updateResult = await updateAll('skus', skuData, { filters })
+```
+
+##### retrievePage
+
+This function allows to fetch a specific subset of resources defining page attributes that are not permitted by the API and using all the standard common filters.
+An error will be thrown if the page parameters are not compatible with the number of existing resources.
+
+```ts
+ const skus = await retrievePage<Sku>('skus', { pageNumber: 16, pageSize: 139, sort: ['code'] })
 ```
 
 ---

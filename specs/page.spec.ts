@@ -52,13 +52,13 @@ describe('sdk-utils.page suite', () => {
 
     } while ((pageNumber > pageNumberMax) || (pageSize > pageSizeMax))
 
-    const customers = await retrievePage<Customer>('customers', { pageNumber, pageSize })
+    const customers = await retrievePage<Customer>('customers', { pageNumber, pageSize, sort: ['email'] })
 
     const startRecord = (pageSize * (pageNumber - 1)) + 1
     const endRecord = Math.min(recordCount, startRecord + pageSize - 1)
 
-    const startResource = (await cl.customers.list({ pageNumber: startRecord, pageSize: 1 })).first()
-    const endResource = (await cl.customers.list({ pageNumber: endRecord, pageSize: 1 })).first()
+    const startResource = (await cl.customers.list({ pageNumber: startRecord, pageSize: 1, sort: ['email'] })).first()
+    const endResource = (await cl.customers.list({ pageNumber: endRecord, pageSize: 1, sort: ['email'] })).first()
 
     const firstRetrieved = customers.first()
     const lastRetrieved = customers.last()

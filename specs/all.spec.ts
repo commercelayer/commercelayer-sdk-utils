@@ -44,4 +44,19 @@ describe('sdk-utils.all suite', () => {
 
 	})
 
+
+	it('all.limit', async () => {
+
+		const LIMIT = Math.floor(Math.random() * 100)
+
+		const skus = await retrieveAll<Sku>('skus', { limit: LIMIT })
+
+		const skusCount = await cl.skus.count()
+
+		expect(skus.meta.recordCount).toBe(skusCount)
+		expect(skus.length).toBe(LIMIT)
+		expect(skus.length).toBeLessThanOrEqual(skusCount)
+
+	})
+
 })

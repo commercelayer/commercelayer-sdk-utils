@@ -6,6 +6,9 @@ export type { CommerceLayerUtilsConfig } from './init'
 // All
 export { all, retrieveAll, updateAll } from './all'
 
+// Page
+export { retrievePage } from './page'
+
 // Batch
 export { batch, executeBatch } from './batch'
 export type { Batch, BatchOptions, Task, TaskResult, InvalidTokenError } from './batch'

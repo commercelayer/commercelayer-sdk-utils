@@ -1,9 +1,8 @@
 
-import type { CustomerUpdate, SdkError, Sku } from '@commercelayer/sdk'
+import type { SdkError, Resource } from '@commercelayer/sdk'
 import { currentAccessToken, initClient, initialize, cl } from '../test/common'
 import { executeBatch } from '../src'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
-import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
 import type { PrepareResourceResult, TaskResourceParam, TaskResourceResult } from '../src/batch'
 
 

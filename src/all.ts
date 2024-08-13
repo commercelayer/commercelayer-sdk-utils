@@ -5,7 +5,7 @@ import { type RateLimitInfo, computeRateLimits, headerRateLimits } from "./rate_
 import { sleep } from "./common"
 
 
-type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'>
+type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'> & { limit?: number }
 
 
 export const retrieveAll = async <R extends Resource>(resourceType: ListableResourceType, params?: AllParams): Promise<ListResponse<R>> => {
@@ -17,6 +17,9 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 	let result: ListResponse<R> | null = null
 	let lastId = null
 	let rateLimit: RateLimitInfo | null = null
+	
+	const recordLimit = ((params?.limit || 0) > 0)? params?.limit : undefined
+	if (recordLimit && params) delete params.limit
 
 	const allParams: QueryParamsList = params || {}
 	allParams.pageNumber = 1
@@ -42,8 +45,15 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 			if (rateLimit) cl.removeRawResponseReader()
 		} catch (error: any) {}
 
-	} while ( result.length < result.recordCount )
+	} while ( result.length < Math.min((recordLimit || result.recordCount), result.recordCount) )
 
+	if (recordLimit) {
+		result.splice(recordLimit, result.length - recordLimit)
+	}
+
+	const meta = result.meta as any
+	// if (recordLimit) meta.recordLimit = recordLimit
+	delete meta.currentPage
 
 	return result
 

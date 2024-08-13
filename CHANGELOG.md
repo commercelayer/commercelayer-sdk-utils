@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.1.1...v2.2.0) (2024-08-13)
+
+
+### Bug Fixes
+
+* fix page records evaluation in retrievePage function ([78cd1cd](https://github.com/commercelayer/commercelayer-sdk-utils/commit/78cd1cde1cd731dd0a2f567a4763437a3862c6a5))
+
+
+### Features
+
+* add retrievePage documentation ([7ad8dbf](https://github.com/commercelayer/commercelayer-sdk-utils/commit/7ad8dbf3c13258bb44edb72c7877595a92cbbb8f))
+
 ## [2.1.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.1.0...v2.1.1) (2024-06-19)
 
 

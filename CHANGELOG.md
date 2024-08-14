@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.2.0...v2.3.0) (2024-08-14)
+
+
+### Features
+
+* add deleteAll function ([b07f14c](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b07f14ca8aa76342b4adaa5d5264d30d4124feea))
+
 # [2.2.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.1.1...v2.2.0) (2024-08-13)
 
 

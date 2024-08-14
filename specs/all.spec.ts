@@ -1,7 +1,8 @@
 
-import type { Sku } from '@commercelayer/sdk'
+import type { ShippingCategory, Sku, SkuCreate } from '@commercelayer/sdk'
 import { retrieveAll, updateAll } from '../src'
 import { initialize, cl } from '../test/common'
+import { deleteAll } from '../src/all'
 
 
 
@@ -17,7 +18,7 @@ afterEach(() => {
 
 describe('sdk-utils.all suite', () => {
 
-	it('exports.retrieveAll', async () => {
+	it('all.retrieveAll', async () => {
 
 		const skus = await retrieveAll<Sku>('skus')
 
@@ -29,7 +30,7 @@ describe('sdk-utils.all suite', () => {
 	})
 
 
-	it('exports.updateAll', async () => {
+	it('all.updateAll', async () => {
 
 		const reference_origin = String(Date.now())
 		const sku = { reference_origin }
@@ -41,6 +42,46 @@ describe('sdk-utils.all suite', () => {
 
 		const skus = await cl.skus.list({ filters: { reference_origin_eq: reference_origin }})
 		expect(skus.recordCount).toBe(updRes.total)
+
+	})
+
+
+	it('all.deleteAll', async () => {
+
+		let codName = ''
+		const referenceOrigin = String(Date.now())
+
+		const shipCat = (await cl.shipping_categories.list({ pageSize: 1 })).first() as ShippingCategory
+		const shippingCategory = cl.shipping_categories.relationship(shipCat)
+		
+		const sku: SkuCreate = {
+			code: codName,
+			name: codName,
+			reference_origin: referenceOrigin,
+			shipping_category: shippingCategory
+		}
+
+		const numNewRec = Math.ceil(Math.random() * 10)
+
+		for (let idx = 0; idx < numNewRec; idx++) {
+			codName = `${referenceOrigin}-}${Math.floor(Math.random() * 1000)}`
+			sku.code = codName
+			sku.name = codName
+			await cl.skus.create(sku)
+		}
+
+		let skus = await cl.skus.list({ filters: { reference_origin_eq: referenceOrigin }})
+		expect(skus.recordCount).toBe(numNewRec)
+		expect(skus.length).toBe(numNewRec)
+
+		const delRes = await deleteAll('skus',{ filters: { reference_origin_eq: referenceOrigin } })
+
+		if (delRes.errors > 0) expect(delRes.processed + delRes.errors).toBe(delRes.total)
+		else expect(delRes.processed).toBe(delRes.total)
+
+		skus = await cl.skus.list({ filters: { reference_origin_eq: referenceOrigin }})
+		expect(skus.recordCount).toBe(0)
+		expect(skus.length).toBe(0)
 
 	})
 

@@ -31,6 +31,7 @@ Common functions
 - [executeBatch](#executebatch) - execute a list of prepared API requests
 - [retrieveAll](#retrieveall) - fetch all existing resources
 - [updateAll](#updateall) - apply changes to a set of resources
+- [deleteAll](#deleteall) - delete a set of resources
 - [retrievePage](#retrievepage) - retrieve a custom page of resources
 
 Cleanups
@@ -122,6 +123,17 @@ const skuData = { reference_origin: 'legacy-system-0' }
 const filters = { created_at_lt: '2023-01-01' }
 
 const updateResult = await updateAll('skus', skuData, { filters })
+```
+
+##### deleteAll
+
+This function allows to delete a set of resources of a specific type, using a filter to identify them.
+
+```ts
+
+const filters = { created_at_lt: '2023-01-01', reference_origin_eq: 'legacy-system-0' }
+
+const deleteResult = await deleteAll('skus', { filters })
 ```
 
 ##### retrievePage

@@ -1,5 +1,5 @@
-import CommerceLayer, { CleanupCreate, ImportCreate } from "@commercelayer/sdk"
-import { CommerceLayerUtils, retrieveAll, retrievePage, updateAll } from "../src"
+import CommerceLayer, { CleanupCreate, Customer, ImportCreate, Order } from "@commercelayer/sdk"
+import { CommerceLayerUtils, denormalizePayload, retrieveAll, retrievePage, updateAll } from "../src"
 import { executeExport } from "../src/resources/exports"
 
 
@@ -12,7 +12,7 @@ const utils = CommerceLayerUtils(cl)
 
 
 const test = async (): Promise<void> => {
-
+/*
   const pageSize = 500
   const pageNumber = 4
 
@@ -21,6 +21,9 @@ const test = async (): Promise<void> => {
 
   console.log(records)
   console.log(records.length)
+*/
+
+const order = denormalizePayload<Order>('<order-webhook-payload>')
 
 }
 

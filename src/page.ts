@@ -4,10 +4,12 @@ import { config } from './config'
 import { currentTokenData } from './util'
 
 
-const TEST_MODE = process.env.CL_SDK_TEST // specs are running
-const DEBUG = process.env.CL_SDK_DEBUG  // show debug messages
-const MAX_PAGE_SIZE_LIVE = TEST_MODE? 950 : 1000  // test mode requires more requests
-const MAX_PAGE_SIZE_TEST = TEST_MODE? 475 : 500   // test mode requires more requests
+const TEST_MODE = (typeof process === 'undefined')? undefined : process.env.CL_SDK_TEST // if defined specs are running
+const DEBUG = (typeof process === 'undefined')? undefined : process.env.CL_SDK_DEBUG  // if defined show debug messages
+
+
+const MAX_PAGE_SIZE_LIVE = TEST_MODE ? 950 : 1000  // test mode requires more requests
+const MAX_PAGE_SIZE_TEST = TEST_MODE ? 475 : 500   // test mode requires more requests
 
 
 export type PaginationParams<R extends Resource> = Omit<QueryParamsList<R>, 'pageSize'> & { pageSize?: number }

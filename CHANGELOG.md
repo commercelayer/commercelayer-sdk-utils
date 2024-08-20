@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.0...v2.3.1) (2024-08-20)
+
+
+### Bug Fixes
+
+* fix ReferenceError ([7d54cf4](https://github.com/commercelayer/commercelayer-sdk-utils/commit/7d54cf4f98359a14b594f6b90315ea70774b3029))
+
 # [2.3.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.2.0...v2.3.0) (2024-08-14)
 
 

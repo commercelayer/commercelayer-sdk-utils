@@ -4,7 +4,7 @@ export { default, CommerceLayerUtils } from './init'
 export type { CommerceLayerUtilsConfig } from './init'
 
 // All
-export { all, retrieveAll, updateAll } from './all'
+export { all, retrieveAll, updateAll, deleteAll } from './all'
 
 // Page
 export { retrievePage } from './page'

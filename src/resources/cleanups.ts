@@ -33,5 +33,5 @@ export const executeCleanup = async (clp: CleanupCreate, options?: JobOptions): 
 export const cleanups = {
 	split: splitCleanup,
 	execute: executeCleanup,
-	toBatchTasks: cleanupsToBatchTasks,
+	toBatchTasks: cleanupsToBatchTasks
 }

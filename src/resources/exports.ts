@@ -33,5 +33,5 @@ export const executeExport = async (exp: ExportCreate, options?: JobOptions): Pr
 export const exportz = {
 	split: splitExport,
 	execute: executeExport,
-	toBatchTasks: exportsToBatchTasks,
+	toBatchTasks: exportsToBatchTasks
 }

@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.2...v2.4.0) (2024-10-01)
+
+
+### Features
+
+* add avalara_accounts webhook parser ([f9f58e9](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f9f58e95e16b61d6964c145ff51b405bcc4141d0))
+
 ## [2.3.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.1...v2.3.2) (2024-10-01)
 
 

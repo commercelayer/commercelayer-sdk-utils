@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.1...v2.3.2) (2024-10-01)
+
+
+### Bug Fixes
+
+* export function deleteAll ([f2b5c5b](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f2b5c5bd76467c34f977a848e98493a411748bb6))
+
 ## [2.3.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.0...v2.3.1) (2024-08-20)
 
 

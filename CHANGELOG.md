@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.4.0...v2.5.0) (2024-10-15)
+
+
+### Features
+
+* export checkSignature function ([97461a0](https://github.com/commercelayer/commercelayer-sdk-utils/commit/97461a0787e3e2761123c50e0422e84b8fb08727))
+
 # [2.4.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.2...v2.4.0) (2024-10-01)
 
 

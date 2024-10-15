@@ -29,4 +29,4 @@ export { exportz, splitExport, exportsToBatchTasks, executeExport } from './reso
 export { imports, splitImport, importsToBatchTasks, executeImport } from './resources/imports'
 
 // Webhooks
-export { webhooks, denormalizePayload } from './resources/webhooks'
+export { webhooks, denormalizePayload, checkSignature } from './resources/webhooks'

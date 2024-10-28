@@ -30,3 +30,8 @@ export { imports, splitImport, importsToBatchTasks, executeImport } from './reso
 
 // Webhooks
 export { webhooks, denormalizePayload, checkSignature } from './resources/webhooks'
+
+// Helpers
+export { include, Include, buildInclude } from './helpers/include'
+export { filter, FilterHelper as Filter } from './helpers/filter'
+export type * from './helpers/filter'

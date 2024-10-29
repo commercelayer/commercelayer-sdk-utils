@@ -1,7 +1,6 @@
 import type { QueryFilter } from '@commercelayer/sdk'
 import type { NonEmptyArray } from '../../types'
 import { FilterHelper } from './resources'
-export { FilterHelper }
 export type * from './resources'
 
 
@@ -12,7 +11,10 @@ export const buildFilter = (...filters: NonEmptyArray<QueryFilter>): QueryFilter
 }
 
 
+export const Filter = new FilterHelper()
+
+
 export const filter = {
-  helper: FilterHelper,
+  helper: Filter,
   build: buildFilter
 }

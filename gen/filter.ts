@@ -122,11 +122,9 @@ export const generate = async (resources: any): Promise<any> => {
 
 		const helperClass = [
 			'\n\n\n',
-			'export class FilterHelper<M extends Types.FilterMaster> {',
-			'\n\tstatic new<M extends Types.FilterMaster>(): FilterHelper<M> { return new FilterHelper<M>()}',
-			'\n\tprivate constructor() {}\n',
+			'export class FilterHelper {',
 			...Object.entries(resourceHelpers).map(([res, clazz]) =>
-				`\tget ${Inflector.pluralize(res)}(): ${clazz}FilterFields<M> { return new ${clazz}FilterFields<M>() }`
+				`\tget ${Inflector.pluralize(res)}(): ${clazz}Filter { return new ${clazz}FilterFields<${clazz}Filter>() }`
 			),
 			'}\n'
 		]

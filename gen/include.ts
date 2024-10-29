@@ -63,8 +63,6 @@ export const generate = async (resources: any): Promise<any> => {
     const helperClass = [
       '\n\n\n',
       'export class IncludeHelper {',
-      '\n\tstatic new(): IncludeHelper { return new IncludeHelper()}',
-			'\n\tprivate constructor() {}\n',
       ...Object.entries(resourceHelpers).map(([res, clazz]) =>
         `\tget ${Inflector.pluralize(res)}(): ${clazz}Include { return new ${clazz}Include() }`
       ),

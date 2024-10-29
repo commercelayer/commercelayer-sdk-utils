@@ -1,7 +1,6 @@
 import type { NonEmptyArray } from '../../types'
 import { type ResourceInclude } from './base'
 import { IncludeHelper } from './resources'
-export { IncludeHelper }
 
 
 export const buildInclude = (...includes: NonEmptyArray<ResourceInclude>): string[] => {
@@ -9,7 +8,10 @@ export const buildInclude = (...includes: NonEmptyArray<ResourceInclude>): strin
 }
 
 
+export const Include = new IncludeHelper()
+
+
 export const include = {
-  helper: IncludeHelper,
+  helper: Include,
   build: buildInclude
 }

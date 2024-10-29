@@ -13,14 +13,10 @@ const utils = CommerceLayerUtils(cl)
 const test = async () => {
 
   try {
-    const includeHelper = Include.new()
-    const filterHelper = Filter.new<OrderFilter>()
-
-    filterHelper.orders.number.or
 
     const queryParams: QueryParamsList = {
-      include: buildInclude(includeHelper.orders.billing_address, includeHelper.orders.customer.customer_group, includeHelper.orders.billing_address.geocoder.attachments),
-      filters: buildFilter(filterHelper.orders.number.or.customer.email.eq('pippo'), filterHelper.orders.attachments.description.does_not_match('auguri')),
+      include: buildInclude(Include.orders.billing_address, Include.orders.customer.customer_group, Include.orders.billing_address.geocoder.attachments),
+      filters: buildFilter(Filter.orders.number.or.customer.email.eq('pippo'), Filter.orders.attachments.description.does_not_match('auguri')),
       pageSize: 1
     }
     console.log(queryParams)

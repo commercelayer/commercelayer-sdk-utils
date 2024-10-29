@@ -22,9 +22,7 @@ describe('sdk-utils.helper suite', () => {
 
   it('helper.include', async () => {
 
-    const helper = Include.new()
-
-    const order = (await cl.orders.list({ include: buildInclude(helper.orders.customer, helper.orders.market) })).first()
+    const order = (await cl.orders.list({ include: buildInclude(Include.orders.customer, Include.orders.market) })).first()
 
     expect(order).toBeDefined()
     expect(order?.market).toBeDefined()
@@ -45,7 +43,7 @@ describe('sdk-utils.helper suite', () => {
       pageSize: 1
     }
     
-    Include.new().customers.customer_group.addTo(params)
+    Include.customers.customer_group.addTo(params)
 
     const customer = (await cl.customers.list(params)).first()
     if (customer && customer.customer_group) {
@@ -53,13 +51,11 @@ describe('sdk-utils.helper suite', () => {
       await cl.customer_groups.update({ id: customer.customer_group.id, reference, reference_origin })
     }
 
-    const helper = Filter.new<CustomerFilter>()
-
     const c = (await cl.customers.list({ filters: buildFilter(
-      helper.customers.reference.eq(reference),
-      helper.customers.customer_group.reference.eq(reference),
-      helper.customers.reference_origin.not_null()
-    ), include: [Include.new().customers.customer_group.build()] } )).first()
+      Filter.customers.reference.eq(reference),
+      Filter.customers.customer_group.reference.eq(reference),
+      Filter.customers.reference_origin.not_null()
+    ), include: [Include.customers.customer_group.build()] } )).first()
 
     expect(c).toBeDefined()
     expect(c?.reference).toBe(reference)

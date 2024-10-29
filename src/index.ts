@@ -15,6 +15,7 @@ export type { Batch, BatchOptions, Task, TaskResult, InvalidTokenError } from '.
 
 // Util
 export { headerRateLimits } from './rate_limit'
+export { currentTokenData as tokenData } from './util'
 
 
 // RESOURCES //
@@ -32,6 +33,6 @@ export { imports, splitImport, importsToBatchTasks, executeImport } from './reso
 export { webhooks, denormalizePayload, checkSignature } from './resources/webhooks'
 
 // Helpers
-export { include, Include, buildInclude } from './helpers/include'
-export { filter, FilterHelper as Filter } from './helpers/filter'
+export { include, IncludeHelper as Include, buildInclude } from './helpers/include'
+export { filter, FilterHelper as Filter, buildFilter } from './helpers/filter'
 export type * from './helpers/filter'

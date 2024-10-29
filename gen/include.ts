@@ -21,30 +21,27 @@ export const generate = async (resources: any): Promise<any> => {
     const resourceHelpers: Partial<Record<ResourceTypeLock, string>> = {}
     resources.forEach(r => resourceHelpers[r.id] = Inflector.camelize(r.id))
 
-    const includesClasses: string[] = []
+    const includeClasses: string[] = []
 
+    
     for (const res of resources) {
+
       if (res.type !== 'resources') continue
 
-      const includesClass: string[] = []
+      const includeClass: string[] = []
 
-      // console.log(res.id)
-      // console.log(res.attributes.actions)
-      // console.log(res.attributes.fields)
-      // console.log(res.attributes.relationships)
-      // console.log(res.attributes.filters)
-
-      includesClass.push(`class ${Inflector.camelize(res.id)}Include extends ResourceInclude {`)
+      includeClass.push(`class ${Inflector.camelize(res.id)}Include extends ResourceInclude {`)
+      
       for (const [name, val] of Object.entries(res.attributes.relationships)) {
         const rel = val as any
         if (rel.polymorphic && !Object.values(resourceHelpers).includes(rel.class_name)) continue
         const polymorphic = rel.polymorphic ? ' // polymorphic' : ''
-        includesClass.push(`\tget ${name}(): ${rel.class_name}Include { return new ${rel.class_name}Include(this.include('${name}'))}${polymorphic}`)
+        includeClass.push(`\tget ${name}(): ${rel.class_name}Include { return new ${rel.class_name}Include(this.include('${name}'))}${polymorphic}`)
       }
-      includesClass.push('}')
+      includeClass.push('}')
 
-      includesClasses.push(includesClass.join('\n'))
-      // console.log('--------------------')
+      includeClasses.push(includeClass.join('\n'))
+  
     }
 
 
@@ -66,8 +63,10 @@ export const generate = async (resources: any): Promise<any> => {
     const helperClass = [
       '\n\n\n',
       'export class IncludeHelper {',
+      '\n\tstatic new(): IncludeHelper { return new IncludeHelper()}',
+			'\n\tprivate constructor() {}\n',
       ...Object.entries(resourceHelpers).map(([res, clazz]) =>
-        `\tstatic get ${Inflector.pluralize(res)}(): ${clazz}Include { return new ${clazz}Include() }`
+        `\tget ${Inflector.pluralize(res)}(): ${clazz}Include { return new ${clazz}Include() }`
       ),
       '}\n'
     ]
@@ -77,7 +76,7 @@ export const generate = async (resources: any): Promise<any> => {
 
     // Create new file
     writeFileSync(resourcesFile, header.join('\n'), { encoding })
-    appendFileSync(resourcesFile, includesClasses.join('\n\n\n'), { encoding })
+    appendFileSync(resourcesFile, includeClasses.join('\n\n\n'), { encoding })
     appendFileSync(resourcesFile, helperClass.join('\n'), { encoding })
 
     console.log('Include helper generated.')

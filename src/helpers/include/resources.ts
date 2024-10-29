@@ -1134,6 +1134,11 @@ class WireTransferInclude extends ResourceInclude {
 
 
 export class IncludeHelper {
+
+	static new(): IncludeHelper { return new IncludeHelper()}
+
+	private constructor() {}
+
 	get addresses(): AddressInclude { return new AddressInclude() }
 	get adjustments(): AdjustmentInclude { return new AdjustmentInclude() }
 	get adyen_gateways(): AdyenGatewayInclude { return new AdyenGatewayInclude() }

@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@commercelayer/sdk':
         specifier: ^6
-        version: 6.24.0
+        version: 6.24.2
     devDependencies:
       '@babel/preset-env':
         specifier: ^7.26.0
@@ -22,8 +22,8 @@ importers:
         specifier: 1.4.5
         version: 1.4.5(eslint@8.57.1)(typescript@5.6.3)
       '@commercelayer/js-auth':
-        specifier: ^6.6.4
-        version: 6.6.4
+        specifier: ^6.6.5
+        version: 6.6.5
       '@semantic-release/changelog':
         specifier: ^6.0.3
         version: 6.0.3(semantic-release@24.2.0(typescript@5.6.3))
@@ -673,12 +673,12 @@ packages:
       eslint: '>=8.0'
       typescript: '>=5.0'
 
-  '@commercelayer/js-auth@6.6.4':
-    resolution: {integrity: sha512-US18p9YrHJ7ZAc7EHkoZ9KxAqQcb19ygn93PciFS5GfM2GMk7Nkgt7zJp/aVhxoydno/afXVechOHGnPqnvraQ==}
+  '@commercelayer/js-auth@6.6.5':
+    resolution: {integrity: sha512-Z9O4IIRs6xBWZBaZLn+jSlDjtXADoDI8f499QROF5Y/WRmg3YbMvCmUTMXbBloQf82IfxJkiVk72CoQ65+YGJw==}
     engines: {node: '>=18.0.0'}
 
-  '@commercelayer/sdk@6.24.0':
-    resolution: {integrity: sha512-0DoZZJSzPOJlGSE3dNqKvuh4yz2wEs11FVUp710T8PDdUDiDxuGCDE7G+qU/7icSQWod7GBLuob3gVt+4cDAMg==}
+  '@commercelayer/sdk@6.24.2':
+    resolution: {integrity: sha512-PEkKuHvk8jnWXLfVa39SNm9ji5oG1dy6F3KZwEepn8crddyOBcEwyuAHbYNL6PtXbIB1hWOiDkYcCGnqPXZb7A==}
     engines: {node: '>=20'}
 
   '@esbuild/aix-ppc64@0.23.1':
@@ -1691,8 +1691,8 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  caniuse-lite@1.0.30001674:
-    resolution: {integrity: sha512-jOsKlZVRnzfhLojb+Ykb+gyUSp9Xb57So+fAiFlLzzTKpqg8xxSav0e40c8/4F/v9N8QSvrRRaLeVzQbLqomYw==}
+  caniuse-lite@1.0.30001675:
+    resolution: {integrity: sha512-/wV1bQwPrkLiQMjaJF5yUMVM/VdRPOCU8QZ+PmG6uW6DvYSrNY1bpwHI/3mOcUosLaJCzYDi5o91IQB51ft6cg==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -4754,9 +4754,9 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  '@commercelayer/js-auth@6.6.4': {}
+  '@commercelayer/js-auth@6.6.5': {}
 
-  '@commercelayer/sdk@6.24.0': {}
+  '@commercelayer/sdk@6.24.2': {}
 
   '@esbuild/aix-ppc64@0.23.1':
     optional: true
@@ -5798,7 +5798,7 @@ snapshots:
 
   browserslist@4.24.2:
     dependencies:
-      caniuse-lite: 1.0.30001674
+      caniuse-lite: 1.0.30001675
       electron-to-chromium: 1.5.49
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
@@ -5836,7 +5836,7 @@ snapshots:
 
   camelcase@6.3.0: {}
 
-  caniuse-lite@1.0.30001674: {}
+  caniuse-lite@1.0.30001675: {}
 
   chalk@2.4.2:
     dependencies:

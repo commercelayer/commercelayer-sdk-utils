@@ -24,7 +24,7 @@ await executeBatch(batch)
 
 ---
 
-## Table of helpers
+## Table of functions and utilities
 
 Common functions
 
@@ -55,6 +55,11 @@ Imports
 Webhooks
 
 - [denormalizePayload](#denormalizepayload) - parse a webhook payload and transform it in the appropriate SDK object
+
+SDK query helpers
+
+- [IncludeHelper](#includehelper) - build an `include`object to use in query filters
+- [filFilterHelperter](#filterhelper) - build a `filter` object to use in query filters
 
 
 ---
@@ -288,4 +293,107 @@ This function takes in input the payload of a webhook in JSON format and transfo
 
 ```ts
 const shipment = denormalizePayload<Shipment>(webhookPayload)
+```
+
+---
+
+### SDK query helpers
+
+##### IncludeHelper
+
+This helper can be used to easily build the array of included resources to use in SDK query parameters.
+
+###### Standard include
+
+```ts
+const include: QueryInclude = [ 'market', 'customer', 'customer.customer_group' ]
+```
+
+###### Include with IncludeHelper
+
+```ts
+import { Include } from '@commercelayer/sdk-utils'
+
+const include: QueryInclude = [ Include.orders.market.build(), Include.orders.customer.build(), Include.orders.customer.customer_group.build() ]
+
+// The same as above but using a single instance of the orders helper
+const io = Include.orders
+const includeSingle: QueryInclude = [ io.market.build(), io.customer.build(), io.customer.customer_group.build() ]
+```
+
+###### Include using *buildInclude* function
+
+```ts
+import { buildInclude } from '@commercelayer/sdk-utils'
+
+const include: QueryInclude = buildInclude(Include.orders.market, Include.orders.customer, Include.orders.customer.customer_group)
+```
+
+###### Add resources to include to an existing query filter
+
+```ts
+import { Include } from '@commercelayer/sdk-utils'
+
+const queryFilter: QueryParams = {}
+
+const io = Include.orders
+
+io.market.addTo(queryFilter)
+io.customer.addTo(queryFilter)
+io.customer.customer_group.addTo(queryFilter)
+```
+
+##### FilterHelper
+
+This helper can be used to easily build the object containing the filter predicates to use in SDK query parameters.
+
+###### Standard filter
+
+```ts
+const filter: QueryFilter = {
+  number_eq: '123',
+  market_reference_eq: 'MKT',
+  reference_or_customer_customer_group_reference_eq: 'REF',
+  status_in: 'placed,approved,cancelled',
+  reference_origin_not_null: 'true'
+}
+```
+
+###### Filter with FilterHelper
+
+```ts
+import { Filter } from '@commercelayer/sdk-utils'
+
+const filter: QueryFilter = {
+  ...Filter.orders.number.eq('123'),
+  ...Filter.orders.market.reference.eq('MKT'),
+  ...Filter.orders.reference.or.customer.customer_group.reference.eq('REF'),
+  ...Filter.orders.status.in('placed', 'approved', 'cancelled'),
+  ...Filter.orders.reference_origin.not_null()
+}
+
+// The same as above but using a single instance of the orders helper
+const of = Filter.orders
+
+const filterSingle: QueryFilter = {
+  ...of.number.eq('123'),
+  ...of.market.reference.eq('MKT'),
+  ...of.reference.or.customer.customer_group.reference.eq('REF'),
+  ...of.status.in('placed', 'approved', 'cancelled'),
+  ...of.reference_origin.not_null()
+}
+```
+
+###### Filter using *buildFilter* function
+
+```ts
+import { buildFilter } from '@commercelayer/sdk-utils'
+
+const filter: QueryFilter = buildFilter(
+  of.number.eq('123'),
+  of.market.reference.eq('MKT'),
+  of.reference.or.customer.customer_group.reference.eq('REF'),
+  of.status.in('placed', 'approved', 'cancelled'),
+  of.reference_origin.not_null()
+)
 ```

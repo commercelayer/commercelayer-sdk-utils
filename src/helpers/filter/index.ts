@@ -1,6 +1,7 @@
 import type { QueryFilter } from '@commercelayer/sdk'
 import type { NonEmptyArray } from '../../types'
 import { FilterHelper } from './resources'
+
 export type * from './resources'
 
 

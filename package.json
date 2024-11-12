@@ -1,11 +1,7 @@
 {
   "name": "@commercelayer/sdk-utils",
-<<<<<<< HEAD
   "version": "2.6.0-beta.1",
-=======
   "sideEffects": false,
-  "version": "2.5.0",
->>>>>>> feature/45_include-filter-helpers
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "module": "lib/index.mjs",

@@ -1,5 +1,7 @@
-import CommerceLayer, { QueryFilter, QueryParamsList } from "@commercelayer/sdk"
-import { buildFilter, buildInclude, CommerceLayerUtils, Filter, Include, OrderFilter } from "../src"
+import CommerceLayer, { QueryParamsList } from "@commercelayer/sdk"
+import { buildFilter, Filter } from "../lib/helpers/filter"
+import { buildInclude, Include } from "../lib/helpers/include"
+import CommerceLayerUtils from "../lib"
 
 
 

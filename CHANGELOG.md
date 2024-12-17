@@ -1,3 +1,17 @@
+# [2.6.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.0...v2.6.0-beta.1) (2024-10-31)
+
+
+### Bug Fixes
+
+* update dependencies ([2844823](https://github.com/commercelayer/commercelayer-sdk-utils/commit/2844823966315d7d7371d4ee4c536a03d6537d4e))
+
+
+### Features
+
+* add initial version of include and filter helpers ([204bdd6](https://github.com/commercelayer/commercelayer-sdk-utils/commit/204bdd650776defe843509daa963bb22d725d01d))
+* improve filter helper ([39bee69](https://github.com/commercelayer/commercelayer-sdk-utils/commit/39bee69d280afb2641e34a63e098baf95fd77fa0))
+* improve helpers usability ([5b22045](https://github.com/commercelayer/commercelayer-sdk-utils/commit/5b220451d126154dad2783514187b15c3e4ac55e))
+
 # [2.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.4.0...v2.5.0) (2024-10-15)
 
 

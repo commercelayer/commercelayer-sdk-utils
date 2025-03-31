@@ -73,6 +73,7 @@ class AuthorizationFilterFields<M extends Types.FilterMaster> extends ResourceFi
 	get token(): Types.FilterOperator<M> { return this.addField('token') }
 	get gateway_transaction_id(): Types.FilterOperator<M> { return this.addField('gateway_transaction_id') }
 	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
+	get payment_source(): ResourceFilterFields<M> { return new ResourceFilterFields<M>(this.master, this.operator, this.addRelationship('payment_source')) } // polymorphic
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 }
@@ -201,6 +202,7 @@ class CaptureFilterFields<M extends Types.FilterMaster> extends ResourceFilterFi
 	get token(): Types.FilterOperator<M> { return this.addField('token') }
 	get gateway_transaction_id(): Types.FilterOperator<M> { return this.addField('gateway_transaction_id') }
 	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
+	get payment_source(): ResourceFilterFields<M> { return new ResourceFilterFields<M>(this.master, this.operator, this.addRelationship('payment_source')) } // polymorphic
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 	get return(): ReturnFilterFields<M> { return new ReturnFilterFields<M>(this.master, this.operator, this.addRelationship('return')) }
@@ -244,6 +246,7 @@ class CleanupFilterFields<M extends Types.FilterMaster> extends ResourceFilterFi
 	get records_count(): Types.FilterOperator<M> { return this.addField('records_count') }
 	get errors_count(): Types.FilterOperator<M> { return this.addField('errors_count') }
 	get processed_count(): Types.FilterOperator<M> { return this.addField('processed_count') }
+	get errors_log(): Types.FilterOperator<M> { return this.addField('errors_log') }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 }
 
@@ -379,6 +382,24 @@ class DeliveryLeadTimeFilterFields<M extends Types.FilterMaster> extends Resourc
 export type DeliveryLeadTimeFilter = DeliveryLeadTimeFilterFields<DeliveryLeadTimeFilter>
 
 
+class DiscountEngineFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
+	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get type(): Types.FilterOperator<M> { return this.addField('type') }
+	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
+}
+
+export type DiscountEngineFilter = DiscountEngineFilterFields<DiscountEngineFilter>
+
+
+class DiscountEngineItemFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
+	get body(): Types.FilterOperator<M> { return this.addField('body') }
+	get discount_engine(): DiscountEngineFilterFields<M> { return new DiscountEngineFilterFields<M>(this.master, this.operator, this.addRelationship('discount_engine')) }
+	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
+}
+
+export type DiscountEngineItemFilter = DiscountEngineItemFilterFields<DiscountEngineItemFilter>
+
+
 class EventFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
 }
@@ -405,6 +426,7 @@ class ExportFilterFields<M extends Types.FilterMaster> extends ResourceFilterFie
 	get interrupted_at(): Types.FilterOperator<M> { return this.addField('interrupted_at') }
 	get records_count(): Types.FilterOperator<M> { return this.addField('records_count') }
 	get attachment_url(): Types.FilterOperator<M> { return this.addField('attachment_url') }
+	get errors_log(): Types.FilterOperator<M> { return this.addField('errors_log') }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 }
 
@@ -654,6 +676,8 @@ class ImportFilterFields<M extends Types.FilterMaster> extends ResourceFilterFie
 	get warnings_count(): Types.FilterOperator<M> { return this.addField('warnings_count') }
 	get destroyed_count(): Types.FilterOperator<M> { return this.addField('destroyed_count') }
 	get processed_count(): Types.FilterOperator<M> { return this.addField('processed_count') }
+	get errors_log(): Types.FilterOperator<M> { return this.addField('errors_log') }
+	get warnings_log(): Types.FilterOperator<M> { return this.addField('warnings_log') }
 	get attachment_url(): Types.FilterOperator<M> { return this.addField('attachment_url') }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 }
@@ -749,6 +773,7 @@ class LineItemFilterFields<M extends Types.FilterMaster> extends ResourceFilterF
 	get stock_reservations(): StockReservationFilterFields<M> { return new StockReservationFilterFields<M>(this.master, this.operator, this.addRelationship('stock_reservations')) }
 	get stock_line_items(): StockLineItemFilterFields<M> { return new StockLineItemFilterFields<M>(this.master, this.operator, this.addRelationship('stock_line_items')) }
 	get stock_transfers(): StockTransferFilterFields<M> { return new StockTransferFilterFields<M>(this.master, this.operator, this.addRelationship('stock_transfers')) }
+	get notifications(): NotificationFilterFields<M> { return new NotificationFilterFields<M>(this.master, this.operator, this.addRelationship('notifications')) }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 	get tags(): TagFilterFields<M> { return new TagFilterFields<M>(this.master, this.operator, this.addRelationship('tags')) }
 }
@@ -813,9 +838,11 @@ class MarketFilterFields<M extends Types.FilterMaster> extends ResourceFilterFie
 	get price_list(): PriceListFilterFields<M> { return new PriceListFilterFields<M>(this.master, this.operator, this.addRelationship('price_list')) }
 	get inventory_model(): InventoryModelFilterFields<M> { return new InventoryModelFilterFields<M>(this.master, this.operator, this.addRelationship('inventory_model')) }
 	get subscription_model(): SubscriptionModelFilterFields<M> { return new SubscriptionModelFilterFields<M>(this.master, this.operator, this.addRelationship('subscription_model')) }
+	get discount_engine(): DiscountEngineFilterFields<M> { return new DiscountEngineFilterFields<M>(this.master, this.operator, this.addRelationship('discount_engine')) }
 	get tax_calculator(): TaxCalculatorFilterFields<M> { return new TaxCalculatorFilterFields<M>(this.master, this.operator, this.addRelationship('tax_calculator')) }
 	get customer_group(): CustomerGroupFilterFields<M> { return new CustomerGroupFilterFields<M>(this.master, this.operator, this.addRelationship('customer_group')) }
 	get geocoder(): GeocoderFilterFields<M> { return new GeocoderFilterFields<M>(this.master, this.operator, this.addRelationship('geocoder')) }
+	get stores(): StoreFilterFields<M> { return new StoreFilterFields<M>(this.master, this.operator, this.addRelationship('stores')) }
 	get price_list_schedulers(): PriceListSchedulerFilterFields<M> { return new PriceListSchedulerFilterFields<M>(this.master, this.operator, this.addRelationship('price_list_schedulers')) }
 	get order_validation_rules(): OrderValidationRuleFilterFields<M> { return new OrderValidationRuleFilterFields<M>(this.master, this.operator, this.addRelationship('order_validation_rules')) }
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
@@ -831,6 +858,14 @@ class MerchantFilterFields<M extends Types.FilterMaster> extends ResourceFilterF
 }
 
 export type MerchantFilter = MerchantFilterFields<MerchantFilter>
+
+
+class NotificationFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
+	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get flash(): Types.FilterOperator<M> { return this.addField('flash') }
+}
+
+export type NotificationFilter = NotificationFilterFields<NotificationFilter>
 
 
 class OrderFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
@@ -860,6 +895,7 @@ class OrderFilterFields<M extends Types.FilterMaster> extends ResourceFilterFiel
 	get total_amount_cents(): Types.FilterOperator<M> { return this.addField('total_amount_cents') }
 	get fees_amount_cents(): Types.FilterOperator<M> { return this.addField('fees_amount_cents') }
 	get duty_amount_cents(): Types.FilterOperator<M> { return this.addField('duty_amount_cents') }
+	get payment_source_details(): Types.FilterOperator<M> { return this.addField('payment_source_details') }
 	get token(): Types.FilterOperator<M> { return this.addField('token') }
 	get placed_at(): Types.FilterOperator<M> { return this.addField('placed_at') }
 	get approved_at(): Types.FilterOperator<M> { return this.addField('approved_at') }
@@ -875,8 +911,10 @@ class OrderFilterFields<M extends Types.FilterMaster> extends ResourceFilterFiel
 	get customer(): CustomerFilterFields<M> { return new CustomerFilterFields<M>(this.master, this.operator, this.addRelationship('customer')) }
 	get shipping_address(): AddressFilterFields<M> { return new AddressFilterFields<M>(this.master, this.operator, this.addRelationship('shipping_address')) }
 	get billing_address(): AddressFilterFields<M> { return new AddressFilterFields<M>(this.master, this.operator, this.addRelationship('billing_address')) }
+	get store(): StoreFilterFields<M> { return new StoreFilterFields<M>(this.master, this.operator, this.addRelationship('store')) }
 	get payment_method(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_method')) }
 	get payment_source(): ResourceFilterFields<M> { return new ResourceFilterFields<M>(this.master, this.operator, this.addRelationship('payment_source')) } // polymorphic
+	get discount_engine_item(): DiscountEngineItemFilterFields<M> { return new DiscountEngineItemFilterFields<M>(this.master, this.operator, this.addRelationship('discount_engine_item')) }
 	get line_items(): LineItemFilterFields<M> { return new LineItemFilterFields<M>(this.master, this.operator, this.addRelationship('line_items')) }
 	get line_item_options(): LineItemOptionFilterFields<M> { return new LineItemOptionFilterFields<M>(this.master, this.operator, this.addRelationship('line_item_options')) }
 	get stock_reservations(): StockReservationFilterFields<M> { return new StockReservationFilterFields<M>(this.master, this.operator, this.addRelationship('stock_reservations')) }
@@ -895,6 +933,7 @@ class OrderFilterFields<M extends Types.FilterMaster> extends ResourceFilterFiel
 	get order_copies(): OrderCopyFilterFields<M> { return new OrderCopyFilterFields<M>(this.master, this.operator, this.addRelationship('order_copies')) }
 	get recurring_order_copies(): RecurringOrderCopyFilterFields<M> { return new RecurringOrderCopyFilterFields<M>(this.master, this.operator, this.addRelationship('recurring_order_copies')) }
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
+	get notifications(): NotificationFilterFields<M> { return new NotificationFilterFields<M>(this.master, this.operator, this.addRelationship('notifications')) }
 	get links(): LinkFilterFields<M> { return new LinkFilterFields<M>(this.master, this.operator, this.addRelationship('links')) }
 	get resource_errors(): ResourceErrorFilterFields<M> { return new ResourceErrorFilterFields<M>(this.master, this.operator, this.addRelationship('resource_errors')) }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
@@ -1052,6 +1091,7 @@ class PaymentMethodFilterFields<M extends Types.FilterMaster> extends ResourceFi
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
 	get payment_gateway(): PaymentGatewayFilterFields<M> { return new PaymentGatewayFilterFields<M>(this.master, this.operator, this.addRelationship('payment_gateway')) }
+	get store(): StoreFilterFields<M> { return new StoreFilterFields<M>(this.master, this.operator, this.addRelationship('store')) }
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 }
 
@@ -1253,6 +1293,7 @@ class RefundFilterFields<M extends Types.FilterMaster> extends ResourceFilterFie
 	get token(): Types.FilterOperator<M> { return this.addField('token') }
 	get gateway_transaction_id(): Types.FilterOperator<M> { return this.addField('gateway_transaction_id') }
 	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
+	get payment_source(): ResourceFilterFields<M> { return new ResourceFilterFields<M>(this.master, this.operator, this.addRelationship('payment_source')) } // polymorphic
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 	get reference_capture(): CaptureFilterFields<M> { return new CaptureFilterFields<M>(this.master, this.operator, this.addRelationship('reference_capture')) }
@@ -1563,6 +1604,7 @@ class StockLocationFilterFields<M extends Types.FilterMaster> extends ResourceFi
 	get inventory_return_locations(): InventoryReturnLocationFilterFields<M> { return new InventoryReturnLocationFilterFields<M>(this.master, this.operator, this.addRelationship('inventory_return_locations')) }
 	get stock_items(): StockItemFilterFields<M> { return new StockItemFilterFields<M>(this.master, this.operator, this.addRelationship('stock_items')) }
 	get stock_transfers(): StockTransferFilterFields<M> { return new StockTransferFilterFields<M>(this.master, this.operator, this.addRelationship('stock_transfers')) }
+	get stores(): StoreFilterFields<M> { return new StoreFilterFields<M>(this.master, this.operator, this.addRelationship('stores')) }
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 }
 
@@ -1607,6 +1649,18 @@ class StockTransferFilterFields<M extends Types.FilterMaster> extends ResourceFi
 export type StockTransferFilter = StockTransferFilterFields<StockTransferFilter>
 
 
+class StoreFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
+	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get code(): Types.FilterOperator<M> { return this.addField('code') }
+	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
+	get merchant(): MerchantFilterFields<M> { return new MerchantFilterFields<M>(this.master, this.operator, this.addRelationship('merchant')) }
+	get stock_location(): StockLocationFilterFields<M> { return new StockLocationFilterFields<M>(this.master, this.operator, this.addRelationship('stock_location')) }
+	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
+}
+
+export type StoreFilter = StoreFilterFields<StoreFilter>
+
+
 class StripeGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
@@ -1637,6 +1691,15 @@ class TagFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields
 }
 
 export type TagFilter = TagFilterFields<TagFilter>
+
+
+class TalonOneAccountFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
+	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get type(): Types.FilterOperator<M> { return this.addField('type') }
+	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
+}
+
+export type TalonOneAccountFilter = TalonOneAccountFilterFields<TalonOneAccountFilter>
 
 
 class TaxCalculatorFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
@@ -1692,6 +1755,7 @@ class TransactionFilterFields<M extends Types.FilterMaster> extends ResourceFilt
 	get token(): Types.FilterOperator<M> { return this.addField('token') }
 	get gateway_transaction_id(): Types.FilterOperator<M> { return this.addField('gateway_transaction_id') }
 	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
+	get payment_source(): ResourceFilterFields<M> { return new ResourceFilterFields<M>(this.master, this.operator, this.addRelationship('payment_source')) } // polymorphic
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 }
@@ -1719,6 +1783,7 @@ class VoidFilterFields<M extends Types.FilterMaster> extends ResourceFilterField
 	get token(): Types.FilterOperator<M> { return this.addField('token') }
 	get gateway_transaction_id(): Types.FilterOperator<M> { return this.addField('gateway_transaction_id') }
 	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
+	get payment_source(): ResourceFilterFields<M> { return new ResourceFilterFields<M>(this.master, this.operator, this.addRelationship('payment_source')) } // polymorphic
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 	get reference_authorization(): AuthorizationFilterFields<M> { return new AuthorizationFilterFields<M>(this.master, this.operator, this.addRelationship('reference_authorization')) }
@@ -1778,6 +1843,8 @@ export class FilterHelper {
 	get customer_payment_sources(): CustomerPaymentSourceFilter { return new CustomerPaymentSourceFilterFields<CustomerPaymentSourceFilter>() }
 	get customer_subscriptions(): CustomerSubscriptionFilter { return new CustomerSubscriptionFilterFields<CustomerSubscriptionFilter>() }
 	get delivery_lead_times(): DeliveryLeadTimeFilter { return new DeliveryLeadTimeFilterFields<DeliveryLeadTimeFilter>() }
+	get discount_engines(): DiscountEngineFilter { return new DiscountEngineFilterFields<DiscountEngineFilter>() }
+	get discount_engine_items(): DiscountEngineItemFilter { return new DiscountEngineItemFilterFields<DiscountEngineItemFilter>() }
 	get events(): EventFilter { return new EventFilterFields<EventFilter>() }
 	get event_callbacks(): EventCallbackFilter { return new EventCallbackFilterFields<EventCallbackFilter>() }
 	get exports(): ExportFilter { return new ExportFilterFields<ExportFilter>() }
@@ -1808,6 +1875,7 @@ export class FilterHelper {
 	get manual_tax_calculators(): ManualTaxCalculatorFilter { return new ManualTaxCalculatorFilterFields<ManualTaxCalculatorFilter>() }
 	get markets(): MarketFilter { return new MarketFilterFields<MarketFilter>() }
 	get merchants(): MerchantFilter { return new MerchantFilterFields<MerchantFilter>() }
+	get notifications(): NotificationFilter { return new NotificationFilterFields<NotificationFilter>() }
 	get orders(): OrderFilter { return new OrderFilterFields<OrderFilter>() }
 	get order_amount_promotion_rules(): OrderAmountPromotionRuleFilter { return new OrderAmountPromotionRuleFilterFields<OrderAmountPromotionRuleFilter>() }
 	get order_copies(): OrderCopyFilter { return new OrderCopyFilterFields<OrderCopyFilter>() }
@@ -1858,10 +1926,12 @@ export class FilterHelper {
 	get stock_locations(): StockLocationFilter { return new StockLocationFilterFields<StockLocationFilter>() }
 	get stock_reservations(): StockReservationFilter { return new StockReservationFilterFields<StockReservationFilter>() }
 	get stock_transfers(): StockTransferFilter { return new StockTransferFilterFields<StockTransferFilter>() }
+	get stores(): StoreFilter { return new StoreFilterFields<StoreFilter>() }
 	get stripe_gateways(): StripeGatewayFilter { return new StripeGatewayFilterFields<StripeGatewayFilter>() }
 	get stripe_payments(): StripePaymentFilter { return new StripePaymentFilterFields<StripePaymentFilter>() }
 	get subscription_models(): SubscriptionModelFilter { return new SubscriptionModelFilterFields<SubscriptionModelFilter>() }
 	get tags(): TagFilter { return new TagFilterFields<TagFilter>() }
+	get talon_one_accounts(): TalonOneAccountFilter { return new TalonOneAccountFilterFields<TalonOneAccountFilter>() }
 	get tax_calculators(): TaxCalculatorFilter { return new TaxCalculatorFilterFields<TaxCalculatorFilter>() }
 	get tax_categories(): TaxCategoryFilter { return new TaxCategoryFilterFields<TaxCategoryFilter>() }
 	get tax_rules(): TaxRuleFilter { return new TaxRuleFilterFields<TaxRuleFilter>() }

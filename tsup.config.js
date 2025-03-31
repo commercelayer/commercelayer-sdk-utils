@@ -13,7 +13,7 @@ export default defineConfig(() => ({
   // treeshake: true,
   // watch: env === 'development',
   target: 'es2020',
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/helpers/filter/index.ts', 'src/helpers/include/index.ts'],
   outDir: 'lib',
   splitting: false,
   shims: true,

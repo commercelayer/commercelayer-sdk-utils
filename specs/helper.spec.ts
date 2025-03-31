@@ -1,7 +1,8 @@
 
 import type { QueryParamsList, QueryInclude, QueryParams, QueryFilter } from '@commercelayer/sdk'
 import { initialize, cl } from '../test/common'
-import { buildFilter, buildInclude, Filter, Include } from '../src'
+import { buildFilter, Filter } from '../src/helpers/filter'
+import { buildInclude, Include } from '../src/helpers/include'
 
 
 

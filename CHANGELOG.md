@@ -1,3 +1,10 @@
+## [2.5.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.0...v2.5.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* fix security issue ([0eca67c](https://github.com/commercelayer/commercelayer-sdk-utils/commit/0eca67cea02b17f25c01868debc426eb527c5904))
+
 # [2.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.4.0...v2.5.0) (2024-10-15)
 
 

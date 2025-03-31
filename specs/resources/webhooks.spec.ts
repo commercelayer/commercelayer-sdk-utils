@@ -1,5 +1,5 @@
 
-import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
+import type { Resource } from '@commercelayer/sdk'
 import { denormalizePayload, webhooks } from '../../src'
 
 

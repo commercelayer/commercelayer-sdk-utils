@@ -1,3 +1,71 @@
+## [2.5.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.0...v2.5.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* fix security issue ([0eca67c](https://github.com/commercelayer/commercelayer-sdk-utils/commit/0eca67cea02b17f25c01868debc426eb527c5904))
+
+# [2.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.4.0...v2.5.0) (2024-10-15)
+
+
+### Features
+
+* export checkSignature function ([97461a0](https://github.com/commercelayer/commercelayer-sdk-utils/commit/97461a0787e3e2761123c50e0422e84b8fb08727))
+
+# [2.4.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.2...v2.4.0) (2024-10-01)
+
+
+### Features
+
+* add avalara_accounts webhook parser ([f9f58e9](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f9f58e95e16b61d6964c145ff51b405bcc4141d0))
+
+## [2.3.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.1...v2.3.2) (2024-10-01)
+
+
+### Bug Fixes
+
+* export function deleteAll ([f2b5c5b](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f2b5c5bd76467c34f977a848e98493a411748bb6))
+
+## [2.3.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.3.0...v2.3.1) (2024-08-20)
+
+
+### Bug Fixes
+
+* fix ReferenceError ([7d54cf4](https://github.com/commercelayer/commercelayer-sdk-utils/commit/7d54cf4f98359a14b594f6b90315ea70774b3029))
+
+# [2.3.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.2.0...v2.3.0) (2024-08-14)
+
+
+### Features
+
+* add deleteAll function ([b07f14c](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b07f14ca8aa76342b4adaa5d5264d30d4124feea))
+
+# [2.2.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.1.1...v2.2.0) (2024-08-13)
+
+
+### Bug Fixes
+
+* fix page records evaluation in retrievePage function ([78cd1cd](https://github.com/commercelayer/commercelayer-sdk-utils/commit/78cd1cde1cd731dd0a2f567a4763437a3862c6a5))
+
+
+### Features
+
+* add retrievePage documentation ([7ad8dbf](https://github.com/commercelayer/commercelayer-sdk-utils/commit/7ad8dbf3c13258bb44edb72c7877595a92cbbb8f))
+
+## [2.1.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.1.0...v2.1.1) (2024-06-19)
+
+
+### Bug Fixes
+
+* fix packagejson wrong paths ([9c72604](https://github.com/commercelayer/commercelayer-sdk-utils/commit/9c726042fe0f6fb289e5617e4131570eb3f9b736))
+
+# [2.1.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.1...v2.1.0) (2024-05-07)
+
+
+### Features
+
+* add headerRateLimits function ([7f6162e](https://github.com/commercelayer/commercelayer-sdk-utils/commit/7f6162ea575852e38df1d0b73cfe15b15d5c12e7))
+
 ## [2.0.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0...v2.0.1) (2024-05-02)
 
 

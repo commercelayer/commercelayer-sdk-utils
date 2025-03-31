@@ -33,5 +33,5 @@ export const executeImport = async (imp: ImportCreate, options?: JobOptions): Pr
 export const imports = {
 	split: splitImport,
 	execute: executeImport,
-	toBatchTasks: importsToBatchTasks,
+	toBatchTasks: importsToBatchTasks
 }

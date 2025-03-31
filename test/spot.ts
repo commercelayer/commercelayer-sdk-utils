@@ -7,6 +7,9 @@ import { initialize } from "./common"
 
 
 const test = async (): Promise<void> => {
+/*
+  const pageSize = 500
+  const pageNumber = 4
 
   const utils = await initialize()
   const cl = utils.sdk

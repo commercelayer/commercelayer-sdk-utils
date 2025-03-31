@@ -1,3 +1,10 @@
+## [2.5.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.1...v2.5.2) (2025-03-31)
+
+
+### Bug Fixes
+
+* update dependencies ([d760fcb](https://github.com/commercelayer/commercelayer-sdk-utils/commit/d760fcbbf070700aab9ae0d52a9efa13d7d22dc4))
+
 ## [2.5.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.0...v2.5.1) (2024-12-11)
 
 

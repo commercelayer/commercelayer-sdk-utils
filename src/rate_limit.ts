@@ -2,6 +2,9 @@ import type { HeadersObj } from "@commercelayer/sdk"
 import type { Task } from "./batch"
 
 
+type ApiEnv = 'live' | 'test'
+
+
 export type RateLimitHeader = {
 	count?: number,
 	period?: number,
@@ -40,10 +43,12 @@ export const headerRateLimits = (headers?: HeadersObj): RateLimitHeader => {
 	"erl_average_limit_cachable_live" : 1000,
 	"erl_average_limit_cachable_test" : 500
  */
-export const computeRateLimits = (rateLimit: RateLimitHeader, resourceType: string | Task, allRequests?: number | Task[]): RateLimitInfo => {
+export const computeRateLimits = (rateLimit: RateLimitHeader, resourceType: string | Task, allRequests?: number | Task[], env?: ApiEnv): RateLimitInfo => {
 
-	const BURST_INTERVAL = 10 * 1000
-	const BURST_MAX_REQUESTS = 25
+	const apiEnv = env || 'test'
+
+	const BURST_INTERVAL = 10 * 1000 // 10 seconds
+	const BURST_MAX_REQUESTS = (apiEnv === 'live')? 50 : 25
 
 	const resType = (typeof resourceType === 'string') ? resourceType : resourceType.resourceType
 	// const task = (typeof currentTask === 'number')? allTasks[currentTask] : currentTask
@@ -54,7 +59,7 @@ export const computeRateLimits = (rateLimit: RateLimitHeader, resourceType: stri
 		delay: 0
 	}
 
-	const allRequests_ = allRequests || (rateLimit.limit * 2)	// A number over the limit
+	const allRequests_ = allRequests || (rateLimit?.limit * 2) || 0	// A number over the limit
 
 	if (rateLimit) {
 		const totalRequests = (typeof allRequests_ === 'number') ? allRequests_ : allRequests_.length

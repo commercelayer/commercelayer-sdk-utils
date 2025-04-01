@@ -1,3 +1,10 @@
+## [2.5.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.2...v2.5.3) (2025-04-01)
+
+
+### Bug Fixes
+
+* fix burst rate limit ([a4fd956](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a4fd956ce485282d148a78bbe8770b1173ffcf9a))
+
 ## [2.5.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.1...v2.5.2) (2025-03-31)
 
 

@@ -49,7 +49,7 @@ const initClient = async (): Promise<CommerceLayerClient> => {
 	currentAccessToken = accessToken
 	const client = CommerceLayer({ organization, accessToken, domain })
 	client.config({ timeout: GLOBAL_TIMEOUT })
-	jest.setTimeout(GLOBAL_TIMEOUT)
+	try { jest.setTimeout(GLOBAL_TIMEOUT) } catch (err: any) { }
 	return client
 }
 

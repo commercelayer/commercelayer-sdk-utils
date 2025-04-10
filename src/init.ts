@@ -1,16 +1,16 @@
-import type { CommerceLayerClient } from "@commercelayer/sdk";
+import type { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 
 
 class CommerceLayerUtilsConfig {
 
-	#sdk?: CommerceLayerClient
+	#sdk?: CommerceLayerBundle
 
-	set sdk(cl: CommerceLayerClient) {
+	set sdk(cl: CommerceLayerBundle) {
 		if ((cl === undefined) || (cl === null)) throw Error('Invalid Commerce Layer client provided')
 		this.#sdk = cl
 	}
 
-	get sdk(): CommerceLayerClient {
+	get sdk(): CommerceLayerBundle {
 		if (!this.#sdk) throw Error('CommerceLayer Utils not initialized')
 		return this.#sdk
 	}
@@ -21,7 +21,7 @@ class CommerceLayerUtilsConfig {
 const clUtilsConfig = new CommerceLayerUtilsConfig()
 
 
-const CommerceLayerUtils = (cl?: CommerceLayerClient): CommerceLayerUtilsConfig => {
+const CommerceLayerUtils = (cl?: CommerceLayerBundle): CommerceLayerUtilsConfig => {
 	if (cl) clUtilsConfig.sdk = cl
 	return clUtilsConfig
 }

@@ -1,9 +1,22 @@
 {
   "name": "@commercelayer/sdk-utils",
   "version": "2.5.2",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs",
   "types": "lib/index.d.ts",
-  "module": "lib/index.mjs",
+  "module": "lib/index.js",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      },
+      "require": {
+        "types": "./lib/index.d.cts",
+        "default": "./lib/index.cjs"
+      }
+    }
+  },
   "scripts": {
     "lint": "eslint ./src --ext .ts",
     "lintspec": "eslint ./specs/ --ext .spec.ts",
@@ -51,7 +64,7 @@
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
-    "@commercelayer/sdk": "^6"
+    "@commercelayer/sdk": "7.0.0-rc.6"
   },
   "repository": "github:commercelayer/commercelayer-sdk-utils",
   "publishConfig": {

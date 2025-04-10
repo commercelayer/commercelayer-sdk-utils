@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@commercelayer/sdk':
-        specifier: ^6
-        version: 6.37.0
+        specifier: 7.0.0-rc.6
+        version: 7.0.0-rc.6
     devDependencies:
       '@babel/preset-env':
         specifier: ^7.26.9
@@ -669,9 +669,9 @@ packages:
     resolution: {integrity: sha512-kk4VqN2iEOreXFq76YqTP83KhBs09Z5Ez9nZNlikXWf5DXzkrOfShqqEwq8ezHjSOlqs4xVyxgQzsEdPP35CeQ==}
     engines: {node: '>=18.0.0'}
 
-  '@commercelayer/sdk@6.37.0':
-    resolution: {integrity: sha512-dzXIy/1mlr004p3TvgLiCJr72KuObOKDd5tFSf1TRQOhsIthJjmRb/Q6Jo/+vx0rGU4QtusN4PLrhYQTIofulQ==}
-    engines: {node: '>=20'}
+  '@commercelayer/sdk@7.0.0-rc.6':
+    resolution: {integrity: sha512-3mJ90WutnEMsPWvLQFUjKzI2rDD1Ljsu5T/4SDyZ9xvsIHJ7vF3Q1ODTELbYNPDwdgghCJgcvKXEIcqzyFoIaQ==}
+    engines: {node: '>=22'}
 
   '@esbuild/aix-ppc64@0.25.2':
     resolution: {integrity: sha512-wCIboOL2yXZym2cgm6mlA742s9QeJ8DjGVaL39dLN4rRwrOgOyYSnOaFPhKZGLb2ngj4EyfAFjsNJwPXZvseag==}
@@ -4700,7 +4700,7 @@ snapshots:
 
   '@commercelayer/js-auth@6.7.2': {}
 
-  '@commercelayer/sdk@6.37.0': {}
+  '@commercelayer/sdk@7.0.0-rc.6': {}
 
   '@esbuild/aix-ppc64@0.25.2':
     optional: true

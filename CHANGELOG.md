@@ -1,3 +1,22 @@
+# [3.0.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.2...v3.0.0-beta.1) (2025-04-11)
+
+
+### Bug Fixes
+
+* fix burst rate limit ([a4fd956](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a4fd956ce485282d148a78bbe8770b1173ffcf9a))
+* fix enum types export ([f490795](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f490795c6c3d723946827656e0e53fc2d45e2712))
+* update dependencies ([c2de5bf](https://github.com/commercelayer/commercelayer-sdk-utils/commit/c2de5bf64251adc555676b55526f971e3e12a706))
+
+
+### Features
+
+* support for sdk7 ([6984e04](https://github.com/commercelayer/commercelayer-sdk-utils/commit/6984e04233b95daf7c6f7eac2d7677644b053f50))
+
+
+### BREAKING CHANGES
+
+* remove support for sdk6 and node 20
+
 ## [2.5.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.1...v2.5.2) (2025-03-31)
 
 

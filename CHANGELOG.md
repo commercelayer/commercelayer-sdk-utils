@@ -1,3 +1,10 @@
+# [3.0.0-beta.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2025-04-11)
+
+
+### Bug Fixes
+
+* fix helper spec ([a64df23](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a64df23ae478ab6e3ef7ff4d5478bff51c99c30a))
+
 # [3.0.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.2...v3.0.0-beta.1) (2025-04-11)
 
 

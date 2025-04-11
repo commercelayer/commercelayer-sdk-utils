@@ -1,10 +1,10 @@
 
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { ExportCreate } from '@commercelayer/sdk'
-import { splitExport, exportsToBatchTasks } from '../../src'
-import type { Task, TaskResult } from '../../src'
+import { splitExport, exportsToBatchTasks, executeExport } from '../../lib'
+import type { Task, TaskResult } from '../../lib'
 import { initialize, cl } from '../../test/common'
-import { TemplateTask } from '../../src/batch'
-import { executeExport } from '../../src/resources/exports'
+import { TemplateTask } from '../../lib/batch'
 
 
 const resourceType = 'prices'
@@ -15,14 +15,14 @@ beforeAll(async () => {
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.exports suite', () => {
 
-	it('exports.split', async () => {
+	test('exports.split', async () => {
 
 		const exportMaxSize = 30
 		const resourceCount = await cl[resourceType].count()
@@ -71,7 +71,7 @@ describe('sdk-utils.exports suite', () => {
 	})
 
 
-	it('exports.toBatchTasks', async () => {
+	test('exports.toBatchTasks', async () => {
 
 		const exports: ExportCreate[] = [
 			{ resource_type: resourceType },
@@ -109,7 +109,7 @@ describe('sdk-utils.exports suite', () => {
 	})
 
 
-	it('exports.execute', async () => {
+	test('exports.execute', async () => {
 
 		const exportMaxSize = 5
 		const queueLength = 5
@@ -137,6 +137,6 @@ describe('sdk-utils.exports suite', () => {
 
 		// console.log(exports[0].metadata?.group_id)
 
-	})
+	}, 0)
 
 })

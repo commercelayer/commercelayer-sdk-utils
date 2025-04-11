@@ -1,5 +1,5 @@
-import CommerceLayer from "@commercelayer/sdk"
-import { CommerceLayerUtils, webhooks } from "../src"
+import { CommerceLayer } from "@commercelayer/sdk/bundle"
+import { CommerceLayerUtils, webhooks } from "../lib"
 
 import dotenv from 'dotenv'
 dotenv.config()

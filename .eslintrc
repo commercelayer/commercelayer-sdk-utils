@@ -3,6 +3,9 @@
     "@commercelayer/eslint-config-ts"
   ],
   "ignorePatterns": ["test/**/*.ts", "gen/**/*.ts", "specs/**/*.ts", "*.config.js"],
+  "env": {
+    "vitest/globals": true
+  },
   "rules": {
     "prettier/prettier": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",

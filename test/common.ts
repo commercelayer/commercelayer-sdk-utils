@@ -1,15 +1,13 @@
-
 import getToken from './token'
-import CommerceLayer, { CommerceLayerClient } from '@commercelayer/sdk'
+import { CommerceLayer, type CommerceLayerBundle } from '@commercelayer/sdk/bundle'
 import dotenv from 'dotenv'
 import { inspect } from 'util'
-import { CommerceLayerUtils } from '../src'
-import { CommerceLayerUtilsConfig } from '../src/init'
+import { CommerceLayerUtils, CommerceLayerUtilsConfig } from '../lib'
 
 
 dotenv.config()
 
-const GLOBAL_TIMEOUT = 15000
+export const GLOBAL_TIMEOUT = 15000
 
 const organization = process.env.CL_SDK_ORGANIZATION as string
 const domain = process.env.CL_SDK_DOMAIN as string
@@ -32,7 +30,7 @@ export const TestData = {
 
 
 export let currentAccessToken: string
-export let cl: CommerceLayerClient
+export let cl: CommerceLayerBundle
 export let utils: CommerceLayerUtilsConfig
 
 
@@ -42,26 +40,34 @@ export const initialize = async (): Promise<CommerceLayerUtilsConfig> => {
 	return utils
 }
 
-const initClient = async (): Promise<CommerceLayerClient> => {
+
+const initClient = async (): Promise<CommerceLayerBundle> => {
+
 	const token = await getToken('integration')
 	if (token === null) throw new Error('Unable to get access token')
+
 	const accessToken = token.accessToken
 	currentAccessToken = accessToken
+	
 	const client = CommerceLayer({ organization, accessToken, domain })
 	client.config({ timeout: GLOBAL_TIMEOUT })
-	jest.setTimeout(GLOBAL_TIMEOUT)
+
+	try { vi.setConfig({ testTimeout: GLOBAL_TIMEOUT })  } catch(err: any) {}
+
 	return client
+
 }
 
-const fakeClient = async (): Promise<CommerceLayerClient> => {
+
+const fakeClient = async (): Promise<CommerceLayerBundle> => {
 	const accessToken = 'fake-access-token'
 	const client = CommerceLayer({ organization, accessToken, domain })
 	currentAccessToken = accessToken
 	return client
 }
 
-const getClient = (instance?: boolean): Promise<CommerceLayerClient> => {
-	return instance ?  initClient() : fakeClient()
+const getClient = (instance?: boolean): Promise<CommerceLayerBundle> => {
+	return instance ? initClient() : fakeClient()
 }
 
 const printObject = (obj: unknown): string => {

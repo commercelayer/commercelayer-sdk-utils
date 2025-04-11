@@ -1,8 +1,8 @@
 
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { ShippingCategory, Sku, SkuCreate } from '@commercelayer/sdk'
-import { retrieveAll, updateAll } from '../src'
+import { retrieveAll, updateAll, deleteAll } from '../lib'
 import { initialize, cl } from '../test/common'
-import { deleteAll } from '../src/all'
 
 
 
@@ -11,14 +11,14 @@ beforeAll(async () => {
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.all suite', () => {
 
-	it('all.retrieveAll', async () => {
+	test('all.retrieveAll', async () => {
 
 		const skus = await retrieveAll<Sku>('skus')
 
@@ -30,7 +30,7 @@ describe('sdk-utils.all suite', () => {
 	})
 
 
-	it('all.updateAll', async () => {
+	test('all.updateAll', async () => {
 
 		const reference_origin = String(Date.now())
 		const sku = { reference_origin }
@@ -46,7 +46,7 @@ describe('sdk-utils.all suite', () => {
 	})
 
 
-	it('all.deleteAll', async () => {
+	test('all.deleteAll', async () => {
 
 		let codName = ''
 		const referenceOrigin = String(Date.now())
@@ -86,7 +86,7 @@ describe('sdk-utils.all suite', () => {
 	})
 
 
-	it('all.limit', async () => {
+	test('all.limit', async () => {
 
 		const LIMIT = Math.floor(Math.random() * 100)
 

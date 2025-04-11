@@ -1,8 +1,10 @@
 
+
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { CleanupCreate } from '@commercelayer/sdk'
-import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult } from '../../src'
+import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../lib'
 import { initialize, cl } from '../../test/common'
-import { TemplateTask } from '../../src/batch'
+import { TemplateTask } from '../../lib/batch'
 
 
 const resourceType = 'skus'
@@ -14,14 +16,14 @@ beforeAll(async () => {
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.cleanups suite', () => {
 
-	it('cleanups.split', async () => {
+	test('cleanups.split', async () => {
 
 		const cleanupMaxSize = 30
 		const resourceCount = await cl[resourceType].count()
@@ -61,7 +63,7 @@ describe('sdk-utils.cleanups suite', () => {
 	})
 
 
-	it('cleanups.toBatchTasks', async () => {
+	test('cleanups.toBatchTasks', async () => {
 
 		const cleanups: CleanupCreate[] = [
 			{ resource_type: resourceType },

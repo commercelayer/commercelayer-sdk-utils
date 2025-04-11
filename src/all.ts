@@ -1,8 +1,9 @@
-import type { ApiError, CommerceLayerClient, QueryParamsList, ListResponse, Resource, ResourceUpdate, ListableResourceType, UpdatableResourceType, ApiResource, DeletableResourceType } from "@commercelayer/sdk"
+import { type ApiError, type QueryParamsList, type ListResponse, type Resource, type ResourceUpdate, type ListableResourceType, type UpdatableResourceType, type ApiResource, type DeletableResourceType } from "@commercelayer/sdk"
 import CommerceLayerUtils from "./init"
 import { config } from "./config"
 import { type RateLimitInfo, computeRateLimits, headerRateLimits } from "./rate_limit"
 import { sleep } from "./common"
+import { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 
 
 type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'>
@@ -11,7 +12,7 @@ type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'>
 export const retrieveAll = async <R extends Resource>(resourceType: ListableResourceType, params?: AllParams & { limit?: number }): Promise<ListResponse<R>> => {
 
 	const cl = CommerceLayerUtils().sdk
-	const client = cl[resourceType as keyof CommerceLayerClient]
+	const client = cl[resourceType as keyof CommerceLayerBundle]
 	const rrr = cl.addRawResponseReader({ headers: true })
 
 	let result: ListResponse<R> | null = null
@@ -76,7 +77,8 @@ type UpdateResult = {
 export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceType: UpdatableResourceType, resource: U, params?: AllParams): Promise<UpdateResult> => {
 
 	const cl = CommerceLayerUtils().sdk
-	const client = cl[resourceType as keyof CommerceLayerClient] as ApiResource<Resource>
+
+	const client = cl[resourceType as keyof CommerceLayerBundle] as ApiResource<Resource>
 	const rrr = cl.addRawResponseReader({ headers: true })
 
 	const result: UpdateResult = { total: 0, processed: 0, errors: 0, resources: {} }

@@ -1,9 +1,10 @@
 
-import { Customer, type Sku } from '@commercelayer/sdk'
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
+import { Customer } from '@commercelayer/sdk'
 import { initialize, cl } from '../test/common'
-import { retrievePage } from '../src'
-import { sleep } from '../src/common'
-import { currentTokenData } from '../src/util'
+import { retrievePage } from '../lib'
+import { sleep } from '../lib/common'
+import { currentTokenData } from '../lib/util'
 
 
 
@@ -12,14 +13,14 @@ beforeAll(async () => {
 })
 
 afterEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.page suite', () => {
 
-  it('page.retrievePage', async () => {
+  test('page.retrievePage', async () => {
 
     process.env.CL_SDK_TEST = 'on'
 
@@ -69,6 +70,6 @@ describe('sdk-utils.page suite', () => {
     expect(startResource?.id).toBe(firstRetrieved?.id)
     expect(endResource?.id).toBe(lastRetrieved?.id)
 
-  })
+  }, 0)
 
 })

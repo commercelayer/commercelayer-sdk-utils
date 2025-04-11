@@ -1,6 +1,6 @@
-import CommerceLayer, { CleanupCreate, Customer, ImportCreate, Order } from "@commercelayer/sdk"
-import { CommerceLayerUtils, denormalizePayload, retrieveAll, retrievePage, updateAll } from "../src"
-import { executeExport } from "../src/resources/exports"
+import { CommerceLayer } from "@commercelayer/sdk/bundle"
+import { CommerceLayerUtils, denormalizePayload, retrieveAll, retrievePage, updateAll, executeExport } from "../lib"
+import type { Order } from "@commercelayer/sdk"
 
 
 

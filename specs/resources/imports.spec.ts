@@ -1,9 +1,10 @@
 
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { ImportCreate } from '@commercelayer/sdk'
-import { importsToBatchTasks, splitImport } from '../../src'
-import type { Task, TaskResult } from '../../src'
+import { importsToBatchTasks, splitImport } from '../../lib'
+import type { Task, TaskResult } from '../../lib'
 import { initialize } from '../../test/common'
-import { TemplateTask } from '../../src/batch'
+import { TemplateTask } from '../../lib/batch'
 
 
 
@@ -12,14 +13,14 @@ beforeAll(async () => {
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.imports suite', () => {
 
-	it('imports.split', async () => {
+	test('imports.split', async () => {
 
 		const numInputs = 1000
 		const impSize = 100
@@ -47,7 +48,7 @@ describe('sdk-utils.imports suite', () => {
 	})
 
 
-	it('imports.toBatchTasks', async () => {
+	test('imports.toBatchTasks', async () => {
 
 		const imports: ImportCreate[] = [
 			{ resource_type: 'customers', inputs: [] },

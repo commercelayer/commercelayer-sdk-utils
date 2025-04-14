@@ -22,7 +22,10 @@ const clUtilsConfig = new CommerceLayerUtilsConfig()
 
 
 const CommerceLayerUtils = (cl?: CommerceLayerClient): CommerceLayerUtilsConfig => {
-	if (cl) clUtilsConfig.sdk = cl
+	if (cl) {
+		if (!cl.application) throw Error('Only SDK 6 client is supported')
+		else clUtilsConfig.sdk = cl
+	}
 	return clUtilsConfig
 }
 

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@commercelayer/sdk':
-        specifier: 7.0.0-rc.8
-        version: 7.0.0-rc.8
+        specifier: 7.0.0-rc.9
+        version: 7.0.0-rc.9
     devDependencies:
       '@commercelayer/eslint-config-ts':
         specifier: 1.4.5
@@ -106,8 +106,8 @@ packages:
     resolution: {integrity: sha512-kk4VqN2iEOreXFq76YqTP83KhBs09Z5Ez9nZNlikXWf5DXzkrOfShqqEwq8ezHjSOlqs4xVyxgQzsEdPP35CeQ==}
     engines: {node: '>=18.0.0'}
 
-  '@commercelayer/sdk@7.0.0-rc.8':
-    resolution: {integrity: sha512-xSgohGCRVv9Bu/fHH40293bwP5CNyIjVSu3vGinqrEpEgmSjjcaRHZ6Nn132V61CUYsZ/McM/YBbZtYA0m1szQ==}
+  '@commercelayer/sdk@7.0.0-rc.9':
+    resolution: {integrity: sha512-9wASmET4VIeRVVh65xquEyk9rQSDbI1b/RszkgZuJj5oRKPW5zCYeJNrKFWtlMFlrsB/dBLnjXof/hbDvED3Vg==}
     engines: {node: '>=22'}
 
   '@esbuild/aix-ppc64@0.25.2':
@@ -3021,7 +3021,7 @@ snapshots:
 
   '@commercelayer/js-auth@6.7.2': {}
 
-  '@commercelayer/sdk@7.0.0-rc.8': {}
+  '@commercelayer/sdk@7.0.0-rc.9': {}
 
   '@esbuild/aix-ppc64@0.25.2':
     optional: true

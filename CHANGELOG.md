@@ -1,3 +1,10 @@
+## [2.5.4](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.3...v2.5.4) (2025-04-14)
+
+
+### Bug Fixes
+
+* add sdk 6 client check ([837ea85](https://github.com/commercelayer/commercelayer-sdk-utils/commit/837ea8500fa7468e4c4c305c8deecb250df09d34))
+
 ## [2.5.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.2...v2.5.3) (2025-04-01)
 
 

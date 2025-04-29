@@ -1,4 +1,5 @@
-import type { ListResponse, Resource, ResourceCreate, ResourceId, ResourceUpdate, ResourcesConfig, CreatableResourceType, DeletableResourceType, ListableResourceType, ResourceTypeLock, RetrievableResourceType, UpdatableResourceType, ApiError, SdkError, QueryParamsList, QueryParams, CommerceLayerClient } from "@commercelayer/sdk"
+import type { ListResponse, Resource, ResourceCreate, ResourceId, ResourceUpdate, ResourcesConfig, CreatableResourceType, DeletableResourceType, ListableResourceType, ResourceTypeLock, RetrievableResourceType, UpdatableResourceType, ApiError, SdkError, QueryParamsList, QueryParams } from "@commercelayer/sdk"
+import { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 import CommerceLayerUtils from './init'
 import { computeRateLimits, headerRateLimits, type RateLimitInfo } from "./rate_limit"
 import { invalidToken, sleep } from "./common"
@@ -133,9 +134,9 @@ const taskRateLimit = (batch: Batch, task: Task, info?: RateLimitInfo): RateLimi
 
 
 
-const executeTask = async (cl: CommerceLayerClient, task: Task, options: BatchOptions = {}): Promise<TaskResult> => {
+const executeTask = async (cl: CommerceLayerBundle, task: Task, options: BatchOptions = {}): Promise<TaskResult> => {
 
-	const client = cl[task.resourceType as keyof CommerceLayerClient]
+	const client = cl[task.resourceType as keyof CommerceLayerBundle]
 	let out: TaskResult
 
 	try {

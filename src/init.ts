@@ -1,3 +1,4 @@
+import { CommerceLayerClient } from "@commercelayer/sdk"
 import type { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 
 
@@ -21,8 +22,11 @@ class CommerceLayerUtilsConfig {
 const clUtilsConfig = new CommerceLayerUtilsConfig()
 
 
-const CommerceLayerUtils = (cl?: CommerceLayerBundle): CommerceLayerUtilsConfig => {
-	if (cl) clUtilsConfig.sdk = cl
+
+function CommerceLayerUtils(cl: CommerceLayerBundle): CommerceLayerUtilsConfig
+function CommerceLayerUtils(cl: CommerceLayerClient, resources: Record<string, string>): CommerceLayerUtilsConfig
+function CommerceLayerUtils(cl?: CommerceLayerBundle | CommerceLayerClient, resources?: Record<string, string>): CommerceLayerUtilsConfig {
+	if (cl) clUtilsConfig.sdk = cl as CommerceLayerBundle
 	return clUtilsConfig
 }
 

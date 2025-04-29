@@ -20,7 +20,7 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
   let requests = 0
 
   const cl = CommerceLayerUtils().sdk
-  const client = cl[resourceType as keyof CommerceLayerClient] as unknown as ApiResource<R>
+  const client = cl[resourceType] as unknown as ApiResource<R>
 
   let result: ListResponse<R> | null = null
 

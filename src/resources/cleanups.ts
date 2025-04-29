@@ -1,4 +1,4 @@
-import type { Cleanup, CleanupCreate } from "@commercelayer/sdk"
+import type { Cleanup, CleanupCreate, imports } from "@commercelayer/sdk"
 import type { Task, TemplateTask } from "../batch"
 import { type ResourceJobOutput, splitOutputJob, jobsToBatchTasks, type JobOptions, executeJobs } from "../jobs"
 

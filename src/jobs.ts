@@ -72,7 +72,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 
 	const cl = CommerceLayerUtils().sdk
 	const rrr = cl.addRawResponseReader({ headers: true })
-	const resSdk = cl[job.resource_type as ListableResourceType] as ApiResource<ListableResource>
+	const resSdk = cl[job.resource_type as ListableResourceType] as unknown as ApiResource<ListableResource>
 	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
 	let delay = options?.delay

@@ -88,7 +88,7 @@ describe('sdk-utils.all suite', () => {
 
 	test('all.limit', async () => {
 
-		const LIMIT = Math.floor(Math.random() * 100)
+		const LIMIT = Math.floor(Math.random() * 100) || 1
 
 		const skus = await retrieveAll<Sku>('skus', { limit: LIMIT })
 

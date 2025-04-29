@@ -1,4 +1,4 @@
-import { type ApiError, type QueryParamsList, type ListResponse, type Resource, type ResourceUpdate, type ListableResourceType, type UpdatableResourceType, type ApiResource, type DeletableResourceType } from "@commercelayer/sdk"
+import type { ApiError, QueryParamsList, ListResponse, Resource, ResourceUpdate, ListableResourceType, UpdatableResourceType, ApiResource, DeletableResourceType, DeletableResource, ListableResource, UpdatableResource } from "@commercelayer/sdk"
 import CommerceLayerUtils from "./init"
 import { config } from "./config"
 import { type RateLimitInfo, computeRateLimits, headerRateLimits } from "./rate_limit"
@@ -12,7 +12,7 @@ type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'>
 export const retrieveAll = async <R extends Resource>(resourceType: ListableResourceType, params?: AllParams & { limit?: number }): Promise<ListResponse<R>> => {
 
 	const cl = CommerceLayerUtils().sdk
-	const client = cl[resourceType as keyof CommerceLayerBundle]
+	const client = cl[resourceType] as unknown as ApiResource<ListableResource>
 	const rrr = cl.addRawResponseReader({ headers: true })
 
 	let result: ListResponse<R> | null = null
@@ -34,7 +34,7 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 
 		if (rateLimit) await sleep(rateLimit.delay)
 
-		const page = await (client as ApiResource<Resource>).list(allParams) as ListResponse<R>
+		const page = await client.list(allParams) as ListResponse<R>
 		if (result === null) result = page
 		else result.push(...page)
 
@@ -78,7 +78,7 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 
 	const cl = CommerceLayerUtils().sdk
 
-	const client = cl[resourceType as keyof CommerceLayerBundle] as ApiResource<Resource>
+	const client = cl[resourceType] as unknown as ApiResource<UpdatableResource>
 	const rrr = cl.addRawResponseReader({ headers: true })
 
 	const result: UpdateResult = { total: 0, processed: 0, errors: 0, resources: {} }
@@ -150,7 +150,7 @@ type DeleteResult = UpdateResult
 export const deleteAll = async (resourceType: DeletableResourceType, params?: AllParams): Promise<DeleteResult> => {
 
 	const cl = CommerceLayerUtils().sdk
-	const client = cl[resourceType]
+	const client = cl[resourceType] as unknown as ApiResource<DeletableResource>
 	const rrr = cl.addRawResponseReader({ headers: true })
 
 	const result: UpdateResult = { total: 0, processed: 0, errors: 0, resources: {} }
@@ -168,7 +168,7 @@ export const deleteAll = async (resourceType: DeletableResourceType, params?: Al
 		if (lastId) allParams.filters.id_gt = lastId
 
 		if (rateLimit) await sleep(rateLimit.delay)
-		const page = await (client as ApiResource<Resource>).list(allParams)
+		const page = await client.list(allParams)
 		if (!lastId) result.total = page.recordCount
 
 		if (!rateLimit) try {
@@ -186,7 +186,7 @@ export const deleteAll = async (resourceType: DeletableResourceType, params?: Al
 			try {
 
 				if (rateLimit) await sleep(rateLimit.delay)
-				await client.delete(item.id)
+				await (client as any).delete(item.id)
 
 				result.processed++
 				resId.success = true

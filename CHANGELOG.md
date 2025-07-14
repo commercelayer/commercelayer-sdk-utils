@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.4...v2.6.0) (2025-07-14)
+
+
+### Features
+
+* limit max exports size to 5000 items ([e53e452](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e53e452c194b95e5be2fb2687e4c8c17e161d5d8))
+
 ## [2.5.4](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.3...v2.5.4) (2025-04-14)
 
 

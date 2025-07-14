@@ -7,8 +7,8 @@ import { computeRateLimits, headerRateLimits } from "./rate_limit"
 
 
 export type JobOptions = {
-	size?: number			// The output size of the jobs
-	delay?: number			// Delay to use between requests if made in conjunction with other external calls
+	size?: number					// The output size of the jobs
+	delay?: number				// Delay to use between requests if made in conjunction with other external calls
 	queueLength?: number	// Max length of remote queue of jobs
 	noGroupId?: boolean		// groupId won't be added to generated resources
 	noMetadata?: boolean	// Job metadata won't be added to generated resources
@@ -20,7 +20,7 @@ export type JobInputType = 'imports'
 export type JobType = JobOutputType | JobInputType
 
 export type ResourceJob = ResourceJobOutput | ResourceJobInput
-export type ResourceJobOutput = ExportCreate | CleanupCreate
+export type ResourceJobOutput = (ExportCreate | CleanupCreate)
 export type ResourceJobInput = ImportCreate
 
 export type ResourceJobResult = ResourceJobOutputResult | ResourceJobInputResult
@@ -72,7 +72,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 
 	const cl = CommerceLayerUtils().sdk
 	const rrr = cl.addRawResponseReader({ headers: true })
-	const resSdk = cl[job.resource_type as ListableResourceType] as ApiResource<ListableResource>
+	const resSdk = cl[job.resource_type as JobOutputType]
 	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
 	let delay = options?.delay

@@ -7,7 +7,7 @@ export const config = {
 		page_max_size: 25 as QueryPageSize
 	},
 	exports: {
-		max_size: 10_000,
+		max_size: 5_000,	// 10_000, --> https://github.com/commercelayer/support/issues/777
 		queue_size: 10
 	},
 	cleanups: {

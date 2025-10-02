@@ -1,10 +1,10 @@
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { ImportCreate } from '@commercelayer/sdk'
-import { importsToBatchTasks, splitImport } from '../../lib'
-import type { Task, TaskResult } from '../../lib'
+import { importsToBatchTasks, splitImport } from '../../src'
+import type { Task, TaskResult } from '../../src'
 import { initialize } from '../../test/common'
-import { TemplateTask } from '../../lib/batch'
+import { TemplateTask } from '../../src/batch'
 
 
 

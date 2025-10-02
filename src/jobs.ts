@@ -1,7 +1,7 @@
 import CommerceLayerUtils from "./init"
 import { config } from "./config"
 import { type Task, type TemplateTask } from "./batch"
-import type { QueryFilter, ListableResourceType, Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate, ApiResource, ListableResource } from "@commercelayer/sdk"
+import type { QueryFilter, Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate, ResourceTypeLock } from "@commercelayer/sdk"
 import { groupUID, sleep } from "./common"
 import { computeRateLimits, headerRateLimits } from "./rate_limit"
 
@@ -72,7 +72,8 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 
 	const cl = CommerceLayerUtils().sdk
 	const rrr = cl.addRawResponseReader({ headers: true })
-	const resSdk = cl[job.resource_type as ListableResourceType] as ApiResource<ListableResource>
+	// const resSdk = cl[job.resource_type as ListableResourceType] as unknown as ApiResource<ListableResource>
+	const resSdk = CommerceLayerUtils().api(job.resource_type as ResourceTypeLock)
 	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
 	let delay = options?.delay
@@ -188,7 +189,8 @@ export const executeJobs = async <J extends ResourceJobResult>(jobs: ResourceJob
 
 	const cl = CommerceLayerUtils().sdk
 	const rrr = cl.addRawResponseReader({ headers: true })
-	const resSdk = cl[jobType]
+	// const resSdk = cl(jobType]
+	const resSdk = CommerceLayerUtils().api(jobType)
 	const results: J[] = []
 
 	const queueMax = options?.queueLength || config[jobType].queue_size || jobs.length
@@ -199,7 +201,7 @@ export const executeJobs = async <J extends ResourceJobResult>(jobs: ResourceJob
 		// Create job if there are slots available
 		while ((countRunning(results) < queueMax) && (results.length < jobs.length)) {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			const job = await resSdk.create(jobs[results.length] as any)
+			const job = await (resSdk as any).create(jobs[results.length] as any)
 			results.push(job as J)
 			if (delay < 0) {
 				const rateLimits = headerRateLimits(rrr.headers)

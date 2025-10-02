@@ -1,4 +1,4 @@
-import type { ApiResource, CommerceLayerClient, ListableResourceType, QueryParamsList, ListResponse, Resource, QueryPageSize } from '@commercelayer/sdk'
+import type { ApiResource, ListableResourceType, QueryParamsList, ListResponse, Resource, QueryPageSize } from '@commercelayer/sdk'
 import CommerceLayerUtils from './init'
 import { config } from './config'
 import { currentTokenData } from './util'
@@ -20,7 +20,8 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
   let requests = 0
 
   const cl = CommerceLayerUtils().sdk
-  const client = cl[resourceType as keyof CommerceLayerClient] as unknown as ApiResource<R>
+  // const client = cl[resourceType] as unknown as ApiResource<R>
+  const client = CommerceLayerUtils().api(resourceType) as ApiResource<R>
 
   let result: ListResponse<R> | null = null
 

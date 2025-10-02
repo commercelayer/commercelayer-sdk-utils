@@ -1,10 +1,10 @@
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { ExportCreate } from '@commercelayer/sdk'
-import { splitExport, exportsToBatchTasks, executeExport } from '../../lib'
-import type { Task, TaskResult } from '../../lib'
+import CommerceLayerUtils, { splitExport, exportsToBatchTasks, executeExport } from '../../src'
+import type { Task, TaskResult } from '../../src'
 import { initialize, cl } from '../../test/common'
-import { TemplateTask } from '../../lib/batch'
+import { TemplateTask } from '../../src/batch'
 
 
 const resourceType = 'prices'
@@ -25,7 +25,7 @@ describe('sdk-utils.exports suite', () => {
 	test('exports.split', async () => {
 
 		const exportMaxSize = 30
-		const resourceCount = await cl[resourceType].count()
+		const resourceCount = await CommerceLayerUtils().api(resourceType).count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
 		const expCreate = {
@@ -113,7 +113,7 @@ describe('sdk-utils.exports suite', () => {
 
 		const exportMaxSize = 5
 		const queueLength = 5
-		const resourceCount = await cl[resourceType].count()
+		const resourceCount = await CommerceLayerUtils().api(resourceType).count()	// await cl[resourceType].count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
 		const expCreate = {

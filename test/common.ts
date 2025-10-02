@@ -1,8 +1,8 @@
 import getToken from './token'
-import { CommerceLayer, type CommerceLayerBundle } from '@commercelayer/sdk/bundle'
+import { CommerceLayer, type CommerceLayerClient as CommerceLayerClient, skus, customers, exports, cleanups, prices, shipping_categories } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
 import dotenv from 'dotenv'
 import { inspect } from 'util'
-import { CommerceLayerUtils, CommerceLayerUtilsConfig } from '../lib'
+import { CommerceLayerUtils, CommerceLayerUtilsConfig } from '../src'
 
 
 dotenv.config()
@@ -30,18 +30,18 @@ export const TestData = {
 
 
 export let currentAccessToken: string
-export let cl: CommerceLayerBundle
+export let cl: CommerceLayerClient
 export let utils: CommerceLayerUtilsConfig
 
 
 export const initialize = async (): Promise<CommerceLayerUtilsConfig> => {
 	cl = await getClient(true)
-	utils = CommerceLayerUtils(cl)
+	utils = CommerceLayerUtils(cl, [skus, customers, prices, exports, cleanups, shipping_categories])
 	return utils
 }
 
 
-const initClient = async (): Promise<CommerceLayerBundle> => {
+const initClient = async (): Promise<CommerceLayerClient> => {
 
 	const token = await getToken('integration')
 	if (token === null) throw new Error('Unable to get access token')
@@ -59,14 +59,14 @@ const initClient = async (): Promise<CommerceLayerBundle> => {
 }
 
 
-const fakeClient = async (): Promise<CommerceLayerBundle> => {
+const fakeClient = async (): Promise<CommerceLayerClient> => {
 	const accessToken = 'fake-access-token'
 	const client = CommerceLayer({ organization, accessToken, domain })
 	currentAccessToken = accessToken
 	return client
 }
 
-const getClient = (instance?: boolean): Promise<CommerceLayerBundle> => {
+const getClient = (instance?: boolean): Promise<CommerceLayerClient> => {
 	return instance ? initClient() : fakeClient()
 }
 

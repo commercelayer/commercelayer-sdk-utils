@@ -1,5 +1,5 @@
 import { CommerceLayer } from "@commercelayer/sdk/bundle"
-import { CommerceLayerUtils, denormalizePayload, retrieveAll, retrievePage, updateAll, executeExport } from "../lib"
+import { CommerceLayerUtils, denormalizePayload, retrieveAll, retrievePage, updateAll, executeExport } from "../src"
 import type { Order } from "@commercelayer/sdk"
 
 

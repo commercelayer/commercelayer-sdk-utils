@@ -1,10 +1,10 @@
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import { Customer } from '@commercelayer/sdk'
+import { Customer, Customers } from '@commercelayer/sdk'
 import { initialize, cl } from '../test/common'
-import { retrievePage } from '../lib'
-import { sleep } from '../lib/common'
-import { currentTokenData } from '../lib/util'
+import CommerceLayerUtils, { retrievePage } from '../src'
+import { sleep } from '../src/common'
+import { currentTokenData } from '../src/util'
 
 
 
@@ -35,7 +35,7 @@ describe('sdk-utils.page suite', () => {
 
     let pageNumber, pageSize, pageNumberMax, pageSizeMax
 
-    const recordCount = await cl.customers.count()
+    const recordCount = await CommerceLayerUtils().api('customers').count()
 
     if (pageNumberTest || pageNumberMaxTest || pageSizeTest) {
       pageNumber = pageNumberTest
@@ -58,8 +58,8 @@ describe('sdk-utils.page suite', () => {
     const startRecord = (pageSize * (pageNumber - 1)) + 1
     const endRecord = Math.min(recordCount, startRecord + pageSize - 1)
 
-    const startResource = (await cl.customers.list({ pageNumber: startRecord, pageSize: 1, sort: ['email'] })).first()
-    const endResource = (await cl.customers.list({ pageNumber: endRecord, pageSize: 1, sort: ['email'] })).first()
+    const startResource = (await CommerceLayerUtils().api<Customers>('customers').list({ pageNumber: startRecord, pageSize: 1, sort: ['email'] })).first()
+    const endResource = (await CommerceLayerUtils().api<Customers>('customers').list({ pageNumber: endRecord, pageSize: 1, sort: ['email'] })).first()
 
     const firstRetrieved = customers.first()
     const lastRetrieved = customers.last()

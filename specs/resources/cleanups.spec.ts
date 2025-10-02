@@ -2,9 +2,9 @@
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { CleanupCreate } from '@commercelayer/sdk'
-import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../lib'
+import CommerceLayerUtils, { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../src'
 import { initialize, cl } from '../../test/common'
-import { TemplateTask } from '../../lib/batch'
+import { TemplateTask } from '../../src/batch'
 
 
 const resourceType = 'skus'
@@ -26,7 +26,7 @@ describe('sdk-utils.cleanups suite', () => {
 	test('cleanups.split', async () => {
 
 		const cleanupMaxSize = 30
-		const resourceCount = await cl[resourceType].count()
+		const resourceCount = await CommerceLayerUtils().api(resourceType).count()
 		const expectedCleanups = Math.ceil(resourceCount / cleanupMaxSize)
 		
 		const clpCreate = {

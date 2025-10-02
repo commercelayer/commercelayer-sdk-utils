@@ -1,5 +1,4 @@
 import type { ListResponse, Resource, ResourceCreate, ResourceId, ResourceUpdate, ResourcesConfig, CreatableResourceType, DeletableResourceType, ListableResourceType, ResourceTypeLock, RetrievableResourceType, UpdatableResourceType, ApiError, SdkError, QueryParamsList, QueryParams } from "@commercelayer/sdk"
-import { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 import CommerceLayerUtils from './init'
 import { computeRateLimits, headerRateLimits, type RateLimitInfo } from "./rate_limit"
 import { invalidToken, sleep } from "./common"
@@ -134,9 +133,10 @@ const taskRateLimit = (batch: Batch, task: Task, info?: RateLimitInfo): RateLimi
 
 
 
-const executeTask = async (cl: CommerceLayerBundle, task: Task, options: BatchOptions = {}): Promise<TaskResult> => {
+const executeTask = async (task: Task, options: BatchOptions = {}): Promise<TaskResult> => {
 
-	const client = cl[task.resourceType as keyof CommerceLayerBundle]
+	// const client = cl[task.resourceType as keyof CommerceLayerBundle]
+	const client = CommerceLayerUtils().api(task.resourceType)
 	let out: TaskResult
 
 	try {
@@ -240,13 +240,13 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 				if (modRes) task.resource = modRes
 			}
 			lastResult = undefined
-			lastResult = await executeTask(cl, task, batch.options)
+			lastResult = await executeTask(task, batch.options)
 		} catch (err: unknown) {
 			// Refresh access token if needed and re-execute the task
 			if ((err instanceof InvalidTokenError) && batch.options?.refreshToken) {
 				const newAccessToken = await batch.options.refreshToken(err, task)
 				cl.config({ accessToken: newAccessToken })
-				await executeTask(cl, task, batch.options)
+				await executeTask(task, batch.options)
 			} else throw err
 		} finally {
 			batch.running = false

@@ -2,9 +2,9 @@
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { SdkError, Resource } from '@commercelayer/sdk'
 import { currentAccessToken, initClient, initialize, cl } from '../test/common'
-import { executeBatch } from '../lib'
-import type { Batch, InvalidTokenError, Task, TaskResult } from '../lib'
-import type { PrepareResourceResult, TaskResourceParam, TaskResourceResult } from '../lib/batch'
+import CommerceLayerUtils, { executeBatch } from '../src'
+import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
+import type { PrepareResourceResult, TaskResourceParam, TaskResourceResult } from '../src/batch'
 
 
 
@@ -316,13 +316,13 @@ describe('sdk-utils.batch suite', () => {
 
 		await executeBatch({ tasks })
 
-		const c1 = await cl.customers.retrieve(retrieveId)
+		const c1 = await CommerceLayerUtils().api('customers').retrieve(retrieveId)
 		expect(c1.reference).toBe(retrieveId)
 
-		const c2 = await cl.customers.retrieve(listId)
+		const c2 = await CommerceLayerUtils().api('customers').retrieve(listId)
 		expect(c2.reference).toBe(listId)
 
-		const c3 = await cl.customers.retrieve(fixedId)
+		const c3 = await CommerceLayerUtils().api('customers').retrieve(fixedId)
 		expect(c3.reference = c2.id)
 
 	})

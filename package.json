@@ -63,6 +63,9 @@
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
   },
+  "peerDependencies": {
+    "@commercelayer/sdk": "^6 || ^7"
+  },
   "repository": "github:commercelayer/commercelayer-sdk-utils",
   "publishConfig": {
     "access": "public"

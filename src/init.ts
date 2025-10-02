@@ -1,4 +1,4 @@
-import { ApiResource, CommerceLayerClient, CommerceLayerStatic, Resource, ResourceTypeLock } from "@commercelayer/sdk"
+import { CommerceLayerStatic, type ApiResource, type CommerceLayerClient, type Resource, type ResourceTypeLock } from "@commercelayer/sdk"
 
 
 class CommerceLayerUtilsConfig {
@@ -8,7 +8,7 @@ class CommerceLayerUtilsConfig {
 
 
 
-	constructor(cl: CommerceLayerClient, resources?: ApiResource<Resource>[]) {
+	constructor(cl: CommerceLayerClient, resources?: Array<ApiResource<Resource>>) {
 		
 		if ((cl === undefined) || (cl === null)) throw Error('Invalid Commerce Layer client provided')
 		this.#sdk = cl
@@ -23,17 +23,19 @@ class CommerceLayerUtilsConfig {
 		return this.#sdk
 	}
 
-	addResources(...resources: ApiResource<Resource>[]) {
+	addResources(...resources: Array<ApiResource<Resource>>): this {
 		if (!resources || (resources.length === 0)) throw Error('Invalid resources array provided')
 		resources.forEach(r => {
 			this.addResource(r)
 		})
+		return this
 	}
 
-	addResource(resource: ApiResource<Resource>) {
+	addResource(resource: ApiResource<Resource>): this {
 		const type = resource.type()
 		if (CommerceLayerStatic.resources().includes(type)) this.#api[type] = resource
 		else throw Error(`Invalid resource: [${type}]`)
+		return this
 	}
 
 	api<A extends ApiResource<Resource>>(resourceType: ResourceTypeLock): A {
@@ -49,16 +51,16 @@ class CommerceLayerUtilsConfig {
 let clUtilsConfig: CommerceLayerUtilsConfig
 
 
-function CommerceLayerUtils(cl?: CommerceLayerClient, resources?: ApiResource<Resource>[]): CommerceLayerUtilsConfig {
+function CommerceLayerUtils(cl?: CommerceLayerClient, resources?: Array<ApiResource<Resource>>): CommerceLayerUtilsConfig {
 
 	if (cl) {
 
-		const resList: ApiResource<Resource>[] = resources || []
+		const resList: Array<ApiResource<Resource>> = resources || []
 		if (resList.length === 0) {
 			for (const res of cl.resources()) {
 				const resField = CommerceLayerStatic.isSingleton(res as ResourceTypeLock)? res.slice(0, -1) : res
-				const resApi = (cl as any)[resField]
-				if (resApi && resApi.type && CommerceLayerStatic.resources().includes(resApi.type())) resList.push(resApi)
+				const resApi = (cl as any)[resField] as ApiResource<Resource>
+				if (resApi?.type && CommerceLayerStatic.resources().includes(resApi.type())) resList.push(resApi)
 			}
 		}
 		

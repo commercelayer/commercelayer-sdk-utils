@@ -1,4 +1,4 @@
-import type { ApiResource, CommerceLayerClient, ListableResourceType, QueryParamsList, ListResponse, Resource, QueryPageSize } from '@commercelayer/sdk'
+import type { ApiResource, ListableResourceType, QueryParamsList, ListResponse, Resource, QueryPageSize } from '@commercelayer/sdk'
 import CommerceLayerUtils from './init'
 import { config } from './config'
 import { currentTokenData } from './util'

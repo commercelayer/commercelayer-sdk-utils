@@ -1,3 +1,12 @@
+# [3.0.0-beta.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2025-10-02)
+
+
+### Bug Fixes
+
+* fix builder and linter ([386b4b5](https://github.com/commercelayer/commercelayer-sdk-utils/commit/386b4b5601acfcca3f3e774ab0a9927ecb48db4d))
+* fix client for tree shaking ([ce1fac1](https://github.com/commercelayer/commercelayer-sdk-utils/commit/ce1fac100c98cef3bf77aba36f2ff53b97521404))
+* update dependencies ([b2f3a58](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b2f3a5872d13dd31c9eaf07f1a83506a0429a471))
+
 # [3.0.0-beta.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2025-04-11)
 
 

@@ -36,7 +36,8 @@ export let utils: CommerceLayerUtilsConfig
 
 export const initialize = async (): Promise<CommerceLayerUtilsConfig> => {
 	cl = await getClient(true)
-	utils = CommerceLayerUtils(cl, [skus, customers, prices, exports, cleanups, shipping_categories])
+	utils = CommerceLayerUtils(cl)
+	utils.addApiResources(skus, customers, prices, exports, cleanups, shipping_categories)
 	return utils
 }
 

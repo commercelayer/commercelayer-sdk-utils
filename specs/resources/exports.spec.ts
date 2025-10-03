@@ -5,6 +5,7 @@ import CommerceLayerUtils, { splitExport, exportsToBatchTasks, executeExport } f
 import type { Task, TaskResult } from '../../src'
 import { initialize, cl } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
+import { ApiResourceClient } from '../../src/init'
 
 
 const resourceType = 'prices'
@@ -25,7 +26,7 @@ describe('sdk-utils.exports suite', () => {
 	test('exports.split', async () => {
 
 		const exportMaxSize = 30
-		const resourceCount = await CommerceLayerUtils().api(resourceType).count()
+		const resourceCount = await ApiResourceClient(resourceType).count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
 		const expCreate = {
@@ -113,7 +114,7 @@ describe('sdk-utils.exports suite', () => {
 
 		const exportMaxSize = 5
 		const queueLength = 5
-		const resourceCount = await CommerceLayerUtils().api(resourceType).count()	// await cl[resourceType].count()
+		const resourceCount = await ApiResourceClient(resourceType).count()	// await cl[resourceType].count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
 		const expCreate = {

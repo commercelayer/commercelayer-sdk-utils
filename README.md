@@ -12,14 +12,53 @@ A JavaScript Library that makes even more easier to interact with [Commerce Laye
 
 ## Installation and usage
 
+#### SDK v6.x
+
 ```ts
 import CommerceLayer from "@commercelayer/sdk"
-import CommerceLayerUtils, { executeBatch } from '@commercelayer/sdk'
+import CommerceLayerUtils, { executeBatch } from '@commercelayer/sdk-utils'
 
 const cl = CommerceLayer({ organization, accessToken })
 CommerceLayerUtils(cl)
 
 await executeBatch(batch)
+```
+
+#### SDK v7.x
+
+Starting from SDK v7 you can take advantage of the tree shaking using only the resources that you really need.
+
+```ts
+import CommerceLayer, { orders, customers } from "@commercelayer/sdk"
+import CommerceLayerUtils, { retrieveAll } from '@commercelayer/sdk-utils'
+
+const cl = CommerceLayer({ organization, accessToken })
+CommerceLayerUtils(cl, [ orders, customers ])
+
+const skus = await retrieveAll<Sku>('skus')
+```
+
+Resources can also be added later to CommerceLayerUtils configuration.
+
+```ts
+import CommerceLayer, { orders, customers, skus } from "@commercelayer/sdk"
+import CommerceLayerUtils from '@commercelayer/sdk-utils'
+
+const cl = CommerceLayer({ organization, accessToken })
+const utilsConfig = CommerceLayerUtils(cl)
+
+utilsConfig.addResources(orders, customer)
+utilsConfig.addResource(skus)
+```
+
+It is always possible to load the resources all together as with SDK v6 using the special bundle client implementation.
+
+```ts
+import  { CommerceLayer } from "@commercelayer/sdk/bundle"
+import CommerceLayerUtils from '@commercelayer/sdk-utils'
+
+const cl = CommerceLayer({ organization, accessToken })
+const utilsConfig = CommerceLayerUtils(cl)
 ```
 
 ---

@@ -13,7 +13,7 @@ class CommerceLayerUtilsConfig {
 		if ((cl === undefined) || (cl === null)) throw Error('Invalid Commerce Layer client provided')
 		this.#sdk = cl
 
-		if (resources && (resources.length > 0)) this.addResources(...resources)
+		if (resources && (resources.length > 0)) this.addApiResources(...resources)
 
 	}
 
@@ -23,15 +23,15 @@ class CommerceLayerUtilsConfig {
 		return this.#sdk
 	}
 
-	addResources(...resources: Array<ApiResource<Resource>>): this {
+	addApiResources(...resources: Array<ApiResource<Resource>>): this {
 		if (!resources || (resources.length === 0)) throw Error('Invalid resources array provided')
 		resources.forEach(r => {
-			this.addResource(r)
+			this.addApiResource(r)
 		})
 		return this
 	}
 
-	addResource(resource: ApiResource<Resource>): this {
+	addApiResource(resource: ApiResource<Resource>): this {
 		const type = resource.type()
 		if (CommerceLayerStatic.resources().includes(type)) this.#api[type] = resource
 		else throw Error(`Invalid resource: [${type}]`)
@@ -73,7 +73,16 @@ function CommerceLayerUtils(cl?: CommerceLayerClient, resources?: Array<ApiResou
 }
 
 
+function ApiResourceClient<A extends ApiResource<Resource>>(resourceType: ResourceTypeLock): A {
+	return CommerceLayerUtils().api<A>(resourceType)
+}
+
+function ApiSdkUtils(): CommerceLayerClient {
+	return CommerceLayerUtils().sdk
+}
+
+
 
 export default CommerceLayerUtils
 
-export { CommerceLayerUtils, type CommerceLayerUtilsConfig }
+export { CommerceLayerUtils, ApiResourceClient, ApiSdkUtils, type CommerceLayerUtilsConfig }

@@ -5,6 +5,7 @@ import type { CleanupCreate } from '@commercelayer/sdk'
 import CommerceLayerUtils, { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../src'
 import { initialize, cl } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
+import { ApiResourceClient } from '../../src/init'
 
 
 const resourceType = 'skus'
@@ -26,7 +27,7 @@ describe('sdk-utils.cleanups suite', () => {
 	test('cleanups.split', async () => {
 
 		const cleanupMaxSize = 30
-		const resourceCount = await CommerceLayerUtils().api(resourceType).count()
+		const resourceCount = await ApiResourceClient(resourceType).count()
 		const expectedCleanups = Math.ceil(resourceCount / cleanupMaxSize)
 		
 		const clpCreate = {

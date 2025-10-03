@@ -3,6 +3,7 @@ import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { ShippingCategory, Sku, SkuCreate, Skus } from '@commercelayer/sdk'
 import CommerceLayerUtils, { retrieveAll, updateAll, deleteAll } from '../src'
 import { initialize } from '../test/common'
+import { ApiResourceClient } from '../src/init'
 
 
 
@@ -22,7 +23,7 @@ describe('sdk-utils.all suite', () => {
 
 		const skus = await retrieveAll<Sku>('skus')
 
-		const skusCount = await CommerceLayerUtils().api('skus').count()	// await cl.skus.count()
+		const skusCount = await ApiResourceClient('skus').count()	// await cl.skus.count()
 
 		expect(skus.meta.recordCount).toBe(skusCount)
 		expect(skus.length).toBe(skusCount)
@@ -40,7 +41,7 @@ describe('sdk-utils.all suite', () => {
 		if (updRes.errors > 0) expect(updRes.processed + updRes.errors).toBe(updRes.total)
 		else expect(updRes.processed).toBe(updRes.total)
 
-		const skus = await CommerceLayerUtils().api('skus').list({ filters: { reference_origin_eq: reference_origin }})
+		const skus = await ApiResourceClient('skus').list({ filters: { reference_origin_eq: reference_origin }})
 		expect(skus.recordCount).toBe(updRes.total)
 
 	})
@@ -51,8 +52,8 @@ describe('sdk-utils.all suite', () => {
 		let codName = ''
 		const referenceOrigin = String(Date.now())
 
-		const shipCat = (await CommerceLayerUtils().api('shipping_categories').list({ pageSize: 1 })).first() as ShippingCategory
-		const shippingCategory = CommerceLayerUtils().api('shipping_categories').relationship(shipCat) as ShippingCategory
+		const shipCat = (await ApiResourceClient('shipping_categories').list({ pageSize: 1 })).first() as ShippingCategory
+		const shippingCategory = ApiResourceClient('shipping_categories').relationship(shipCat) as ShippingCategory
 		
 		const sku: SkuCreate = {
 			code: codName,
@@ -67,10 +68,10 @@ describe('sdk-utils.all suite', () => {
 			codName = `${referenceOrigin}-}${Math.floor(Math.random() * 1000)}`
 			sku.code = codName
 			sku.name = codName
-			await CommerceLayerUtils().api<Skus>('skus').create(sku)
+			await ApiResourceClient<Skus>('skus').create(sku)
 		}
 
-		let skus = await CommerceLayerUtils().api('skus').list({ filters: { reference_origin_eq: referenceOrigin }})
+		let skus = await ApiResourceClient('skus').list({ filters: { reference_origin_eq: referenceOrigin }})
 		expect(skus.recordCount).toBe(numNewRec)
 		expect(skus.length).toBe(numNewRec)
 
@@ -79,7 +80,7 @@ describe('sdk-utils.all suite', () => {
 		if (delRes.errors > 0) expect(delRes.processed + delRes.errors).toBe(delRes.total)
 		else expect(delRes.processed).toBe(delRes.total)
 
-		skus = await CommerceLayerUtils().api('skus').list({ filters: { reference_origin_eq: referenceOrigin }})
+		skus = await ApiResourceClient('skus').list({ filters: { reference_origin_eq: referenceOrigin }})
 		expect(skus.recordCount).toBe(0)
 		expect(skus.length).toBe(0)
 
@@ -92,7 +93,7 @@ describe('sdk-utils.all suite', () => {
 
 		const skus = await retrieveAll<Sku>('skus', { limit: LIMIT })
 
-		const skusCount = await CommerceLayerUtils().api('skus').count()
+		const skusCount = await ApiResourceClient('skus').count()
 
 		expect(skus.meta.recordCount).toBe(skusCount)
 		expect(skus.length).toBe(LIMIT)

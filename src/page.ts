@@ -96,8 +96,8 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
     if (DEBUG) console.log('firstResource: ' + firstResource?.id)
     if (DEBUG) console.log('lastResource: ' + lastResource?.id)
 
-    const firstResourceIdx = result.findIndex(r => (r.id === firstResource?.id))
-    const lastResourceIdx = result.findIndex(r => (r.id === lastResource?.id))
+    const firstResourceIdx = result.findIndex((r: Resource) => (r.id === firstResource?.id))
+    const lastResourceIdx = result.findIndex((r: Resource) => (r.id === lastResource?.id))
     if (DEBUG) console.log('firstResourceIdx: ' + firstResourceIdx)
     if (DEBUG) console.log('lastResourceIdx: ' + lastResourceIdx)
 

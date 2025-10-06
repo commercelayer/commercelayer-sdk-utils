@@ -15,8 +15,8 @@ importers:
         specifier: ^6.7.2
         version: 6.7.2
       '@commercelayer/sdk':
-        specifier: 7.0.0-rc.14
-        version: 7.0.0-rc.14
+        specifier: ^7.0.0
+        version: 7.0.0
       '@semantic-release/changelog':
         specifier: ^6.0.3
         version: 6.0.3(semantic-release@24.2.9(typescript@5.9.3))
@@ -105,8 +105,8 @@ packages:
     resolution: {integrity: sha512-kk4VqN2iEOreXFq76YqTP83KhBs09Z5Ez9nZNlikXWf5DXzkrOfShqqEwq8ezHjSOlqs4xVyxgQzsEdPP35CeQ==}
     engines: {node: '>=18.0.0'}
 
-  '@commercelayer/sdk@7.0.0-rc.14':
-    resolution: {integrity: sha512-NFTForhuxllU1LOHxZbTO23326fRDBSFYne0SIq+lPj6DwZKlkAkbdATuGxcRhJUMMV7+1PTy0nJdoHMJUCFIg==}
+  '@commercelayer/sdk@7.0.0':
+    resolution: {integrity: sha512-ZggrrALS7NND4mAxxe0lYyGkd9AXv1c0QGRctuV3vOXXvOyRkVIsexxzW6fyQf3O2FTE5B6QohO0WEnet6W63A==}
     engines: {node: '>=22'}
 
   '@esbuild/aix-ppc64@0.25.10':
@@ -3090,7 +3090,7 @@ snapshots:
 
   '@commercelayer/js-auth@6.7.2': {}
 
-  '@commercelayer/sdk@7.0.0-rc.14': {}
+  '@commercelayer/sdk@7.0.0': {}
 
   '@esbuild/aix-ppc64@0.25.10':
     optional: true

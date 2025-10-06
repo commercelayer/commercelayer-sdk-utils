@@ -1,14 +1,14 @@
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import type { ShippingCategory, Sku, SkuCreate, Skus } from '@commercelayer/sdk'
-import CommerceLayerUtils, { retrieveAll, updateAll, deleteAll } from '../src'
+import { shipping_categories, skus, type ShippingCategory, type Sku, type SkuCreate, type Skus } from '@commercelayer/sdk'
+import { retrieveAll, updateAll, deleteAll } from '../src'
 import { initialize } from '../test/common'
 import { ApiResourceClient } from '../src/init'
 
 
 
 beforeAll(async () => {
-	await initialize()
+	await initialize(skus, shipping_categories)
 })
 
 afterEach(() => {

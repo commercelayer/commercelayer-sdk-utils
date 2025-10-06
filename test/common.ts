@@ -1,5 +1,5 @@
 import getToken from './token'
-import { CommerceLayer, type CommerceLayerClient as CommerceLayerClient, skus, customers, exports, cleanups, prices, shipping_categories } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
+import { CommerceLayer, type CommerceLayerClient as CommerceLayerClient, ApiResource, Resource } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
 import dotenv from 'dotenv'
 import { inspect } from 'util'
 import { CommerceLayerUtils, CommerceLayerUtilsConfig } from '../src'
@@ -34,10 +34,10 @@ export let cl: CommerceLayerClient
 export let utils: CommerceLayerUtilsConfig
 
 
-export const initialize = async (): Promise<CommerceLayerUtilsConfig> => {
+export const initialize = async (...resources: ApiResource<Resource>[]): Promise<CommerceLayerUtilsConfig> => {
 	cl = await getClient(true)
 	utils = CommerceLayerUtils(cl)
-	utils.addApiResources(skus, customers, prices, exports, cleanups, shipping_categories)
+	if (resources?.length > 0) utils.addApiResources(...resources)
 	return utils
 }
 

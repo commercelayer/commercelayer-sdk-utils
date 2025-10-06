@@ -1,15 +1,16 @@
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import { Customer, Customers } from '@commercelayer/sdk'
+import { Customer, customers, Customers } from '@commercelayer/sdk'
 import { initialize, cl } from '../test/common'
-import CommerceLayerUtils, { retrievePage } from '../src'
+import { retrievePage } from '../src'
 import { sleep } from '../src/common'
 import { currentTokenData } from '../src/util'
+import { ApiResourceClient } from '../src/init'
 
 
 
 beforeAll(async () => {
-  await initialize()
+  await initialize(customers)
 })
 
 afterEach(() => {
@@ -35,7 +36,7 @@ describe('sdk-utils.page suite', () => {
 
     let pageNumber, pageSize, pageNumberMax, pageSizeMax
 
-    const recordCount = await CommerceLayerUtils().api('customers').count()
+    const recordCount = await ApiResourceClient('customers').count()
 
     if (pageNumberTest || pageNumberMaxTest || pageSizeTest) {
       pageNumber = pageNumberTest
@@ -58,8 +59,8 @@ describe('sdk-utils.page suite', () => {
     const startRecord = (pageSize * (pageNumber - 1)) + 1
     const endRecord = Math.min(recordCount, startRecord + pageSize - 1)
 
-    const startResource = (await CommerceLayerUtils().api<Customers>('customers').list({ pageNumber: startRecord, pageSize: 1, sort: ['email'] })).first()
-    const endResource = (await CommerceLayerUtils().api<Customers>('customers').list({ pageNumber: endRecord, pageSize: 1, sort: ['email'] })).first()
+    const startResource = (await ApiResourceClient<Customers>('customers').list({ pageNumber: startRecord, pageSize: 1, sort: ['email'] })).first()
+    const endResource = (await ApiResourceClient<Customers>('customers').list({ pageNumber: endRecord, pageSize: 1, sort: ['email'] })).first()
 
     const firstRetrieved = customers.first()
     const lastRetrieved = customers.last()

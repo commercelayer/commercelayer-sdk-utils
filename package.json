@@ -23,7 +23,7 @@
     "lint": "eslint ./src --ext .ts",
     "lintspec": "eslint ./specs/ --ext .spec.ts",
     "build": "tsup",
-    "release": "pnpm upgrade && pnpm build && pnpm test",
+    "release": "pnpm upgrade && pnpm generate && pnpm lint && pnpm build && pnpm test",
     "test": "vitest",
     "test-local": "tsx test/spot.ts",
     "test-webhook": "tsx test/webhook.ts",

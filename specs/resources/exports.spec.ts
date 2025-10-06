@@ -1,9 +1,9 @@
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import type { ExportCreate } from '@commercelayer/sdk'
-import CommerceLayerUtils, { splitExport, exportsToBatchTasks, executeExport } from '../../src'
+import { type ExportCreate, exports, prices } from '@commercelayer/sdk'
+import { splitExport, exportsToBatchTasks, executeExport } from '../../src'
 import type { Task, TaskResult } from '../../src'
-import { initialize, cl } from '../../test/common'
+import { initialize } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
 import { ApiResourceClient } from '../../src/init'
 
@@ -12,7 +12,7 @@ const resourceType = 'prices'
 
 
 beforeAll(async () => {
-	await initialize()
+	await initialize(exports, prices)
 })
 
 afterEach(() => {

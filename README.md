@@ -98,7 +98,7 @@ Webhooks
 SDK query helpers
 
 - [IncludeHelper](#includehelper) - build an `include`object to use in query filters
-- [filFilterHelperter](#filterhelper) - build a `filter` object to use in query filters
+- [FilterHelper](#filterhelper) - build a `filter` object to use in query filters
 
 
 ---

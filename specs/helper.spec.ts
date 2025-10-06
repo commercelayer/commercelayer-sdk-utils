@@ -1,27 +1,34 @@
 
 import type { QueryParamsList, QueryInclude, QueryParams, QueryFilter } from '@commercelayer/sdk'
+import { Orders, Customers, customers, customer_groups, orders } from '@commercelayer/sdk'
 import { initialize, cl } from '../test/common'
 import { buildFilter, Filter } from '../src/helpers/filter'
 import { buildInclude, Include } from '../src/helpers/include'
+import { beforeAll } from 'vitest'
+import { afterEach } from 'vitest'
+import { describe } from 'vitest'
+import { test } from 'vitest'
+import { ApiResourceClient } from '../src/init'
+import { expect } from 'vitest'
 
 
 
 
 beforeAll(async () => {
-  await initialize()
+  await initialize(customers, customer_groups, orders)
 })
 
 afterEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.helper suite', () => {
 
-  it('helper.include', async () => {
+  test('helper.include', async () => {
 
-    const order = (await cl.orders.list({ include: buildInclude(Include.orders.customer, Include.orders.market) })).first()
+    const order = (await ApiResourceClient<Orders>('orders').list({ include: buildInclude(Include.orders.customer, Include.orders.market) })).first()
 
     expect(order).toBeDefined()
     expect(order?.market).toBeDefined()
@@ -32,7 +39,7 @@ describe('sdk-utils.helper suite', () => {
   })
 
 
-  it('helper.include.variants', async () => {
+  test('helper.include.variants', async () => {
 
    const include: QueryInclude = [ 'market', 'customer', 'customer.customer_group' ]
 
@@ -56,7 +63,7 @@ describe('sdk-utils.helper suite', () => {
   })
 
 
-  it('helper.filter', async () => {
+  test('helper.filter', async () => {
 
     const reference = String(Date.now())
     const reference_origin = 'sdk-utils-specs'
@@ -68,15 +75,17 @@ describe('sdk-utils.helper suite', () => {
     
     Include.customers.customer_group.addTo(params)
 
-    const customer = (await cl.customers.list(params)).first()
+    const clCustomers = ApiResourceClient<Customers>('customers')
+
+    const customer = (await clCustomers.list(params)).first()
     if (customer && customer.customer_group) {
-      await cl.customers.update({ id: customer.id, reference, reference_origin })
-      await cl.customer_groups.update({ id: customer.customer_group.id, reference, reference_origin })
+      await clCustomers.update({ id: customer.id, reference, reference_origin })
+      await ApiResourceClient('customer_groups').update({ id: customer.customer_group.id, reference, reference_origin })
     }
 
     const fc = Filter.customers
 
-    const c = (await cl.customers.list({ filters: buildFilter(
+    const c = (await clCustomers.list({ filters: buildFilter(
       fc.reference.eq(reference),
       fc.customer_group.reference.eq(reference),
       fc.reference_origin.not_null()
@@ -90,7 +99,7 @@ describe('sdk-utils.helper suite', () => {
   })
 
 
-  it('helper.filter.variants', async () => {
+  test('helper.filter.variants', async () => {
 
     const filter: QueryFilter = {
       number_eq: 'pippo',

@@ -1,8 +1,8 @@
 
 
 import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import type { CleanupCreate } from '@commercelayer/sdk'
-import CommerceLayerUtils, { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../src'
+import { skus, type CleanupCreate } from '@commercelayer/sdk'
+import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../src'
 import { initialize, cl } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
 import { ApiResourceClient } from '../../src/init'
@@ -13,7 +13,7 @@ const resourceType = 'skus'
 
 
 beforeAll(async () => {
-	await initialize()
+	await initialize(skus)
 })
 
 afterEach(() => {

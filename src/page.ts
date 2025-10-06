@@ -1,4 +1,4 @@
-import type { ApiResource, CommerceLayerClient, ListableResourceType, QueryParamsList, ListResponse, Resource, QueryPageSize } from '@commercelayer/sdk'
+import type { ApiResource, ListableResourceType, QueryParamsList, ListResponse, Resource, QueryPageSize } from '@commercelayer/sdk'
 import CommerceLayerUtils from './init'
 import { config } from './config'
 import { currentTokenData } from './util'
@@ -20,7 +20,8 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
   let requests = 0
 
   const cl = CommerceLayerUtils().sdk
-  const client = cl[resourceType as keyof CommerceLayerClient] as unknown as ApiResource<R>
+  // const client = cl[resourceType] as unknown as ApiResource<R>
+  const client = CommerceLayerUtils().api(resourceType) as ApiResource<R>
 
   let result: ListResponse<R> | null = null
 
@@ -95,8 +96,8 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
     if (DEBUG) console.log('firstResource: ' + firstResource?.id)
     if (DEBUG) console.log('lastResource: ' + lastResource?.id)
 
-    const firstResourceIdx = result.findIndex(r => (r.id === firstResource?.id))
-    const lastResourceIdx = result.findIndex(r => (r.id === lastResource?.id))
+    const firstResourceIdx = result.findIndex((r: Resource) => (r.id === firstResource?.id))
+    const lastResourceIdx = result.findIndex((r: Resource) => (r.id === lastResource?.id))
     if (DEBUG) console.log('firstResourceIdx: ' + firstResourceIdx)
     if (DEBUG) console.log('lastResourceIdx: ' + lastResourceIdx)
 

@@ -1,8 +1,11 @@
 
-import type { CleanupCreate } from '@commercelayer/sdk'
-import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult } from '../../src'
+
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
+import { skus, type CleanupCreate } from '@commercelayer/sdk'
+import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../src'
 import { initialize, cl } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
+import { ApiResourceClient } from '../../src/init'
 
 
 const resourceType = 'skus'
@@ -10,21 +13,21 @@ const resourceType = 'skus'
 
 
 beforeAll(async () => {
-	await initialize()
+	await initialize(skus)
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.cleanups suite', () => {
 
-	it('cleanups.split', async () => {
+	test('cleanups.split', async () => {
 
 		const cleanupMaxSize = 30
-		const resourceCount = await cl[resourceType].count()
+		const resourceCount = await ApiResourceClient(resourceType).count()
 		const expectedCleanups = Math.ceil(resourceCount / cleanupMaxSize)
 		
 		const clpCreate = {
@@ -61,7 +64,7 @@ describe('sdk-utils.cleanups suite', () => {
 	})
 
 
-	it('cleanups.toBatchTasks', async () => {
+	test('cleanups.toBatchTasks', async () => {
 
 		const cleanups: CleanupCreate[] = [
 			{ resource_type: resourceType },

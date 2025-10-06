@@ -1,4 +1,5 @@
 
+import { expect, test, describe } from 'vitest'
 import type { Resource } from '@commercelayer/sdk'
 import { denormalizePayload, webhooks } from '../../src'
 
@@ -21,7 +22,7 @@ afterEach(() => {
 
 describe('sdk-utils.webhooks suite', () => {
 
-	it('webhooks.parse', async () => {
+	test('webhooks.parse', async () => {
 
 		const type = 'shipments'
 		const reference = 'myReferenceId'
@@ -56,7 +57,7 @@ describe('sdk-utils.webhooks suite', () => {
 	})
 
 
-	it('webhooks.signature.ok', async () => {
+	test('webhooks.signature.ok', async () => {
 
 		const payload = PAYLOAD
 		const signature = 'DO/Gqc6yf2jXAl41IV01cbT3jhbpq7AGoyrz3zDmSM4='
@@ -68,7 +69,7 @@ describe('sdk-utils.webhooks suite', () => {
 	})
 
 
-	it('webhooks.signature.ko', async () => {
+	test('webhooks.signature.ko', async () => {
 
 		const payload = PAYLOAD
 		const signature = 'DO/Gqc6yf2jXAl41IV01cbT3jhbpq7AGoyrz3zDmSM4='
@@ -89,7 +90,7 @@ describe('sdk-utils.webhooks suite', () => {
 	})
 
 
-	it('webhooks.parse.payload', async () => {
+	test('webhooks.parse.payload', async () => {
 
 		const payload = PAYLOAD
 		

@@ -1,25 +1,27 @@
 
-import type { SdkError, Resource } from '@commercelayer/sdk'
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
+import { type SdkError, type Resource, customers } from '@commercelayer/sdk'
 import { currentAccessToken, initClient, initialize, cl } from '../test/common'
 import { executeBatch } from '../src'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
 import type { PrepareResourceResult, TaskResourceParam, TaskResourceResult } from '../src/batch'
+import { ApiResourceClient } from '../src/init'
 
 
 
 beforeAll(async () => {
-	await initialize()
+	await initialize(customers)
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.batch suite', () => {
 
-	it('batch.no_errors', async () => {
+	test('batch.no_errors', async () => {
 
 		const tasksNumber = 3
 		const tasks: Task[] = []
@@ -44,7 +46,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.error.halt', async () => {
+	test('batch.error.halt', async () => {
 
 		const tasksNumber = 3
 		const errorTask = 2
@@ -85,7 +87,7 @@ describe('sdk-utils.batch suite', () => {
 
 
 	
-	it('batch.error.no_halt', async () => {
+	test('batch.error.no_halt', async () => {
 
 		const tasksNumber = 3
 		const errorTask = 2
@@ -122,7 +124,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.tokenCallback', async () => {
+	test('batch.tokenCallback', async () => {
 
 		const tasksNumber = 2
 		const tasks: Task[] = []
@@ -145,7 +147,7 @@ describe('sdk-utils.batch suite', () => {
 		}
 
 		const b: Batch = { tasks, options: { refreshToken: tokenRefresh} }
-		if (b.options) jest.spyOn(b.options, 'refreshToken')
+		if (b.options) vi.spyOn(b.options, 'refreshToken')
 
 		await executeBatch(b).catch(err => {})
 
@@ -157,12 +159,12 @@ describe('sdk-utils.batch suite', () => {
 
 		expect(b.options?.refreshToken).toBeCalled()
 
-		jest.resetAllMocks()
+		vi.resetAllMocks()
 
 	})
 
 
-	it('batch.errorCallback', async () => {
+	test('batch.errorCallback', async () => {
 
 		const tasksNumber = 3
 		const errorTask = 2
@@ -182,7 +184,7 @@ describe('sdk-utils.batch suite', () => {
 				onFailure: { errorHandler: errorCallback }
 			}
 			tasks.push(task)
-			if (task.onFailure) jest.spyOn(task.onFailure, 'errorHandler')
+			if (task.onFailure) vi.spyOn(task.onFailure, 'errorHandler')
 		}
 
 		await executeBatch({ tasks }).catch(err => {})
@@ -204,12 +206,12 @@ describe('sdk-utils.batch suite', () => {
 			}
 		}
 
-		jest.resetAllMocks()
+		vi.resetAllMocks()
 
 	})
 
 
-	it('batch.successCallback', async () => {
+	test('batch.successCallback', async () => {
 
 		const tasksNumber = 3
 		const tasks: Task[] = []
@@ -228,7 +230,7 @@ describe('sdk-utils.batch suite', () => {
 				onSuccess: { callback: successCallback }
 			}
 			tasks.push(task)
-			if (task.onSuccess) jest.spyOn(task.onSuccess, 'callback')
+			if (task.onSuccess) vi.spyOn(task.onSuccess, 'callback')
 		}
 
 		await executeBatch({ tasks }).catch(err => {})
@@ -240,12 +242,12 @@ describe('sdk-utils.batch suite', () => {
 			expect(t.onSuccess?.callback).toBeCalled()
 		}
 
-		jest.resetAllMocks()
+		vi.resetAllMocks()
 
 	})
 
 
-	it('batch.prepareResource', async () => {
+	test('batch.prepareResource', async () => {
 
 		const fixedId = 'nBrBhrAmqn'
 		let retrieveId: string = ''
@@ -315,13 +317,13 @@ describe('sdk-utils.batch suite', () => {
 
 		await executeBatch({ tasks })
 
-		const c1 = await cl.customers.retrieve(retrieveId)
+		const c1 = await ApiResourceClient('customers').retrieve(retrieveId)
 		expect(c1.reference).toBe(retrieveId)
 
-		const c2 = await cl.customers.retrieve(listId)
+		const c2 = await ApiResourceClient('customers').retrieve(listId)
 		expect(c2.reference).toBe(listId)
 
-		const c3 = await cl.customers.retrieve(fixedId)
+		const c3 = await ApiResourceClient('customers').retrieve(fixedId)
 		expect(c3.reference = c2.id)
 
 	})

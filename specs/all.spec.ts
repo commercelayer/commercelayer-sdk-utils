@@ -1,28 +1,29 @@
 
-import type { ShippingCategory, Sku, SkuCreate } from '@commercelayer/sdk'
-import { retrieveAll, updateAll } from '../src'
-import { initialize, cl } from '../test/common'
-import { deleteAll } from '../src/all'
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
+import { shipping_categories, skus, type ShippingCategory, type Sku, type SkuCreate, type Skus } from '@commercelayer/sdk'
+import { retrieveAll, updateAll, deleteAll } from '../src'
+import { initialize } from '../test/common'
+import { ApiResourceClient } from '../src/init'
 
 
 
 beforeAll(async () => {
-	await initialize()
+	await initialize(skus, shipping_categories)
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.all suite', () => {
 
-	it('all.retrieveAll', async () => {
+	test('all.retrieveAll', async () => {
 
 		const skus = await retrieveAll<Sku>('skus')
 
-		const skusCount = await cl.skus.count()
+		const skusCount = await ApiResourceClient('skus').count()	// await cl.skus.count()
 
 		expect(skus.meta.recordCount).toBe(skusCount)
 		expect(skus.length).toBe(skusCount)
@@ -30,7 +31,7 @@ describe('sdk-utils.all suite', () => {
 	})
 
 
-	it('all.updateAll', async () => {
+	test('all.updateAll', async () => {
 
 		const reference_origin = String(Date.now())
 		const sku = { reference_origin }
@@ -40,19 +41,19 @@ describe('sdk-utils.all suite', () => {
 		if (updRes.errors > 0) expect(updRes.processed + updRes.errors).toBe(updRes.total)
 		else expect(updRes.processed).toBe(updRes.total)
 
-		const skus = await cl.skus.list({ filters: { reference_origin_eq: reference_origin }})
+		const skus = await ApiResourceClient('skus').list({ filters: { reference_origin_eq: reference_origin }})
 		expect(skus.recordCount).toBe(updRes.total)
 
 	})
 
 
-	it('all.deleteAll', async () => {
+	test('all.deleteAll', async () => {
 
 		let codName = ''
 		const referenceOrigin = String(Date.now())
 
-		const shipCat = (await cl.shipping_categories.list({ pageSize: 1 })).first() as ShippingCategory
-		const shippingCategory = cl.shipping_categories.relationship(shipCat)
+		const shipCat = (await ApiResourceClient('shipping_categories').list({ pageSize: 1 })).first() as ShippingCategory
+		const shippingCategory = ApiResourceClient('shipping_categories').relationship(shipCat) as ShippingCategory
 		
 		const sku: SkuCreate = {
 			code: codName,
@@ -67,10 +68,10 @@ describe('sdk-utils.all suite', () => {
 			codName = `${referenceOrigin}-}${Math.floor(Math.random() * 1000)}`
 			sku.code = codName
 			sku.name = codName
-			await cl.skus.create(sku)
+			await ApiResourceClient<Skus>('skus').create(sku)
 		}
 
-		let skus = await cl.skus.list({ filters: { reference_origin_eq: referenceOrigin }})
+		let skus = await ApiResourceClient('skus').list({ filters: { reference_origin_eq: referenceOrigin }})
 		expect(skus.recordCount).toBe(numNewRec)
 		expect(skus.length).toBe(numNewRec)
 
@@ -79,20 +80,20 @@ describe('sdk-utils.all suite', () => {
 		if (delRes.errors > 0) expect(delRes.processed + delRes.errors).toBe(delRes.total)
 		else expect(delRes.processed).toBe(delRes.total)
 
-		skus = await cl.skus.list({ filters: { reference_origin_eq: referenceOrigin }})
+		skus = await ApiResourceClient('skus').list({ filters: { reference_origin_eq: referenceOrigin }})
 		expect(skus.recordCount).toBe(0)
 		expect(skus.length).toBe(0)
 
 	})
 
 
-	it('all.limit', async () => {
+	test('all.limit', async () => {
 
-		const LIMIT = Math.floor(Math.random() * 100)
+		const LIMIT = Math.floor(Math.random() * 100) || 1
 
 		const skus = await retrieveAll<Sku>('skus', { limit: LIMIT })
 
-		const skusCount = await cl.skus.count()
+		const skusCount = await ApiResourceClient('skus').count()
 
 		expect(skus.meta.recordCount).toBe(skusCount)
 		expect(skus.length).toBe(LIMIT)

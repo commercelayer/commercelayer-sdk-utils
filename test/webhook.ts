@@ -1,4 +1,4 @@
-import CommerceLayer from "@commercelayer/sdk"
+import { CommerceLayer } from "@commercelayer/sdk/bundle"
 import { CommerceLayerUtils, webhooks } from "../src"
 
 import dotenv from 'dotenv'

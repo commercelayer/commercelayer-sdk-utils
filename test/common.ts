@@ -1,15 +1,13 @@
-
 import getToken from './token'
-import CommerceLayer, { CommerceLayerClient } from '@commercelayer/sdk'
+import { CommerceLayer, type CommerceLayerClient as CommerceLayerClient, ApiResource, Resource } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
 import dotenv from 'dotenv'
 import { inspect } from 'util'
-import { CommerceLayerUtils } from '../src'
-import { CommerceLayerUtilsConfig } from '../src/init'
+import { CommerceLayerUtils, CommerceLayerUtilsConfig } from '../src'
 
 
 dotenv.config()
 
-const GLOBAL_TIMEOUT = 15000
+export const GLOBAL_TIMEOUT = 15000
 
 const organization = process.env.CL_SDK_ORGANIZATION as string
 const domain = process.env.CL_SDK_DOMAIN as string
@@ -36,22 +34,31 @@ export let cl: CommerceLayerClient
 export let utils: CommerceLayerUtilsConfig
 
 
-export const initialize = async (): Promise<CommerceLayerUtilsConfig> => {
+export const initialize = async (...resources: ApiResource<Resource>[]): Promise<CommerceLayerUtilsConfig> => {
 	cl = await getClient(true)
 	utils = CommerceLayerUtils(cl)
+	if (resources?.length > 0) utils.addApiResources(...resources)
 	return utils
 }
 
+
 const initClient = async (): Promise<CommerceLayerClient> => {
+
 	const token = await getToken('integration')
 	if (token === null) throw new Error('Unable to get access token')
+
 	const accessToken = token.accessToken
 	currentAccessToken = accessToken
+	
 	const client = CommerceLayer({ organization, accessToken, domain })
 	client.config({ timeout: GLOBAL_TIMEOUT })
-	jest.setTimeout(GLOBAL_TIMEOUT)
+
+	try { vi.setConfig({ testTimeout: GLOBAL_TIMEOUT })  } catch(err: any) {}
+
 	return client
+
 }
+
 
 const fakeClient = async (): Promise<CommerceLayerClient> => {
 	const accessToken = 'fake-access-token'
@@ -61,7 +68,7 @@ const fakeClient = async (): Promise<CommerceLayerClient> => {
 }
 
 const getClient = (instance?: boolean): Promise<CommerceLayerClient> => {
-	return instance ?  initClient() : fakeClient()
+	return instance ? initClient() : fakeClient()
 }
 
 const printObject = (obj: unknown): string => {

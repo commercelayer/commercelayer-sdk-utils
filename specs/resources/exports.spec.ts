@@ -1,31 +1,32 @@
 
-import type { ExportCreate } from '@commercelayer/sdk'
-import { splitExport, exportsToBatchTasks } from '../../src'
+import { expect, test, beforeAll, afterEach, describe } from 'vitest'
+import { type ExportCreate, exports, prices } from '@commercelayer/sdk'
+import { splitExport, exportsToBatchTasks, executeExport } from '../../src'
 import type { Task, TaskResult } from '../../src'
-import { initialize, cl } from '../../test/common'
+import { initialize } from '../../test/common'
 import { TemplateTask } from '../../src/batch'
-import { executeExport } from '../../src/resources/exports'
+import { ApiResourceClient } from '../../src/init'
 
 
 const resourceType = 'prices'
 
 
 beforeAll(async () => {
-	await initialize()
+	await initialize(exports, prices)
 })
 
 afterEach(() => {
-	jest.resetAllMocks()
+	vi.resetAllMocks()
 })
 
 
 
 describe('sdk-utils.exports suite', () => {
 
-	it('exports.split', async () => {
+	test('exports.split', async () => {
 
 		const exportMaxSize = 30
-		const resourceCount = await cl[resourceType].count()
+		const resourceCount = await ApiResourceClient(resourceType).count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
 		const expCreate = {
@@ -71,7 +72,7 @@ describe('sdk-utils.exports suite', () => {
 	})
 
 
-	it('exports.toBatchTasks', async () => {
+	test('exports.toBatchTasks', async () => {
 
 		const exports: ExportCreate[] = [
 			{ resource_type: resourceType },
@@ -109,11 +110,11 @@ describe('sdk-utils.exports suite', () => {
 	})
 
 
-	it('exports.execute', async () => {
+	test('exports.execute', async () => {
 
 		const exportMaxSize = 5
 		const queueLength = 5
-		const resourceCount = await cl[resourceType].count()
+		const resourceCount = await ApiResourceClient(resourceType).count()	// await cl[resourceType].count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
 		const expCreate = {
@@ -137,6 +138,6 @@ describe('sdk-utils.exports suite', () => {
 
 		// console.log(exports[0].metadata?.group_id)
 
-	})
+	}, 0)
 
 })

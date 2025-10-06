@@ -1,3 +1,39 @@
+# [3.0.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.6.0...v3.0.0) (2025-10-06)
+
+
+### Bug Fixes
+
+* fix builder and linter ([386b4b5](https://github.com/commercelayer/commercelayer-sdk-utils/commit/386b4b5601acfcca3f3e774ab0a9927ecb48db4d))
+* fix client for tree shaking ([ce1fac1](https://github.com/commercelayer/commercelayer-sdk-utils/commit/ce1fac100c98cef3bf77aba36f2ff53b97521404))
+* fix dependencies ([989b8fd](https://github.com/commercelayer/commercelayer-sdk-utils/commit/989b8fdacb215f99a44bf19217429a124c8031d6))
+* fix enum types export ([f490795](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f490795c6c3d723946827656e0e53fc2d45e2712))
+* fix helper spec ([a64df23](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a64df23ae478ab6e3ef7ff4d5478bff51c99c30a))
+* fix helpers spec ([f60952c](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f60952c44ebc7e0feb77dea150555c5787754903))
+* fix initialization ([b584bdf](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b584bdf546698a2d809b29a093f56a8b9127a420))
+* fix merge errors ([02c591a](https://github.com/commercelayer/commercelayer-sdk-utils/commit/02c591a1f7b7e0d56f1ca17f1531872bc5222f82))
+* fix specs initialization ([5cb0b1a](https://github.com/commercelayer/commercelayer-sdk-utils/commit/5cb0b1a175119f476fc74c67ae8b8d9b7a3eeadc))
+* update dependencies ([b2f3a58](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b2f3a5872d13dd31c9eaf07f1a83506a0429a471))
+* update dependencies ([c2de5bf](https://github.com/commercelayer/commercelayer-sdk-utils/commit/c2de5bf64251adc555676b55526f971e3e12a706))
+* update dependencies ([881b3a6](https://github.com/commercelayer/commercelayer-sdk-utils/commit/881b3a6eca845a5fbcbd6a1886ad0ed46d59eac0))
+* update dependencies ([2844823](https://github.com/commercelayer/commercelayer-sdk-utils/commit/2844823966315d7d7371d4ee4c536a03d6537d4e))
+
+
+### Features
+
+* add initial version of include and filter helpers ([204bdd6](https://github.com/commercelayer/commercelayer-sdk-utils/commit/204bdd650776defe843509daa963bb22d725d01d))
+* improve filter helper ([39bee69](https://github.com/commercelayer/commercelayer-sdk-utils/commit/39bee69d280afb2641e34a63e098baf95fd77fa0))
+* improve helpers usability ([5b22045](https://github.com/commercelayer/commercelayer-sdk-utils/commit/5b220451d126154dad2783514187b15c3e4ac55e))
+* put helpers in separate files ([91437a9](https://github.com/commercelayer/commercelayer-sdk-utils/commit/91437a92d3b82008c8a4fe7c3c2ced43d70d2d06))
+* simplify utils configuration and initialization ([44d101b](https://github.com/commercelayer/commercelayer-sdk-utils/commit/44d101bd48ceb9a4fe2a5eaca75f4170c2474464))
+* split package entries ([c532278](https://github.com/commercelayer/commercelayer-sdk-utils/commit/c53227836ffd953e308e342f54a236343d31820f))
+* support for sdk7 ([6984e04](https://github.com/commercelayer/commercelayer-sdk-utils/commit/6984e04233b95daf7c6f7eac2d7677644b053f50))
+* update resources ([e5e5469](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e5e5469cd9247ccf4695529b3adfce274783bb6a))
+
+
+### BREAKING CHANGES
+
+* remove support for sdk6 and node 20
+
 # [3.0.0-beta.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2025-10-02)
 
 ### Bug Fixes

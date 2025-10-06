@@ -20,7 +20,6 @@ export default defineConfig(() => ({
   watch,
   target: 'es2024',
   entry: ['src/**/*.ts'],
-  outDir: 'lib',
   splitting: true,
   shims: true,
   cjsInterop: true,

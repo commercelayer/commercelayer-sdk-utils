@@ -19,7 +19,7 @@ class CommerceLayerUtilsConfig {
 
 
 	get sdk(): CommerceLayerClient {
-		if (!this.#sdk) throw Error('CommerceLayer Utils not initialized')
+		if (!this.#sdk) throw Error('CommerceLayerUtils not initialized with SDK instance')
 		return this.#sdk
 	}
 

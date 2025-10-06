@@ -1,6 +1,5 @@
 # [3.0.0-beta.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0-beta.2...v3.0.0-beta.3) (2025-10-02)
 
-
 ### Bug Fixes
 
 * fix builder and linter ([386b4b5](https://github.com/commercelayer/commercelayer-sdk-utils/commit/386b4b5601acfcca3f3e774ab0a9927ecb48db4d))
@@ -9,17 +8,6 @@
 
 # [3.0.0-beta.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0-beta.1...v3.0.0-beta.2) (2025-04-11)
 
-
-### Bug Fixes
-
-* fix helper spec ([a64df23](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a64df23ae478ab6e3ef7ff4d5478bff51c99c30a))
-
-# [3.0.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.2...v3.0.0-beta.1) (2025-04-11)
-
-
-### Bug Fixes
-
-* fix burst rate limit ([a4fd956](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a4fd956ce485282d148a78bbe8770b1173ffcf9a))
 * fix enum types export ([f490795](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f490795c6c3d723946827656e0e53fc2d45e2712))
 * update dependencies ([c2de5bf](https://github.com/commercelayer/commercelayer-sdk-utils/commit/c2de5bf64251adc555676b55526f971e3e12a706))
 
@@ -29,9 +17,38 @@
 * support for sdk7 ([6984e04](https://github.com/commercelayer/commercelayer-sdk-utils/commit/6984e04233b95daf7c6f7eac2d7677644b053f50))
 
 
+# [3.0.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.2...v3.0.0-beta.1) (2025-04-11)
+
+
+* add sdk 6 client check ([837ea85](https://github.com/commercelayer/commercelayer-sdk-utils/commit/837ea8500fa7468e4c4c305c8deecb250df09d34))
+
 ### BREAKING CHANGES
 
-* remove support for sdk6 and node 20
+* remove support for node 20
+
+# [2.6.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.4...v2.6.0) (2025-07-14)
+
+
+### Features
+
+* limit max exports size to 5000 items ([e53e452](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e53e452c194b95e5be2fb2687e4c8c17e161d5d8))
+
+
+## [2.5.4](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.3...v2.5.4) (2025-04-14)
+
+
+### Bug Fixes
+
+* fix helper spec ([a64df23](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a64df23ae478ab6e3ef7ff4d5478bff51c99c30a))
+
+
+## [2.5.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.2...v2.5.3) (2025-04-01)
+
+
+### Bug Fixes
+
+* fix burst rate limit ([a4fd956](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a4fd956ce485282d148a78bbe8770b1173ffcf9a))
+
 
 ## [2.5.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.5.1...v2.5.2) (2025-03-31)
 

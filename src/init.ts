@@ -55,19 +55,11 @@ function CommerceLayerUtils(cl?: CommerceLayerClient, resources?: Array<ApiResou
 
 	if (cl) {
 
-		const resList: Array<ApiResource<Resource>> = resources || []
-		if (resList.length === 0) {
-			for (const res of cl.resources()) {
-				const resField = CommerceLayerStatic.isSingleton(res as ResourceTypeLock)? res.slice(0, -1) : res
-				const resApi = (cl as any)[resField] as ApiResource<Resource>
-				if (resApi?.type && CommerceLayerStatic.resources().includes(resApi.type())) resList.push(resApi)
-			}
-		}
-		
-		clUtilsConfig = new CommerceLayerUtilsConfig(cl, resList)
-		
-	} else if (resources) throw new Error('CommerceLayer SDK is required to initialize resources')
-	
+const CommerceLayerUtils = (cl?: CommerceLayerClient): CommerceLayerUtilsConfig => {
+	if (cl) {
+		if (!cl.application) throw Error('Only SDK 6 client is supported')
+		else clUtilsConfig.sdk = cl
+	}
 	return clUtilsConfig
 
 }

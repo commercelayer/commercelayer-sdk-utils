@@ -1433,6 +1433,7 @@ class ShipmentFilterFields<M extends Types.FilterMaster> extends ResourceFilterF
 	get packing_at(): Types.FilterOperator<M> { return this.addField('packing_at') }
 	get ready_to_ship_at(): Types.FilterOperator<M> { return this.addField('ready_to_ship_at') }
 	get shipped_at(): Types.FilterOperator<M> { return this.addField('shipped_at') }
+	get delivered_at(): Types.FilterOperator<M> { return this.addField('delivered_at') }
 	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
 	get shipping_category(): ShippingCategoryFilterFields<M> { return new ShippingCategoryFilterFields<M>(this.master, this.operator, this.addRelationship('shipping_category')) }
 	get inventory_stock_location(): InventoryStockLocationFilterFields<M> { return new InventoryStockLocationFilterFields<M>(this.master, this.operator, this.addRelationship('inventory_stock_location')) }

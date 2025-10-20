@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0...v3.1.0) (2025-10-13)
+
+
+### Features
+
+* update helpers ([f293c7d](https://github.com/commercelayer/commercelayer-sdk-utils/commit/f293c7d277de4fdb0a7f930e93388ca7bb9fdd68))
+
 # [3.0.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.6.0...v3.0.0) (2025-10-06)
 
 

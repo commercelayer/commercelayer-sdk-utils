@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.1.0...v3.2.0) (2025-10-20)
+
+
+### Features
+
+* add support for Node v20 ([5f51798](https://github.com/commercelayer/commercelayer-sdk-utils/commit/5f51798bf2b41786b33aa5f913edfa0546c245e1))
+
 # [3.1.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.0.0...v3.1.0) (2025-10-13)
 
 

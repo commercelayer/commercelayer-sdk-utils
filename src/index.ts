@@ -29,6 +29,9 @@ export { exportz, splitExport, exportsToBatchTasks, executeExport } from './reso
 // Imports
 export { imports, splitImport, importsToBatchTasks, executeImport } from './resources/imports'
 
+// Orders
+export { orders, availableFreeSkus } from './resources/orders'
+
 // Webhooks
 export { webhooks, denormalizePayload, checkSignature } from './resources/webhooks'
 

@@ -172,6 +172,7 @@ class BuyXPayYPromotionFilterFields<M extends Types.FilterMaster> extends Resour
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get x(): Types.FilterOperator<M> { return this.addField('x') }
 	get y(): Types.FilterOperator<M> { return this.addField('y') }
@@ -477,6 +478,7 @@ class ExternalPromotionFilterFields<M extends Types.FilterMaster> extends Resour
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get circuit_state(): Types.FilterOperator<M> { return this.addField('circuit_state') }
 	get circuit_failure_count(): Types.FilterOperator<M> { return this.addField('circuit_failure_count') }
@@ -518,6 +520,7 @@ class FixedAmountPromotionFilterFields<M extends Types.FilterMaster> extends Res
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
 	get promotion_rules(): PromotionRuleFilterFields<M> { return new PromotionRuleFilterFields<M>(this.master, this.operator, this.addRelationship('promotion_rules')) }
@@ -545,6 +548,7 @@ class FixedPricePromotionFilterFields<M extends Types.FilterMaster> extends Reso
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
 	get promotion_rules(): PromotionRuleFilterFields<M> { return new PromotionRuleFilterFields<M>(this.master, this.operator, this.addRelationship('promotion_rules')) }
@@ -593,6 +597,7 @@ class FreeGiftPromotionFilterFields<M extends Types.FilterMaster> extends Resour
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
 	get promotion_rules(): PromotionRuleFilterFields<M> { return new PromotionRuleFilterFields<M>(this.master, this.operator, this.addRelationship('promotion_rules')) }
@@ -620,6 +625,7 @@ class FreeShippingPromotionFilterFields<M extends Types.FilterMaster> extends Re
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
 	get promotion_rules(): PromotionRuleFilterFields<M> { return new PromotionRuleFilterFields<M>(this.master, this.operator, this.addRelationship('promotion_rules')) }
@@ -1162,6 +1168,7 @@ class PercentageDiscountPromotionFilterFields<M extends Types.FilterMaster> exte
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
 	get promotion_rules(): PromotionRuleFilterFields<M> { return new PromotionRuleFilterFields<M>(this.master, this.operator, this.addRelationship('promotion_rules')) }
@@ -1278,6 +1285,7 @@ class PromotionFilterFields<M extends Types.FilterMaster> extends ResourceFilter
 	get expires_at(): Types.FilterOperator<M> { return this.addField('expires_at') }
 	get total_usage_limit(): Types.FilterOperator<M> { return this.addField('total_usage_limit') }
 	get total_usage_count(): Types.FilterOperator<M> { return this.addField('total_usage_count') }
+	get total_usage_reached(): Types.FilterOperator<M> { return this.addField('total_usage_reached') }
 	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get market(): MarketFilterFields<M> { return new MarketFilterFields<M>(this.master, this.operator, this.addRelationship('market')) }
 	get promotion_rules(): PromotionRuleFilterFields<M> { return new PromotionRuleFilterFields<M>(this.master, this.operator, this.addRelationship('promotion_rules')) }

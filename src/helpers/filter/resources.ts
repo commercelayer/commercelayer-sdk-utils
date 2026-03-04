@@ -39,6 +39,7 @@ export type AdjustmentFilter = AdjustmentFilterFields<AdjustmentFilter>
 
 class AdyenGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 	get adyen_payments(): AdyenPaymentFilterFields<M> { return new AdyenPaymentFilterFields<M>(this.master, this.operator, this.addRelationship('adyen_payments')) }
 }
@@ -94,6 +95,7 @@ export type AvalaraAccountFilter = AvalaraAccountFilterFields<AvalaraAccountFilt
 
 class AxerveGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 	get axerve_payments(): AxervePaymentFilterFields<M> { return new AxervePaymentFilterFields<M>(this.master, this.operator, this.addRelationship('axerve_payments')) }
 }
@@ -128,6 +130,7 @@ export type BingGeocoderFilter = BingGeocoderFilterFields<BingGeocoderFilter>
 
 class BraintreeGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 	get braintree_payments(): BraintreePaymentFilterFields<M> { return new BraintreePaymentFilterFields<M>(this.master, this.operator, this.addRelationship('braintree_payments')) }
 }
@@ -225,6 +228,7 @@ export type CarrierAccountFilter = CarrierAccountFilterFields<CarrierAccountFilt
 
 class CheckoutComGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 	get checkout_com_payments(): CheckoutComPaymentFilterFields<M> { return new CheckoutComPaymentFilterFields<M>(this.master, this.operator, this.addRelationship('checkout_com_payments')) }
 }
@@ -451,6 +455,7 @@ export type ExportFilter = ExportFilterFields<ExportFilter>
 
 class ExternalGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get circuit_state(): Types.FilterOperator<M> { return this.addField('circuit_state') }
 	get circuit_failure_count(): Types.FilterOperator<M> { return this.addField('circuit_failure_count') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
@@ -759,6 +764,7 @@ export type InventoryStockLocationFilter = InventoryStockLocationFilterFields<In
 
 class KlarnaGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 	get klarna_payments(): KlarnaPaymentFilterFields<M> { return new KlarnaPaymentFilterFields<M>(this.master, this.operator, this.addRelationship('klarna_payments')) }
 }
@@ -842,6 +848,7 @@ export type LinkFilter = LinkFilterFields<LinkFilter>
 
 class ManualGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 }
 
@@ -1109,6 +1116,7 @@ export type ParcelLineItemFilter = ParcelLineItemFilterFields<ParcelLineItemFilt
 
 class PaymentGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 }
 
@@ -1143,6 +1151,7 @@ export type PaymentOptionFilter = PaymentOptionFilterFields<PaymentOptionFilter>
 
 class PaypalGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 	get paypal_payments(): PaypalPaymentFilterFields<M> { return new PaypalPaymentFilterFields<M>(this.master, this.operator, this.addRelationship('paypal_payments')) }
 }
@@ -1362,7 +1371,6 @@ class ResourceErrorFilterFields<M extends Types.FilterMaster> extends ResourceFi
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
 	get code(): Types.FilterOperator<M> { return this.addField('code') }
 	get message(): Types.FilterOperator<M> { return this.addField('message') }
-	get resource(): ResourceFilterFields<M> { return new ResourceFilterFields<M>(this.master, this.operator, this.addRelationship('resource')) } // polymorphic
 }
 
 export type ResourceErrorFilter = ResourceErrorFilterFields<ResourceErrorFilter>
@@ -1410,6 +1418,7 @@ export type ReturnLineItemFilter = ReturnLineItemFilterFields<ReturnLineItemFilt
 
 class SatispayGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 	get satispay_payments(): SatispayPaymentFilterFields<M> { return new SatispayPaymentFilterFields<M>(this.master, this.operator, this.addRelationship('satispay_payments')) }
 }
@@ -1418,6 +1427,7 @@ export type SatispayGatewayFilter = SatispayGatewayFilterFields<SatispayGatewayF
 
 
 class SatispayPaymentFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
+	get payment_id(): Types.FilterOperator<M> { return this.addField('payment_id') }
 	get flow(): Types.FilterOperator<M> { return this.addField('flow') }
 	get status(): Types.FilterOperator<M> { return this.addField('status') }
 	get order(): OrderFilterFields<M> { return new OrderFilterFields<M>(this.master, this.operator, this.addRelationship('order')) }
@@ -1703,6 +1713,7 @@ export type StoreFilter = StoreFilterFields<StoreFilter>
 
 class StripeGatewayFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
+	get disabled_at(): Types.FilterOperator<M> { return this.addField('disabled_at') }
 	get payment_methods(): PaymentMethodFilterFields<M> { return new PaymentMethodFilterFields<M>(this.master, this.operator, this.addRelationship('payment_methods')) }
 }
 

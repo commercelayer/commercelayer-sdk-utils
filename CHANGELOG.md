@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.2.3...v3.3.0) (2026-03-04)
+
+
+### Features
+
+* update resources to schema 7.9.13 ([815d351](https://github.com/commercelayer/commercelayer-sdk-utils/commit/815d35112f2d1b59f91f6d37130cfe0af98dea7d))
+
 ## [3.2.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.2.2...v3.2.3) (2025-12-05)
 
 

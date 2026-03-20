@@ -1,4 +1,4 @@
-import { CommerceLayerStatic, type ApiResource, type CommerceLayerClient, type Resource, type ResourceTypeLock } from "@commercelayer/sdk"
+import { type ApiResource, type CommerceLayerClient, CommerceLayerStatic, type Resource, type ResourceTypeLock } from "@commercelayer/sdk"
 
 
 class CommerceLayerUtilsConfig {
@@ -85,4 +85,4 @@ function ApiSdkUtils(): CommerceLayerClient {
 
 export default CommerceLayerUtils
 
-export { CommerceLayerUtils, ApiResourceClient, ApiSdkUtils, type CommerceLayerUtilsConfig }
+export { ApiResourceClient, ApiSdkUtils, CommerceLayerUtils, type CommerceLayerUtilsConfig }

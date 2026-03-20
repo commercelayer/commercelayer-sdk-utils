@@ -1,14 +1,14 @@
-import type { Resource, ResourceType, Address, Authorization, Bundle, BuyXPayYPromotion, Capture, Cleanup, Coupon, Customer, CustomerAddress, CustomerPasswordReset, CustomerSubscription, Export, ExternalPromotion, FixedAmountPromotion, FixedPricePromotion, FreeGiftPromotion, FreeShippingPromotion, GiftCard, Import, InStockSubscription, LineItem, LineItemOption, Order, OrderCopy, OrderSubscription, Parcel, PercentageDiscountPromotion, PriceFrequencyTier, PriceVolumeTier, Promotion, RecurringOrderCopy, Refund, Return, Shipment, ShippingWeightTier, Sku, SkuOption, StockTransfer, Transaction, Void, AvalaraAccount } from "@commercelayer/sdk"
+import crypto from 'node:crypto'
+import type { Address, Authorization, AvalaraAccount, Bundle, BuyXPayYPromotion, Capture, Cleanup, Coupon, Customer, CustomerAddress, CustomerPasswordReset, CustomerSubscription, Export, ExternalPromotion, FixedAmountPromotion, FixedPricePromotion, FreeGiftPromotion, FreeShippingPromotion, GiftCard, Import, InStockSubscription, LineItem, LineItemOption, Order, OrderCopy, OrderSubscription, Parcel, PercentageDiscountPromotion, PriceFrequencyTier, PriceVolumeTier, Promotion, RecurringOrderCopy, Refund, Resource, ResourceType, Return, Shipment, ShippingWeightTier, Sku, SkuOption, StockTransfer, Transaction, Void } from "@commercelayer/sdk"
 import { CommerceLayerStatic } from '@commercelayer/sdk'
 import type { DocWithData, Included, ResourceIdentifierObject, ResourceObject } from 'jsonapi-typescript'
-import crypto from 'crypto'
 import { config } from "../config"
 
 
 
 const checkPayload = (payload: string): DocWithData => {
 
-	let resource
+	let resource: any
 
 	// Check JSON
 	try { resource = JSON.parse(payload) }
@@ -24,7 +24,7 @@ const checkPayload = (payload: string): DocWithData => {
 
 export const denormalizePayload = <R extends Resource>(payload: string): R | R[] => {
 
-	let denormalized
+	let denormalized: any
 
 	const resource = checkPayload(payload)
 

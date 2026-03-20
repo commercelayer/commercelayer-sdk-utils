@@ -7,7 +7,7 @@ export type * from './resources'
 
 export const buildFilter = (...filters: NonEmptyArray<QueryFilter>): QueryFilter => {
   const filter: QueryFilter = {}
-  filters.forEach(f => Object.assign(filter, f))
+  filters.forEach(f => { Object.assign(filter, f) })
   return filter
 }
 

@@ -12,7 +12,9 @@ export const groupUID = (): string => {
 
 	const firstPart = Math.trunc(Math.random() * 46_656)
 	const secondPart = Math.trunc(Math.random() * 46_656)
+	// biome-ignore lint/style/useTemplate: more freadable as concatenated string
 	const firstPartStr = ('000' + firstPart.toString(36)).slice(-3)
+	// biome-ignore lint/style/useTemplate: more freadable as concatenated string
 	const secondPartStr = ('000' + secondPart.toString(36)).slice(-3)
   
 	return firstPartStr + secondPartStr

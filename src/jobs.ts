@@ -1,8 +1,8 @@
-import CommerceLayerUtils from "./init"
-import { config } from "./config"
-import { type Task, type TemplateTask } from "./batch"
-import type { QueryFilter, Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate, ResourceTypeLock } from "@commercelayer/sdk"
+import type { Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate, QueryFilter, ResourceTypeLock } from "@commercelayer/sdk"
+import type { Task, TemplateTask } from "./batch"
 import { groupUID, sleep } from "./common"
+import { config } from "./config"
+import CommerceLayerUtils from "./init"
 import { computeRateLimits, headerRateLimits } from "./rate_limit"
 
 

@@ -1,7 +1,7 @@
-import type { ListResponse, Resource, ResourceCreate, ResourceId, ResourceUpdate, ResourcesConfig, CreatableResourceType, DeletableResourceType, ListableResourceType, ResourceTypeLock, RetrievableResourceType, UpdatableResourceType, ApiError, SdkError, QueryParamsList, QueryParams } from "@commercelayer/sdk"
+import type { ApiError, CreatableResourceType, DeletableResourceType, ListableResourceType, ListResponse, QueryParams, QueryParamsList, Resource, ResourceCreate, ResourceId, ResourcesConfig, ResourceTypeLock, ResourceUpdate, RetrievableResourceType, SdkError, UpdatableResourceType } from "@commercelayer/sdk"
+import { invalidToken, sleep } from "./common"
 import CommerceLayerUtils from './init'
 import { computeRateLimits, headerRateLimits, type RateLimitInfo } from "./rate_limit"
-import { invalidToken, sleep } from "./common"
 
 /*
 createAll: 		KO, can be done with imports
@@ -166,7 +166,7 @@ const executeTask = async (task: Task, options: BatchOptions = {}): Promise<Task
 		if (!task.onSuccess) task.onSuccess = {}
 		const success = task.onSuccess
 		success.result = out
-		if (success.callback) try { await success.callback(success.result, task) } catch (err) { }
+		if (success.callback) try { await success.callback(success.result, task) } catch (_err) { }
 
 		return out
 
@@ -178,7 +178,7 @@ const executeTask = async (task: Task, options: BatchOptions = {}): Promise<Task
 		const failure = task.onFailure
 		failure.error = error as SdkError
 		let halt = options.haltOnError || failure.haltOnError
-		if (failure.errorHandler) try { halt = halt || await failure.errorHandler(failure.error, task) } catch (err) { }
+		if (failure.errorHandler) try { halt = halt || await failure.errorHandler(failure.error, task) } catch (_err) { }
 		if (halt) throw error
 
 	} finally {
@@ -188,7 +188,7 @@ const executeTask = async (task: Task, options: BatchOptions = {}): Promise<Task
 }
 
 
-const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult): undefined => {
+const resolvePlaceholders: PrepareResourceCallback = (_resource: TaskResourceParam, _last: TaskResourceResult): undefined => {
 	/*
 	if (!last) return
 	let lastResult: Resource
@@ -236,7 +236,7 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 				try {
 					if (task.resource && task.prepareResource) modRes = await task.prepareResource(task.resource, lastResult)
 					else modRes = await resolvePlaceholders(task.resource, lastResult)
-				} catch (e: any) { modRes = undefined }
+				} catch (_e: any) { modRes = undefined }
 				if (modRes) task.resource = modRes
 			}
 			lastResult = undefined
@@ -258,7 +258,7 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 			const rateLimits = headerRateLimits(rrr.headers)
 			rateLimit = computeRateLimits(rateLimits, task, batch.tasks)
 			taskRateLimit(batch, task, rateLimit)
-		} catch (error: any) { }
+		} catch (_error: any) { }
 
 	}
 

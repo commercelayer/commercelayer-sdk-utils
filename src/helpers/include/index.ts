@@ -1,5 +1,5 @@
 import type { NonEmptyArray } from '../../types'
-import { type ResourceInclude } from './base'
+import type { ResourceInclude } from './base'
 import { IncludeHelper } from './resources'
 
 

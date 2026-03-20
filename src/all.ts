@@ -1,8 +1,8 @@
-import type { ApiError, QueryParamsList, ListResponse, Resource, ResourceUpdate, ListableResourceType, UpdatableResourceType, DeletableResourceType } from "@commercelayer/sdk"
-import CommerceLayerUtils from "./init"
-import { config } from "./config"
-import { type RateLimitInfo, computeRateLimits, headerRateLimits } from "./rate_limit"
+import type { ApiError, DeletableResourceType, ListableResourceType, ListResponse, QueryParamsList, Resource, ResourceUpdate, UpdatableResourceType } from "@commercelayer/sdk"
 import { sleep } from "./common"
+import { config } from "./config"
+import CommerceLayerUtils from "./init"
+import { computeRateLimits, headerRateLimits, type RateLimitInfo } from "./rate_limit"
 
 
 type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'>
@@ -44,7 +44,7 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 			const rateLimits = headerRateLimits(rrr.headers)
 			rateLimit = computeRateLimits(rateLimits, resourceType as string, result.pageCount)
 			if (rateLimit) cl.removeRawResponseReader()
-		} catch (error: any) {}
+		} catch (_error: any) {}
 
 	} while ( result.length < Math.min((recordLimit || result.recordCount), result.recordCount) )
 
@@ -104,7 +104,7 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 			const rateLimits = headerRateLimits(rrr.headers)
 			rateLimit = computeRateLimits(rateLimits, resourceType, (result.total + page.pageCount))
 			if (rateLimit) cl.removeRawResponseReader()
-		} catch (error: any) {}
+		} catch (_error: any) {}
 
 
 		for (const item of page) {
@@ -177,7 +177,7 @@ export const deleteAll = async (resourceType: DeletableResourceType, params?: Al
 			const rateLimits = headerRateLimits(rrr.headers)
 			rateLimit = computeRateLimits(rateLimits, resourceType, (result.total + page.pageCount))
 			if (rateLimit) cl.removeRawResponseReader()
-		} catch (error: any) {}
+		} catch (_error: any) {}
 
 
 		for (const item of page) {

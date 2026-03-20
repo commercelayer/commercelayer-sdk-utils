@@ -1,6 +1,6 @@
-import type { ApiResource, ListableResourceType, QueryParamsList, ListResponse, Resource, QueryPageSize } from '@commercelayer/sdk'
-import CommerceLayerUtils from './init'
+import type { ApiResource, ListableResourceType, ListResponse, QueryPageSize, QueryParamsList, Resource } from '@commercelayer/sdk'
 import { config } from './config'
+import CommerceLayerUtils from './init'
 import { currentTokenData } from './util'
 
 
@@ -35,18 +35,18 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
   // Page size check
   const tokenData = currentTokenData(cl.currentAccessToken)
   const maxPageSize = tokenData.test ? MAX_PAGE_SIZE_TEST : MAX_PAGE_SIZE_LIVE
-  if (DEBUG) console.log('maxPageSize: ' + maxPageSize)
+  if (DEBUG) console.log(`maxPageSize: ${maxPageSize}`)
 
   const pageSize = Math.max(1, params?.pageSize || 1)
-  if (DEBUG) console.log('pageSize: ' + pageSize)
+  if (DEBUG) console.log(`pageSize: ${pageSize}`)
   if (pageSize > maxPageSize) throw new Error(`Page size exceeds the maximum allowed of ${maxPageSize}: [${pageSize}]`)
 
   // Page number check
-  if (DEBUG) console.log('requests: ' + ++requests)
+  if (DEBUG) console.log(`requests: ${++requests}`)
   const recordCount = await client.count(queryParams)
-  if (DEBUG) console.log('recordCount: ' + recordCount)
+  if (DEBUG) console.log(`recordCount: ${recordCount}`)
   const pageNumber = Math.max(1, params?.pageNumber || 1)
-  if (DEBUG) console.log('pageNumber: ' + pageNumber)
+  if (DEBUG) console.log(`pageNumber: ${pageNumber}`)
   const maxPageNumber = Math.ceil(recordCount / pageSize)
   if (pageNumber > maxPageNumber) throw new Error(`Page number greater than the last page number ${maxPageNumber}: [${pageNumber}]`)
 
@@ -54,7 +54,7 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
   if (pageSize <= config.api.page_max_size) { // Page size lower than maximum api page size
     queryParams.pageSize = pageSize as QueryPageSize
     queryParams.pageNumber = pageNumber
-    if (DEBUG) console.log('requests: ' + ++requests)
+    if (DEBUG) console.log(`requests: ${++requests}`)
     result = await (client as unknown as ApiResource<R>).list(queryParams)
   } else {
 
@@ -63,20 +63,20 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
 
     const recordStart = pageSize * (pageNumber - 1) + 1
     const recordEnd = Math.min((recordStart + pageSize - 1), recordCount)
-    if (DEBUG) console.log('recordStart: ' + recordStart)
-    if (DEBUG) console.log('recordEnd: ' + recordEnd)
+    if (DEBUG) console.log(`recordStart: ${recordStart}`)
+    if (DEBUG) console.log(`recordEnd: ${recordEnd}`)
 
     const pageStartApi = Math.ceil(recordStart / pageSizeApi)
     const pageEndApi = Math.ceil(recordEnd / pageSizeApi)
-    if (DEBUG) console.log('pageStartApi: ' + pageStartApi)
-    if (DEBUG) console.log('pageEndApi: ' + pageEndApi)
+    if (DEBUG) console.log(`pageStartApi: ${pageStartApi}`)
+    if (DEBUG) console.log(`pageEndApi: ${pageEndApi}`)
 
 
     for (let pageCurrApi = pageStartApi; pageCurrApi <= pageEndApi; pageCurrApi++) {
 
       queryParams.pageNumber = pageCurrApi
 
-      if (DEBUG) console.log('FOR requests: ' + ++requests)
+      if (DEBUG) console.log(`FOR requests: ${++requests}`)
       const page = await client.list(queryParams)
       if (result === null) result = page
       else result.push(...page)
@@ -85,26 +85,26 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
 
 
     if (!result) throw new Error(`Error retrieving ${resourceType} page`)
-    if (DEBUG) console.log('result.length: ' + result.length)
+    if (DEBUG) console.log(`result.length: ${result.length}`)
     if (result.length === 0) return result
 
 
-    if (DEBUG) console.log('requests: ' + ++requests)
-    if (DEBUG) console.log('requests: ' + ++requests)
+    if (DEBUG) console.log(`requests: ${++requests}`)
+    if (DEBUG) console.log(`requests: ${++requests}`)
     const firstResource = (await client.list({ ...queryParams, ...{ pageNumber: recordStart, pageSize: 1 } })).first()
     const lastResource = (await client.list({ ...queryParams, ...{ pageNumber: recordEnd, pageSize: 1 } })).first()
-    if (DEBUG) console.log('firstResource: ' + firstResource?.id)
-    if (DEBUG) console.log('lastResource: ' + lastResource?.id)
+    if (DEBUG) console.log(`firstResource: ${firstResource?.id}`)
+    if (DEBUG) console.log(`lastResource: ${lastResource?.id}`)
 
     const firstResourceIdx = result.findIndex((r: Resource) => (r.id === firstResource?.id))
     const lastResourceIdx = result.findIndex((r: Resource) => (r.id === lastResource?.id))
-    if (DEBUG) console.log('firstResourceIdx: ' + firstResourceIdx)
-    if (DEBUG) console.log('lastResourceIdx: ' + lastResourceIdx)
+    if (DEBUG) console.log(`firstResourceIdx: ${firstResourceIdx}`)
+    if (DEBUG) console.log(`lastResourceIdx: ${lastResourceIdx}`)
 
     result.splice(lastResourceIdx + 1)
-    if (DEBUG) console.log('End trim - result.length: ' + result.length)
+    if (DEBUG) console.log(`End trim - result.length: ${result.length}`)
     result.splice(0, firstResourceIdx)
-    if (DEBUG) console.log('Start trim - result.length: ' + result.length)
+    if (DEBUG) console.log(`Start trim - result.length: ${result.length}`)
 
 
     // Fix result.meta info
@@ -114,7 +114,7 @@ export const retrievePage = async <R extends Resource>(resourceType: ListableRes
     meta.pageCount = maxPageNumber
     if (DEBUG) console.log(meta)
 
-    if (DEBUG) console.log('requests: ' + ++requests)
+    if (DEBUG) console.log(`requests: ${++requests}`)
 
   }
 

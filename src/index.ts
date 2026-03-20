@@ -1,17 +1,15 @@
 
-// Init
-export { default, CommerceLayerUtils } from './init'
-export type { CommerceLayerUtilsConfig } from './init'
 
 // All
-export { all, retrieveAll, updateAll, deleteAll } from './all'
-
-// Page
-export { retrievePage } from './page'
-
+export { all, deleteAll, retrieveAll, updateAll } from './all'
+export type { Batch, BatchOptions, InvalidTokenError, Task, TaskResult } from './batch'
 // Batch
 export { batch, executeBatch } from './batch'
-export type { Batch, BatchOptions, Task, TaskResult, InvalidTokenError } from './batch'
+export type { CommerceLayerUtilsConfig } from './init'
+// Init
+export { CommerceLayerUtils, default } from './init'
+// Page
+export { retrievePage } from './page'
 
 // Util
 export { headerRateLimits } from './rate_limit'
@@ -21,16 +19,16 @@ export { currentTokenData as tokenData } from './util'
 // RESOURCES //
 
 // Cleanups
-export { cleanups, splitCleanup, cleanupsToBatchTasks, executeCleanup } from './resources/cleanups'
+export { cleanups, cleanupsToBatchTasks, executeCleanup, splitCleanup } from './resources/cleanups'
 
 // Exports
-export { exportz, splitExport, exportsToBatchTasks, executeExport } from './resources/exports'
+export { executeExport, exportsToBatchTasks, exportz, splitExport } from './resources/exports'
 
 // Imports
-export { imports, splitImport, importsToBatchTasks, executeImport } from './resources/imports'
+export { executeImport, imports, importsToBatchTasks, splitImport } from './resources/imports'
 
 // Webhooks
-export { webhooks, denormalizePayload, checkSignature } from './resources/webhooks'
+export { checkSignature, denormalizePayload, webhooks } from './resources/webhooks'
 
 // Helpers
 // export { include, Include, buildInclude } from './helpers/include'

@@ -1,4 +1,4 @@
-import { type QueryParams } from "@commercelayer/sdk"
+import type { QueryParams } from "@commercelayer/sdk"
 
 
 class IncludePath {

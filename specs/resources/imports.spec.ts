@@ -1,10 +1,10 @@
 
-import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import type { ImportCreate } from '@commercelayer/sdk'
-import { importsToBatchTasks, splitImport } from '../../src'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import type { Task, TaskResult } from '../../src'
+import { importsToBatchTasks, splitImport } from '../../src'
+import type { TemplateTask } from '../../src/batch'
 import { initialize } from '../../test/common'
-import { TemplateTask } from '../../src/batch'
 
 
 
@@ -28,7 +28,7 @@ describe('sdk-utils.imports suite', () => {
 		const inputs: Record<string, any>[] = []
 
 		for (let i = 0; i < numInputs; i++) {
-			inputs.push({ attr: 'input_' + i })
+			inputs.push({ attr: `input_${i}` })
 		  }
 		
 		  const ic: ImportCreate = {
@@ -58,7 +58,7 @@ describe('sdk-utils.imports suite', () => {
 
 		const task: TemplateTask = {
 			onSuccess: {
-				callback: (output: TaskResult, task: Task): void => {}
+				callback: (_output: TaskResult, _task: Task): void => {}
 			},
 			onFailure: {
 				haltOnError: true

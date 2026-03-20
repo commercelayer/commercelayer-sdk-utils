@@ -1,11 +1,11 @@
 
 
-import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import { skus, type CleanupCreate } from '@commercelayer/sdk'
-import { splitCleanup, cleanupsToBatchTasks, type Task, type TaskResult,  } from '../../src'
-import { initialize, cl } from '../../test/common'
-import { TemplateTask } from '../../src/batch'
+import { type CleanupCreate, skus } from '@commercelayer/sdk'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
+import { cleanupsToBatchTasks, splitCleanup, type Task, type TaskResult,  } from '../../src'
+import type { TemplateTask } from '../../src/batch'
 import { ApiResourceClient } from '../../src/init'
+import { initialize } from '../../test/common'
 
 
 const resourceType = 'skus'
@@ -43,20 +43,20 @@ describe('sdk-utils.cleanups suite', () => {
 			expect(clp.filters).toBeDefined()
 			if (!clp.filters) clp.filters = {}
 			if (i === 0) {
-				expect(clp.filters['id_gt']).toBeUndefined()
-				expect(clp.filters['id_lteq']).toBeDefined()
+				expect(clp.filters.id_gt).toBeUndefined()
+				expect(clp.filters.id_lteq).toBeDefined()
 			} else {
 				if (i < cleanups.length-1) {
 					const clpPre = cleanups[i-1]
 					if (!clpPre.filters) clpPre.filters = {}
-					expect(clp.filters['id_gt']).toBe(clpPre.filters['id_lteq'])
-					expect(clp.filters['id_gt']).not.toBe(clp.filters['id_lteq'])
+					expect(clp.filters.id_gt).toBe(clpPre.filters.id_lteq)
+					expect(clp.filters.id_gt).not.toBe(clp.filters.id_lteq)
 				} else
 				if (i === cleanups.length-1) {
 					const clpPre = cleanups[i-1]
 					if (!clpPre.filters) clpPre.filters = {}
-					expect(clp.filters['id_gt']).toBe(clpPre.filters['id_lteq'])
-					expect(clp.filters['id_lteq']).toBeUndefined()
+					expect(clp.filters.id_gt).toBe(clpPre.filters.id_lteq)
+					expect(clp.filters.id_lteq).toBeUndefined()
 				}
 			}
 		}
@@ -74,7 +74,7 @@ describe('sdk-utils.cleanups suite', () => {
 
 		const task: TemplateTask = {
 			onSuccess: {
-				callback: (output: TaskResult, task: Task): void => {}
+				callback: (_output: TaskResult, _task: Task): void => {}
 			},
 			onFailure: {
 				haltOnError: true

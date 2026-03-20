@@ -1,11 +1,11 @@
 
-import { expect, test, beforeAll, afterEach, describe } from 'vitest'
 import { type ExportCreate, exports, prices } from '@commercelayer/sdk'
-import { splitExport, exportsToBatchTasks, executeExport } from '../../src'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import type { Task, TaskResult } from '../../src'
-import { initialize } from '../../test/common'
-import { TemplateTask } from '../../src/batch'
+import { executeExport, exportsToBatchTasks, splitExport } from '../../src'
+import type { TemplateTask } from '../../src/batch'
 import { ApiResourceClient } from '../../src/init'
+import { initialize } from '../../test/common'
 
 
 const resourceType = 'prices'
@@ -44,27 +44,27 @@ describe('sdk-utils.exports suite', () => {
 			expect(exp.filters).toBeDefined()
 			if (!exp.filters) exp.filters = {}
 			if (i === 0) {
-				expect(exp.filters['id_gt']).toBeUndefined()
-				expect(exp.filters['id_lteq']).toBeDefined()
+				expect(exp.filters.id_gt).toBeUndefined()
+				expect(exp.filters.id_lteq).toBeDefined()
 			} else {
 				if (i === exports.length-1) {
 					const expPre = exports[i-1]
 					if (!expPre.filters) expPre.filters = {}
-					expect(exp.filters['id_gt']).toBe(expPre.filters['id_lteq'])
-					expect(exp.filters['id_lteq']).toBeUndefined()
+					expect(exp.filters.id_gt).toBe(expPre.filters.id_lteq)
+					expect(exp.filters.id_lteq).toBeUndefined()
 				} else 
 				if (i < exports.length-1) {
 					const expPre = exports[i-1]
 					if (!expPre.filters) expPre.filters = {}
-					expect(exp.filters['id_gt']).toBe(expPre.filters['id_lteq'])
-					expect(exp.filters['id_gt']).not.toBe(exp.filters['id_lteq'])
+					expect(exp.filters.id_gt).toBe(expPre.filters.id_lteq)
+					expect(exp.filters.id_gt).not.toBe(exp.filters.id_lteq)
 				}
 			}
 
 			expect(exp.metadata).toBeDefined()
 			if (exp.metadata) {
-				expect(exp.metadata['group_id']).toBeDefined
-				expect(exp.metadata['progress_number']).toBeDefined()
+				expect(exp.metadata.group_id).toBeDefined
+				expect(exp.metadata.progress_number).toBeDefined()
 			}
 
 		}
@@ -82,7 +82,7 @@ describe('sdk-utils.exports suite', () => {
 
 		const task: TemplateTask = {
 			onSuccess: {
-				callback: (output: TaskResult, task: Task): void => {}
+				callback: (_output: TaskResult, _task: Task): void => {}
 			},
 			onFailure: {
 				haltOnError: true
@@ -130,8 +130,8 @@ describe('sdk-utils.exports suite', () => {
 			expect(exp.reference).toBeDefined()
 			expect(exp.metadata).toBeDefined()
 			if (exp.metadata) {
-				expect(exp.metadata['group_id']).toBeDefined
-				expect(exp.metadata['progress_number']).toBeDefined()
+				expect(exp.metadata.group_id).toBeDefined
+				expect(exp.metadata.progress_number).toBeDefined()
 			}
 			expect(['completed', 'interrupted']).toContain(exp.status)
 		}

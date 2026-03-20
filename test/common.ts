@@ -1,8 +1,8 @@
-import getToken from './token'
-import { CommerceLayer, type CommerceLayerClient as CommerceLayerClient, ApiResource, Resource } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
+import { inspect } from 'node:util'
+import { type ApiResource, CommerceLayer, type CommerceLayerClient, type Resource } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
 import dotenv from 'dotenv'
-import { inspect } from 'util'
-import { CommerceLayerUtils, CommerceLayerUtilsConfig } from '../src'
+import { CommerceLayerUtils, type CommerceLayerUtilsConfig } from '../src'
+import getToken from './token'
 
 
 dotenv.config()
@@ -12,10 +12,10 @@ export const GLOBAL_TIMEOUT = 15000
 const organization = process.env.CL_SDK_ORGANIZATION as string
 const domain = process.env.CL_SDK_DOMAIN as string
 
-export { organization, domain }
+export { domain, organization }
 
 const INTERCEPTOR_CANCEL = 'TEST-INTERCEPTED'
-const REQUEST_TIMEOUT = 5550
+const _REQUEST_TIMEOUT = 5550
 
 
 export const TestData = {
@@ -53,7 +53,7 @@ const initClient = async (): Promise<CommerceLayerClient> => {
 	const client = CommerceLayer({ organization, accessToken, domain })
 	client.config({ timeout: GLOBAL_TIMEOUT })
 
-	try { vi.setConfig({ testTimeout: GLOBAL_TIMEOUT })  } catch(err: any) {}
+	try { vi.setConfig({ testTimeout: GLOBAL_TIMEOUT })  } catch(_err: any) {}
 
 	return client
 
@@ -76,7 +76,7 @@ const printObject = (obj: unknown): string => {
 }
 
 
-export { initClient, fakeClient, getClient, printObject }
+export { fakeClient, getClient, initClient, printObject }
 
 
 

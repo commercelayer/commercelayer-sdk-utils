@@ -1,7 +1,7 @@
-import { appendFileSync, existsSync, renameSync, unlinkSync, writeFileSync } from 'fs'
+import { appendFileSync, existsSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import type { ResourceId, ResourceTypeLock } from '@commercelayer/sdk'
 import Inflector from './inflector'
-import { resolve } from 'path'
-import { ResourceTypeLock } from '@commercelayer/sdk'
 
 
 const DEBUG = process.env.DEBUG_SDK_UTILS
@@ -12,14 +12,14 @@ export const generate = async (resources: any): Promise<any> => {
   console.log('Generating include helper...')
 
   const resourcesFile = resolve('src/helpers/include/resources.ts')
-  const resourcesFileBkp = resourcesFile + '.bkp'
+  const resourcesFileBkp = `${resourcesFile}.bkp`
   const encoding = 'utf-8'
 
 
   try {
 
     const resourceHelpers: Partial<Record<ResourceTypeLock, string>> = {}
-    resources.forEach(r => resourceHelpers[r.id] = Inflector.camelize(r.id))
+    resources.forEach((r: ResourceId) => { resourceHelpers[r.id as ResourceTypeLock] = Inflector.camelize(r.id) })
 
     const includeClasses: string[] = []
 
@@ -80,7 +80,7 @@ export const generate = async (resources: any): Promise<any> => {
     console.log('Include helper generated.')
 
   } catch (error: any) {
-    console.log('Error generating include helper: ' + error.message)
+    console.log(`Error generating include helper: ${error.message}`)
     if (DEBUG) console.log(error)
   }
   finally {

@@ -1,15 +1,11 @@
 
-import type { QueryParamsList, QueryInclude, QueryParams, QueryFilter } from '@commercelayer/sdk'
-import { Orders, Customers, customers, customer_groups, orders } from '@commercelayer/sdk'
-import { initialize, cl } from '../test/common'
+import type { QueryFilter, QueryInclude, QueryParams, QueryParamsList } from '@commercelayer/sdk'
+import { type Customers, customer_groups, customers, type Orders, orders } from '@commercelayer/sdk'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { buildFilter, Filter } from '../src/helpers/filter'
 import { buildInclude, Include } from '../src/helpers/include'
-import { beforeAll } from 'vitest'
-import { afterEach } from 'vitest'
-import { describe } from 'vitest'
-import { test } from 'vitest'
 import { ApiResourceClient } from '../src/init'
-import { expect } from 'vitest'
+import { initialize } from '../test/common'
 
 
 
@@ -78,7 +74,7 @@ describe('sdk-utils.helper suite', () => {
     const clCustomers = ApiResourceClient<Customers>('customers')
 
     const customer = (await clCustomers.list(params)).first()
-    if (customer && customer.customer_group) {
+    if (customer?.customer_group) {
       await clCustomers.update({ id: customer.id, reference, reference_origin })
       await ApiResourceClient('customer_groups').update({ id: customer.customer_group.id, reference, reference_origin })
     }

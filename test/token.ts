@@ -39,13 +39,13 @@ const clientSecret = process.env.CL_SDK_CLIENT_SECRET || ''
 const scope = process.env.CL_SDK_SCOPE || ''
 
 
-const endpoint = `https://${organization.toLowerCase()}.${domain ? domain : 'commercelayer.io'}`
+const _endpoint = `https://${organization.toLowerCase()}.${domain ? domain : 'commercelayer.io'}`
 
 
 export default async (type: TokenType): Promise<AccessToken> => {
 	switch (type) {
 		case 'integration': return getAccessToken({ slug: organization, clientId, clientSecret, scope })
-		case 'sales_channel':
+		// case 'sales_channel':
 		default: return getAccessToken({ slug: organization, clientId, scope })
 	}
 }

@@ -1,6 +1,6 @@
-import { CommerceLayer } from "@commercelayer/sdk/bundle"
-import CommerceLayerUtils, { type Batch, type InvalidTokenError, type Task, type TaskResult, executeBatch } from '../src'
 import type { CustomerCreate } from "@commercelayer/sdk"
+import { CommerceLayer } from "@commercelayer/sdk/bundle"
+import CommerceLayerUtils, { type Batch, executeBatch, type InvalidTokenError, type Task, type TaskResult } from '../src'
 
 const organization = 'cli-test-org'
 const accessToken = 'pippo'
@@ -8,26 +8,26 @@ const refreshedAccessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiO
 
 const cl = CommerceLayer({ organization, accessToken })
 
-const utils = CommerceLayerUtils(cl)
+const _utils = CommerceLayerUtils(cl)
 
 
 const testCreate = async (): Promise<void> => {
 
-  async function print(res: TaskResult, task: Task): Promise<void> {
+  async function print(res: TaskResult, _task: Task): Promise<void> {
     console.log('SUCCESS')
     if (!res) console.log('No output')
     else
-      if (Array.isArray(res)) for (const r of res) console.log('Creato customer ' + r.id)
-      else console.log('Creato customer ' + res.id)
+      if (Array.isArray(res)) for (const r of res) console.log(`Creato customer ${r.id}`)
+      else console.log(`Creato customer ${res.id}`)
   }
 
-  async function handler(error: Error, task: Task): Promise<boolean> {
+  async function handler(error: Error, _task: Task): Promise<boolean> {
     console.log('ERROR')
     console.log(error.message)
     return false
   }
 
-  async function refreshAccessToken(error: InvalidTokenError, task: Task): Promise<string> {
+  async function refreshAccessToken(_error: InvalidTokenError, _task: Task): Promise<string> {
     console.log('Refreshed access token')
     return refreshedAccessToken
   }
@@ -69,16 +69,16 @@ const testCreate = async (): Promise<void> => {
 
 
 
-const testList = async (): Promise<void> => {
+const _testList = async (): Promise<void> => {
 
-  async function print(res: TaskResult, task: Task): Promise<void> {
+  async function print(res: TaskResult, _task: Task): Promise<void> {
     if (!res) console.log('No output')
     else
-      if (Array.isArray(res)) for (const r of res) console.log('Creato customer ' + r.id)
-      else console.log('Creato customer ' + res.id)
+      if (Array.isArray(res)) for (const r of res) console.log(`Creato customer ${r.id}`)
+      else console.log(`Creato customer ${res.id}`)
   }
 
-  async function handler(error: Error, task: Task): Promise<boolean> {
+  async function handler(error: Error, _task: Task): Promise<boolean> {
     console.log(error)
     return false
   }

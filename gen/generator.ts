@@ -1,5 +1,5 @@
-import { generate as generateIncludeHelper } from './include'
 import { generate as generateFilterHelper } from './filter'
+import { generate as generateIncludeHelper } from './include'
 
 
 const DEBUG = process.env.DEBUG_SDK_UTILS
@@ -28,7 +28,7 @@ const generate = async(): Promise<void> => {
       await generateFilterHelper(resources)
     })
     .catch (error => {
-      console.log('Error downloading resources: ' + error.message)
+      console.log(`Error downloading resources: ${error.message}`)
       if (DEBUG) console.log(error.cause)
     })
 

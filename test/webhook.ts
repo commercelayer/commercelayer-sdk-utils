@@ -1,7 +1,7 @@
-import { CommerceLayer } from "@commercelayer/sdk/bundle"
+import { CommerceLayer } from "@commercelayer/sdk/bundle"
+import dotenv from 'dotenv'
 import { CommerceLayerUtils, webhooks } from "../src"
 
-import dotenv from 'dotenv'
 dotenv.config()
 
 
@@ -20,7 +20,7 @@ const BODY = '{"data":{"id":"OeRyhjDlje","type":"customers","links":{"self":"/ap
 
 const cl = CommerceLayer({ organization, accessToken })
 
-const utils = CommerceLayerUtils(cl)
+const _utils = CommerceLayerUtils(cl)
 
 
 const test = async (param: string): Promise<void> => {

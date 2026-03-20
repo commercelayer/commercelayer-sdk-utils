@@ -1,11 +1,11 @@
 
-import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import { Customer, customers, Customers } from '@commercelayer/sdk'
-import { initialize, cl } from '../test/common'
+import { type Customer, type Customers, customers } from '@commercelayer/sdk'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { retrievePage } from '../src'
 import { sleep } from '../src/common'
-import { currentTokenData } from '../src/util'
 import { ApiResourceClient } from '../src/init'
+import { currentTokenData } from '../src/util'
+import { cl, initialize } from '../test/common'
 
 
 
@@ -34,7 +34,7 @@ describe('sdk-utils.page suite', () => {
     const pageNumberMaxTest = 0
     const pageSizeTest = 0
 
-    let pageNumber, pageSize, pageNumberMax, pageSizeMax
+    let pageNumber: number, pageSize: number, pageNumberMax: number, pageSizeMax: number
 
     const recordCount = await ApiResourceClient('customers').count()
 

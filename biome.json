@@ -7,8 +7,10 @@
 	},
 	"files": {
 		"includes": [
-			"**",
-			"!!**/dist"
+			"./src/**",
+			"./test/**",
+			"./specs/**",
+			"./gen/**"
 		]
 	},
 	"formatter": {

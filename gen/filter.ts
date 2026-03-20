@@ -1,7 +1,7 @@
-import { appendFileSync, existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'fs'
+import { appendFileSync, existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import type { ResourceTypeLock } from '@commercelayer/sdk'
 import Inflector from './inflector'
-import { resolve } from 'path'
-import { ResourceTypeLock } from '@commercelayer/sdk'
 import { findLine } from './util'
 
 
@@ -58,13 +58,13 @@ export const generate = async (resources: any): Promise<any> => {
 	console.log('Generating filter helper...')
 
 	const resourcesFile = resolve('src/helpers/filter/resources.ts')
-	const resourcesFileBkp = resourcesFile + '.bkp'
+	const resourcesFileBkp = `${resourcesFile}.bkp`
 
 
 	try {
 
 		const resourceHelpers: Partial<Record<ResourceTypeLock, string>> = {}
-		resources.forEach(r => { if (!r.attributes.singleton) resourceHelpers[r.id] = Inflector.camelize(r.id) })
+		resources.forEach(r => { if (!r.attributes.singleton) resourceHelpers[r.id as ResourceTypeLock] = Inflector.camelize(r.id) })
 
 		const filterClasses: string[] = []
 
@@ -107,7 +107,7 @@ export const generate = async (resources: any): Promise<any> => {
 		}
 
 
-		const eslint = []
+		const eslint: string[] = []
 
 		const imports = [
 			'import type * as Types from \'./base\'',
@@ -142,7 +142,7 @@ export const generate = async (resources: any): Promise<any> => {
 		console.log('Filter helper generated.')
 
 	} catch (error: any) {
-		console.log('Error generating filter helper: ' + error.message)
+		console.log(`Error generating filter helper: ${error.message}`)
 		if (DEBUG) console.log(error)
 	}
 	finally {

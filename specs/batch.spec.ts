@@ -1,11 +1,11 @@
 
-import { expect, test, beforeAll, afterEach, describe } from 'vitest'
-import { type SdkError, type Resource, customers } from '@commercelayer/sdk'
-import { currentAccessToken, initClient, initialize, cl } from '../test/common'
-import { executeBatch } from '../src'
+import { customers, type Resource, type SdkError } from '@commercelayer/sdk'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
+import { executeBatch } from '../src'
 import type { PrepareResourceResult, TaskResourceParam, TaskResourceResult } from '../src/batch'
 import { ApiResourceClient } from '../src/init'
+import { cl, currentAccessToken, initClient, initialize } from '../test/common'
 
 
 
@@ -64,7 +64,7 @@ describe('sdk-utils.batch suite', () => {
 			})
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(_err => {})
 
 		let index = 0
 		for (const t of tasks) {
@@ -102,7 +102,7 @@ describe('sdk-utils.batch suite', () => {
 			})
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(_err => {})
 
 		let index = 0
 		for (const t of tasks) {
@@ -129,7 +129,7 @@ describe('sdk-utils.batch suite', () => {
 		const tasksNumber = 2
 		const tasks: Task[] = []
 
-		function tokenRefresh(error: InvalidTokenError, task: Task): string {
+		function tokenRefresh(_error: InvalidTokenError, _task: Task): string {
 			initClient()
 			return currentAccessToken
 		} 
@@ -149,7 +149,7 @@ describe('sdk-utils.batch suite', () => {
 		const b: Batch = { tasks, options: { refreshToken: tokenRefresh} }
 		if (b.options) vi.spyOn(b.options, 'refreshToken')
 
-		await executeBatch(b).catch(err => {})
+		await executeBatch(b).catch(_err => {})
 
 		for (const t of tasks) {
 			expect(t.executed).toBeTruthy()
@@ -170,7 +170,7 @@ describe('sdk-utils.batch suite', () => {
 		const errorTask = 2
 		const tasks: Task[] = []
 
-		function errorCallback(error: SdkError, task: Task): boolean {
+		function errorCallback(_error: SdkError, _task: Task): boolean {
 			return true
 		} 
 
@@ -187,7 +187,7 @@ describe('sdk-utils.batch suite', () => {
 			if (task.onFailure) vi.spyOn(task.onFailure, 'errorHandler')
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(_err => {})
 
 		let index = 0
 		for (const t of tasks) {
@@ -216,7 +216,7 @@ describe('sdk-utils.batch suite', () => {
 		const tasksNumber = 3
 		const tasks: Task[] = []
 
-		function successCallback(output: TaskResult, task: Task): void {
+		function successCallback(_output: TaskResult, _task: Task): void {
 			
 		} 
 
@@ -233,7 +233,7 @@ describe('sdk-utils.batch suite', () => {
 			if (task.onSuccess) vi.spyOn(task.onSuccess, 'callback')
 		}
 
-		await executeBatch({ tasks }).catch(err => {})
+		await executeBatch({ tasks }).catch(_err => {})
 
 		for (const t of tasks) {
 			expect(t.executed).toBeTruthy()
@@ -260,12 +260,12 @@ describe('sdk-utils.batch suite', () => {
 				...res,
 				id,
 				reference: id,
-				reference_origin: 'list_' + isList
+				reference_origin: `list_${isList}`
 			}
 			return mod
 		}
 
-		const callback = (output: TaskResult, task: Task): void => {
+		const callback = (output: TaskResult, _task: Task): void => {
 			if (output) {
 				if (Array.isArray(output)) listId = output.first()?.id
 				else retrieveId = (output as Resource).id

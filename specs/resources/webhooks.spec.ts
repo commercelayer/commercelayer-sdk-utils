@@ -1,6 +1,6 @@
 
-import { expect, test, describe } from 'vitest'
 import type { Resource } from '@commercelayer/sdk'
+import { describe, expect, test } from 'vitest'
 import { denormalizePayload, webhooks } from '../../src'
 
 
@@ -75,7 +75,7 @@ describe('sdk-utils.webhooks suite', () => {
 		const signature = 'DO/Gqc6yf2jXAl41IV01cbT3jhbpq7AGoyrz3zDmSM4='
 		const secret = process.env.WEBHOOK_SECRET_CUSTOMER_CREATE || ''
 
-		let status = webhooks.checkSignature(payload + 'X', signature, secret)
+		let status = webhooks.checkSignature(`${payload}X`, signature, secret)
 		expect(status.ok).toBeFalsy()
 		expect(status.message).toContain('failed')
 
@@ -94,7 +94,7 @@ describe('sdk-utils.webhooks suite', () => {
 
 		const payload = PAYLOAD
 		
-		const customer = webhooks.parse.customers(PAYLOAD)
+		const customer = webhooks.parse.customers(payload)
 
 		expect(customer).toBeDefined()
 		expect(customer.type).toBe('customers')

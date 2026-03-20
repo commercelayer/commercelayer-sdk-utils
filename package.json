@@ -20,10 +20,8 @@
   },
   "scripts": {
     "generate": "tsx gen/generator.ts",
-    "lint": "biome check ./src",
-    "lintspec": "biome check ./specs",
-    "check": "biome check --write ./src",
-    "checkspec": "biome check --write ./specs",
+    "lint": "biome check --enforce-assist=true",
+    "check": "biome check --enforce-assist=true --write",
     "build": "tsup",
     "test": "vitest",
     "test-local": "tsx test/spot.ts",

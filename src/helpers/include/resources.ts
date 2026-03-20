@@ -1056,6 +1056,8 @@ class ShippingMethodInclude extends ResourceInclude {
 	get shipping_weight_tiers(): ShippingWeightTierInclude { return new ShippingWeightTierInclude(this.include('shipping_weight_tiers'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get notifications(): NotificationInclude { return new NotificationInclude(this.include('notifications'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
+	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
 	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }

@@ -23,12 +23,12 @@
     "lint": "eslint ./src --ext .ts",
     "lintspec": "eslint ./specs/ --ext .spec.ts",
     "build": "tsup",
-    "release": "pnpm upgrade && pnpm generate && pnpm lint && pnpm build && pnpm test",
     "test": "vitest",
     "test-local": "tsx test/spot.ts",
     "test-webhook": "tsx test/webhook.ts",
     "coverage": "vitest run --coverage",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "release": "pnpm upgrade && pnpm generate && pnpm lint && pnpm build && pnpm test"
   },
   "keywords": [
     "javascript",
@@ -46,15 +46,14 @@
     "node": ">=20"
   },
   "devDependencies": {
-    "@commercelayer/eslint-config-ts": "2.2.0",
     "@commercelayer/js-auth": "^7.3.0",
-    "@commercelayer/sdk": "^7.8.0",
+    "@commercelayer/sdk": "^7.9.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^24.11.0",
+    "@types/node": "^25.5.0",
     "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/eslint-plugin": "^1.6.9",
-    "conventional-changelog-conventionalcommits": "^9.2.0",
+    "@vitest/eslint-plugin": "^1.6.12",
+    "conventional-changelog-conventionalcommits": "^9.3.0",
     "dotenv": "^16.6.1",
     "eslint": "^8.57.1",
     "jsonapi-typescript": "^0.1.3",

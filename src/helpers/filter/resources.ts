@@ -1509,6 +1509,8 @@ class ShippingMethodFilterFields<M extends Types.FilterMaster> extends ResourceF
 	get shipping_method_tiers(): ShippingMethodTierFilterFields<M> { return new ShippingMethodTierFilterFields<M>(this.master, this.operator, this.addRelationship('shipping_method_tiers')) }
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
 	get notifications(): NotificationFilterFields<M> { return new NotificationFilterFields<M>(this.master, this.operator, this.addRelationship('notifications')) }
+	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
+	get tags(): TagFilterFields<M> { return new TagFilterFields<M>(this.master, this.operator, this.addRelationship('tags')) }
 }
 
 export type ShippingMethodFilter = ShippingMethodFilterFields<ShippingMethodFilter>

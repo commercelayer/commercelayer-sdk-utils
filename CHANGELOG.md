@@ -1,3 +1,10 @@
+## [3.3.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.3.1...v3.3.2) (2026-03-20)
+
+
+### Bug Fixes
+
+* fix dependencies ([ab6b21e](https://github.com/commercelayer/commercelayer-sdk-utils/commit/ab6b21e5d304fe65fca7f822540854bd15965619))
+
 ## [3.3.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.3.0...v3.3.1) (2026-03-20)
 
 

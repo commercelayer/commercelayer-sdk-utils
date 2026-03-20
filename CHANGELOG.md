@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.3.2...v3.4.0) (2026-03-20)
+
+
+### Features
+
+* add biome linter ([318d5df](https://github.com/commercelayer/commercelayer-sdk-utils/commit/318d5df391cbde135fe0c85e154bc6ec63ed0efc))
+
 ## [3.3.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.3.1...v3.3.2) (2026-03-20)
 
 

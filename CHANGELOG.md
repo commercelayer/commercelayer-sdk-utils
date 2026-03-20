@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.3.0...v3.3.1) (2026-03-20)
+
+
+### Bug Fixes
+
+* update dependencies and remove cl linter ([7ea09e2](https://github.com/commercelayer/commercelayer-sdk-utils/commit/7ea09e2450343cf553c230390386db5423abd357))
+
 # [3.3.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.2.3...v3.3.0) (2026-03-04)
 
 

@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.4.0...v3.4.1) (2026-03-20)
+
+
+### Bug Fixes
+
+* fix biome config ([043071a](https://github.com/commercelayer/commercelayer-sdk-utils/commit/043071a4bc8ce5a16c0c6d8c0541d1471b5eeaf8))
+
 # [3.4.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.3.2...v3.4.0) (2026-03-20)
 
 

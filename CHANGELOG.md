@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.4.1...v3.4.2) (2026-03-20)
+
+
+### Bug Fixes
+
+* fix lint errors ([a5c3577](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a5c35772c39e01e44cd204583e5762e31147b0fb))
+
 ## [3.4.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.4.0...v3.4.1) (2026-03-20)
 
 

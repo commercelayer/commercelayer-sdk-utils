@@ -28,7 +28,7 @@ export type AccessToken = {
 	createdAt: number;
 	error?: string;
 	errorDescription?: string;
-  }
+}
 
 
 
@@ -57,21 +57,21 @@ export default async (type: TokenType): Promise<AccessToken> => {
 const getAccessToken = async (auth: AuthData): Promise<AccessToken> => {
 
 	const scope = auth.scope ? (Array.isArray(auth.scope) ? auth.scope.map(s => s.trim()).join(',') : auth.scope) : ''
-  
+
 	const credentials: any = {
-	  clientId: auth.clientId,
-	  clientSecret: auth.clientSecret,
-	  slug: auth.slug,
-	  domain: auth.domain,
-	  scope
+		clientId: auth.clientId,
+		clientSecret: auth.clientSecret,
+		slug: auth.slug,
+		domain: auth.domain,
+		scope
 	}
-  
+
 	if (auth.email && auth.password) {
-	  credentials.username = auth.email
-	  credentials.password = auth.password
-	  return authenticate('password', credentials)
+		credentials.username = auth.email
+		credentials.password = auth.password
+		return authenticate('password', credentials)
 	}
-  
+
 	return authenticate('client_credentials', credentials)
-  
-  }
+
+}

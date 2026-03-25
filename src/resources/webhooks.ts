@@ -1,8 +1,9 @@
 import crypto from 'node:crypto'
-import type { Address, Authorization, AvalaraAccount, Bundle, BuyXPayYPromotion, Capture, Cleanup, Coupon, Customer, CustomerAddress, CustomerPasswordReset, CustomerSubscription, Export, ExternalPromotion, FixedAmountPromotion, FixedPricePromotion, FreeGiftPromotion, FreeShippingPromotion, GiftCard, Import, InStockSubscription, LineItem, LineItemOption, Order, OrderCopy, OrderSubscription, Parcel, PercentageDiscountPromotion, PriceFrequencyTier, PriceVolumeTier, Promotion, RecurringOrderCopy, Refund, Resource, ResourceType, Return, Shipment, ShippingWeightTier, Sku, SkuOption, StockTransfer, Transaction, Void } from "@commercelayer/sdk"
+import type { Address, Authorization, AvalaraAccount, Bundle, BuyXPayYPromotion, Capture, Cleanup, Coupon, Customer, CustomerAddress, CustomerPasswordReset, CustomerSubscription, Export, ExternalPromotion, FixedAmountPromotion, FixedPricePromotion, FreeGiftPromotion, FreeShippingPromotion, GiftCard, Import, InStockSubscription, LineItem, LineItemOption, Order, OrderCopy, OrderSubscription, Parcel, PercentageDiscountPromotion, PriceFrequencyTier, PriceVolumeTier, Promotion, RecurringOrderCopy, Refund, Resource, Return, Shipment, ShippingWeightTier, Sku, SkuOption, StockTransfer, Transaction, Void } from "@commercelayer/sdk"
 import { CommerceLayerStatic } from '@commercelayer/sdk'
-import type { DocWithData, Included, ResourceIdentifierObject, ResourceObject } from 'jsonapi-typescript'
+import type { DocWithData } from 'jsonapi-typescript'
 import { config } from "../config"
+import { denormalizeResponse } from '../jsonapi'
 
 
 
@@ -22,58 +23,11 @@ const checkPayload = (payload: string): DocWithData => {
 }
 
 
+
 export const denormalizePayload = <R extends Resource>(payload: string): R | R[] => {
-
-	let denormalized: any
-
 	const resource = checkPayload(payload)
-
-	if (resource.links) delete resource.links
-
-	const data = resource.data
-	const included = resource.included
-
-	if (!data) denormalized = data
-	else {
-		if (Array.isArray(data)) denormalized = data.map(res => denormalizeResource<R>(res, included))
-		else denormalized = denormalizeResource<R>(data, included)
-	}
-
-	return denormalized
-
-}
-
-
-const findIncluded = (rel: ResourceIdentifierObject, included: Included = []): ResourceObject | undefined => {
-	const inc = included.find(inc => {
-		return (rel.id === inc.id) && (rel.type === inc.type)
-	})
-	return inc || rel
-}
-
-
-const denormalizeResource = <T extends ResourceType>(res: any, included?: Included, chain: ResourceIdentifierObject[] = []): T => {
-
-	if (!res) return res
-
-	const resource = {
-		id: res.id,
-		type: res.type,
-		...res.attributes,
-	}
-
-	if (res.relationships) Object.keys(res.relationships as object).forEach(key => {
-		const rel: ResourceIdentifierObject = res.relationships[key].data
-		if (rel) {
-			if (chain.filter(r => (r.id === rel.id) && (r.type === rel.type)).length >= config.webhooks.jsonapi.maxResourceIncluded) resource[key] = rel
-			if (Array.isArray(rel)) resource[key] = rel.map((r: ResourceIdentifierObject) => denormalizeResource<ResourceType>(findIncluded(r, included), included, [...chain, r]))
-			else resource[key] = denormalizeResource<ResourceType>(findIncluded(rel, included), included, [...chain, rel] )
-		} else if (rel === null) resource[key] = null
-	})
-
-
-	return resource
-
+	const denormalizedResource = denormalizeResponse<R>(resource)
+	return denormalizedResource
 }
 
 
@@ -105,11 +59,11 @@ export const checkSignature = (body: string, headers: Record<string, string> | s
 
 	try {
 
-		const topic = (typeof headers === 'string')? undefined : headers[config.webhooks.topic]
-		const signature = (typeof headers === 'string')? headers : headers[config.webhooks.signature.header]
+		const topic = (typeof headers === 'string') ? undefined : headers[config.webhooks.topic]
+		const signature = (typeof headers === 'string') ? headers : headers[config.webhooks.signature.header]
 
-		if (!secret) return { ...status, message: 'Missing shared secret'}
-		if (!signature) return { ...status, message: 'Missing webhook signature'}
+		if (!secret) return { ...status, message: 'Missing shared secret' }
+		if (!signature) return { ...status, message: 'Missing webhook signature' }
 
 		const hash = generateHMAC(body, secret)
 
@@ -148,7 +102,7 @@ class ParseError extends Error {
 }
 
 
-const parse = <R extends Resource>(payload: string, type: string): R/* | R[] */=> {
+const parse = <R extends Resource>(payload: string, type: string): R/* | R[] */ => {
 	try {
 		const res = denormalizePayload<R>(payload) as R
 		// if (Array.isArray(res) && (res.length === 0)) return res

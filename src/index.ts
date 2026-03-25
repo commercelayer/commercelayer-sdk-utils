@@ -8,9 +8,9 @@ export { batch, executeBatch } from './batch'
 export type { CommerceLayerUtilsConfig } from './init'
 // Init
 export { CommerceLayerUtils, default } from './init'
+export { denormalizeResponse } from './jsonapi'
 // Page
 export { retrievePage } from './page'
-
 // Util
 export { headerRateLimits } from './rate_limit'
 export { currentTokenData as tokenData } from './util'

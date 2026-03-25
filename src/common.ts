@@ -16,10 +16,10 @@ export const groupUID = (): string => {
 	const firstPartStr = ('000' + firstPart.toString(36)).slice(-3)
 	// biome-ignore lint/style/useTemplate: more freadable as concatenated string
 	const secondPartStr = ('000' + secondPart.toString(36)).slice(-3)
-  
+
 	return firstPartStr + secondPartStr
-  
-  }
+
+}
 
 
 export const invalidToken = (error: Error | unknown): error is ApiError => {

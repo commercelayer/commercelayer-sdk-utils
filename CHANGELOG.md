@@ -1,3 +1,10 @@
+# [3.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.4.2...v3.5.0) (2026-03-25)
+
+
+### Features
+
+* add denormalizeResponse function ([c60060e](https://github.com/commercelayer/commercelayer-sdk-utils/commit/c60060e357ad441119c2717c959d76ad4d623bfb))
+
 ## [3.4.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.4.1...v3.4.2) (2026-03-20)
 
 

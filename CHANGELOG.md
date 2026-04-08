@@ -1,3 +1,11 @@
+## [3.5.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.5.0...v3.5.1) (2026-04-08)
+
+
+### Bug Fixes
+
+* fix biome schema version ([e5535b4](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e5535b4441879830bfb4ac4d3a8c810b7a3d1806))
+* update dependencies ([2326023](https://github.com/commercelayer/commercelayer-sdk-utils/commit/232602327cb33655843a45f625980066f6e49171))
+
 # [3.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.4.2...v3.5.0) (2026-03-25)
 
 

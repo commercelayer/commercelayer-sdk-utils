@@ -63,7 +63,7 @@
     "vitest": "^4.1.8"
   },
   "peerDependencies": {
-    "@commercelayer/sdk": "^6 || ^7"
+    "@commercelayer/sdk": "^7.11.0"
   },
   "repository": "github:commercelayer/commercelayer-sdk-utils",
   "publishConfig": {

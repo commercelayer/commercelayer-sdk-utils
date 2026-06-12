@@ -1,3 +1,18 @@
+# [4.0.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.5.1...v4.0.0) (2026-06-12)
+
+
+### Bug Fixes
+
+* enhance type safety for retrieveAll, updateAll, and deleteAll functions ([e74b0de](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e74b0de5d497cb268cc5894e2f1a107c43fa8c98))
+* fix readme ([0d59ab0](https://github.com/commercelayer/commercelayer-sdk-utils/commit/0d59ab04dfd7b8d3566010912bc2ee4ca1ccfaec))
+* tighten peerDependency for @commercelayer/sdk to ^7.11.0 ([939419e](https://github.com/commercelayer/commercelayer-sdk-utils/commit/939419ea8b1cf4dc0343e4f522df2be69ee1bb03))
+* update release script and dependencies ([c9a780b](https://github.com/commercelayer/commercelayer-sdk-utils/commit/c9a780bd97caa40406270fe84c33b45963fbfd57))
+
+
+### BREAKING CHANGES
+
+* removed versions
+
 ## [3.5.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.5.0...v3.5.1) (2026-04-08)
 
 

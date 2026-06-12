@@ -5,10 +5,10 @@ import CommerceLayerUtils from "./init"
 import { computeRateLimits, headerRateLimits, type RateLimitInfo } from "./rate_limit"
 
 
-type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'>
+type AllParams<R extends Resource = Resource> = Omit<QueryParamsList<R>, 'pageSize' | 'pageNumber' | 'sort'>
 
 
-export const retrieveAll = async <R extends Resource>(resourceType: ListableResourceType, params?: AllParams & { limit?: number }): Promise<ListResponse<R>> => {
+export const retrieveAll = async <R extends Resource>(resourceType: ListableResourceType, params?: AllParams<R> & { limit?: number }): Promise<ListResponse<R>> => {
 
 	const cl = CommerceLayerUtils().sdk
 	// const client = cl[resourceType] as unknown as ApiResource<ListableResource>
@@ -22,10 +22,10 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 	const recordLimit = ((params?.limit || 0) > 0)? params?.limit : undefined
 	if (recordLimit && params) delete params.limit
 
-	const allParams: QueryParamsList = params || {}
+	const allParams: QueryParamsList<R> = params || {}
 	allParams.pageNumber = 1
 	allParams.pageSize = config.api.page_max_size
-	allParams.sort = ['id']
+	allParams.sort = ['id'] as QueryParamsList<R>['sort']
 	if (!allParams.filters) allParams.filters = {}
 
 	do {
@@ -34,7 +34,7 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 
 		if (rateLimit) await sleep(rateLimit.delay)
 
-		const page = await client.list(allParams) as ListResponse<R>
+		const page = await client.list(allParams as QueryParamsList) as ListResponse<R>
 		if (result === null) result = page
 		else result.push(...page)
 
@@ -73,8 +73,7 @@ type UpdateResult = {
 	}>
 }
 
-
-export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceType: UpdatableResourceType, resource: U, params?: AllParams): Promise<UpdateResult> => {
+export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>, R extends Resource = Resource>(resourceType: UpdatableResourceType, resource: U, params?: AllParams<R>): Promise<UpdateResult> => {
 
 	const cl = CommerceLayerUtils().sdk
 
@@ -86,10 +85,10 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 	let lastId = null
 	let rateLimit: RateLimitInfo | null = null
 
-	const allParams: QueryParamsList = params || {}
+	const allParams: QueryParamsList<R> = params || {}
 	allParams.pageNumber = 1
 	allParams.pageSize = config.api.page_max_size
-	allParams.sort = ['id']
+	allParams.sort = ['id'] as QueryParamsList<R>['sort']
 	if (!allParams.filters) allParams.filters = {}
 
 	do {
@@ -97,7 +96,7 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 		if (lastId) allParams.filters.id_gt = lastId
 
 		if (rateLimit) await sleep(rateLimit.delay)
-		const page = await client.list(allParams)
+		const page = await client.list(allParams as QueryParamsList)
 		if (!lastId) result.total = page.recordCount
 
 		if (!rateLimit) try {
@@ -148,7 +147,7 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 type DeleteResult = UpdateResult
 
 
-export const deleteAll = async (resourceType: DeletableResourceType, params?: AllParams): Promise<DeleteResult> => {
+export const deleteAll = async <R extends Resource>(resourceType: DeletableResourceType, params?: AllParams<R>): Promise<DeleteResult> => {
 
 	const cl = CommerceLayerUtils().sdk
 	// const client = cl[resourceType] as unknown as ApiResource<DeletableResource>
@@ -159,10 +158,10 @@ export const deleteAll = async (resourceType: DeletableResourceType, params?: Al
 	let lastId = null
 	let rateLimit: RateLimitInfo | null = null
 
-	const allParams: QueryParamsList = params || {}
+	const allParams: QueryParamsList<R> = params || {}
 	allParams.pageNumber = 1
 	allParams.pageSize = config.api.page_max_size
-	allParams.sort = ['id']
+	allParams.sort = ['id'] as QueryParamsList<R>['sort']
 	if (!allParams.filters) allParams.filters = {}
 
 	do {
@@ -170,7 +169,7 @@ export const deleteAll = async (resourceType: DeletableResourceType, params?: Al
 		if (lastId) allParams.filters.id_gt = lastId
 
 		if (rateLimit) await sleep(rateLimit.delay)
-		const page = await client.list(allParams)
+		const page = await client.list(allParams as QueryParamsList)
 		if (!lastId) result.total = page.recordCount
 
 		if (!rateLimit) try {

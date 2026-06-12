@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/npm/l/@commercelayer/sdk-utils.svg)](https://github.com/commercelayer/commercelayer-sdk-utils/blob/master/package.json)
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 [![Release](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/semantic-release.yml/badge.svg)](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/semantic-release.yml)
-[![CodeQL](https://github.com/commercelayer/commercelayer-cli/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/commercelayer/commercelayer-cli/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/codeql-analysis.yml)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript%205-%230074c1.svg)](https://www.typescriptlang.org/)
 
 A JavaScript Library that makes even more easier to interact with [Commerce Layer API](https://docs.commercelayer.io/developers) using the official [JavaScript SDK](https://github.com/commercelayer/commercelayer-sdk).
@@ -24,7 +24,7 @@ CommerceLayerUtils(cl)
 await executeBatch(batch)
 ```
 
-#### SDK v7.x
+#### SDK v7.x (requires `^7.11.0`)
 
 Starting from SDK v7 you can take advantage of the tree shaking using only the resources that you really need.
 
@@ -342,6 +342,8 @@ const shipment = denormalizePayload<Shipment>(webhookPayload)
 
 This helper can be used to easily build the array of included resources to use in SDK query parameters.
 
+> **Note:** The `versions` resource has been removed from the Commerce Layer API and is no longer available in the include helper.
+
 ###### Standard include
 
 ```ts
@@ -385,6 +387,8 @@ io.customer.customer_group.addTo(queryFilter)
 ##### FilterHelper
 
 This helper can be used to easily build the object containing the filter predicates to use in SDK query parameters.
+
+> **Note:** The `versions` resource has been removed from the Commerce Layer API and is no longer available in the filter helper.
 
 ###### Standard filter
 

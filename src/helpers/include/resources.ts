@@ -8,20 +8,17 @@ class AddressInclude extends ResourceInclude {
 	get geocoder(): GeocoderInclude { return new GeocoderInclude(this.include('geocoder'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class AdjustmentInclude extends ResourceInclude {
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class AdyenGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get adyen_payments(): AdyenPaymentInclude { return new AdyenPaymentInclude(this.include('adyen_payments'))}
 }
@@ -30,7 +27,6 @@ class AdyenGatewayInclude extends ResourceInclude {
 class AdyenPaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -48,7 +44,6 @@ class AuthorizationInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get captures(): CaptureInclude { return new CaptureInclude(this.include('captures'))}
 	get voids(): VoidInclude { return new VoidInclude(this.include('voids'))}
@@ -59,7 +54,6 @@ class AvalaraAccountInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get tax_categories(): TaxCategoryInclude { return new TaxCategoryInclude(this.include('tax_categories'))}
 }
@@ -67,7 +61,6 @@ class AvalaraAccountInclude extends ResourceInclude {
 
 class AxerveGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get axerve_payments(): AxervePaymentInclude { return new AxervePaymentInclude(this.include('axerve_payments'))}
 }
@@ -76,7 +69,6 @@ class AxerveGatewayInclude extends ResourceInclude {
 class AxervePaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -84,7 +76,6 @@ class AxervePaymentInclude extends ResourceInclude {
 class BillingInfoValidationRuleInclude extends ResourceInclude {
 	get market(): MarketInclude { return new MarketInclude(this.include('market'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -99,7 +90,6 @@ class BingGeocoderInclude extends ResourceInclude {
 
 class BraintreeGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get braintree_payments(): BraintreePaymentInclude { return new BraintreePaymentInclude(this.include('braintree_payments'))}
 }
@@ -108,7 +98,6 @@ class BraintreeGatewayInclude extends ResourceInclude {
 class BraintreePaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -120,7 +109,6 @@ class BundleInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -137,7 +125,6 @@ class BuyXPayYPromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
 }
@@ -147,7 +134,6 @@ class CaptureInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get reference_authorization(): AuthorizationInclude { return new AuthorizationInclude(this.include('reference_authorization'))}
 	get refunds(): RefundInclude { return new RefundInclude(this.include('refunds'))}
@@ -158,14 +144,12 @@ class CaptureInclude extends ResourceInclude {
 class CarrierAccountInclude extends ResourceInclude {
 	get market(): MarketInclude { return new MarketInclude(this.include('market'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class CheckoutComGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get checkout_com_payments(): CheckoutComPaymentInclude { return new CheckoutComPaymentInclude(this.include('checkout_com_payments'))}
 }
@@ -174,14 +158,12 @@ class CheckoutComGatewayInclude extends ResourceInclude {
 class CheckoutComPaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class CleanupInclude extends ResourceInclude {
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -191,14 +173,12 @@ class CouponInclude extends ResourceInclude {
 	get coupon_recipient(): CouponRecipientInclude { return new CouponRecipientInclude(this.include('coupon_recipient'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class CouponCodesPromotionRuleInclude extends ResourceInclude {
 	get promotion(): PromotionInclude { return new PromotionInclude(this.include('promotion'))} // polymorphic
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get coupons(): CouponInclude { return new CouponInclude(this.include('coupons'))}
 }
@@ -208,13 +188,11 @@ class CouponRecipientInclude extends ResourceInclude {
 	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 }
 
 
 class CustomPromotionRuleInclude extends ResourceInclude {
 	get promotion(): PromotionInclude { return new PromotionInclude(this.include('promotion'))} // polymorphic
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -242,7 +220,6 @@ class CustomerAddressInclude extends ResourceInclude {
 	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
 	get address(): AddressInclude { return new AddressInclude(this.include('address'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -251,7 +228,6 @@ class CustomerGroupInclude extends ResourceInclude {
 	get customers(): CustomerInclude { return new CustomerInclude(this.include('customers'))}
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -266,7 +242,6 @@ class CustomerPasswordResetInclude extends ResourceInclude {
 class CustomerPaymentSourceInclude extends ResourceInclude {
 	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
 	get payment_method(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_method'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -274,7 +249,6 @@ class CustomerPaymentSourceInclude extends ResourceInclude {
 class CustomerSubscriptionInclude extends ResourceInclude {
 	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -283,7 +257,6 @@ class DeliveryLeadTimeInclude extends ResourceInclude {
 	get stock_location(): StockLocationInclude { return new StockLocationInclude(this.include('stock_location'))}
 	get shipping_method(): ShippingMethodInclude { return new ShippingMethodInclude(this.include('shipping_method'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -292,7 +265,6 @@ class DiscountEngineInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get discount_engine_items(): DiscountEngineItemInclude { return new DiscountEngineItemInclude(this.include('discount_engine_items'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -331,14 +303,12 @@ class EventStoreInclude extends ResourceInclude {
 
 class ExportInclude extends ResourceInclude {
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class ExternalGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get external_payments(): ExternalPaymentInclude { return new ExternalPaymentInclude(this.include('external_payments'))}
 }
@@ -348,7 +318,6 @@ class ExternalPaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
 	get wallet(): CustomerPaymentSourceInclude { return new CustomerPaymentSourceInclude(this.include('wallet'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -365,7 +334,6 @@ class ExternalPromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
 }
@@ -375,7 +343,6 @@ class ExternalTaxCalculatorInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -392,7 +359,6 @@ class FixedAmountPromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
 }
@@ -410,7 +376,6 @@ class FixedPricePromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
 }
@@ -422,7 +387,6 @@ class FlexPromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -439,7 +403,6 @@ class FreeGiftPromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
 }
@@ -457,7 +420,6 @@ class FreeShippingPromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -476,7 +438,6 @@ class GiftCardInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -485,7 +446,6 @@ class GiftCardRecipientInclude extends ResourceInclude {
 	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 }
 
 
@@ -508,7 +468,6 @@ class InStockSubscriptionInclude extends ResourceInclude {
 	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
 	get sku(): SkuInclude { return new SkuInclude(this.include('sku'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -517,7 +476,6 @@ class InventoryModelInclude extends ResourceInclude {
 	get inventory_stock_locations(): InventoryStockLocationInclude { return new InventoryStockLocationInclude(this.include('inventory_stock_locations'))}
 	get inventory_return_locations(): InventoryReturnLocationInclude { return new InventoryReturnLocationInclude(this.include('inventory_return_locations'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -525,7 +483,6 @@ class InventoryModelInclude extends ResourceInclude {
 class InventoryReturnLocationInclude extends ResourceInclude {
 	get stock_location(): StockLocationInclude { return new StockLocationInclude(this.include('stock_location'))}
 	get inventory_model(): InventoryModelInclude { return new InventoryModelInclude(this.include('inventory_model'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -533,14 +490,12 @@ class InventoryReturnLocationInclude extends ResourceInclude {
 class InventoryStockLocationInclude extends ResourceInclude {
 	get stock_location(): StockLocationInclude { return new StockLocationInclude(this.include('stock_location'))}
 	get inventory_model(): InventoryModelInclude { return new InventoryModelInclude(this.include('inventory_model'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class KlarnaGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get klarna_payments(): KlarnaPaymentInclude { return new KlarnaPaymentInclude(this.include('klarna_payments'))}
 }
@@ -549,7 +504,6 @@ class KlarnaGatewayInclude extends ResourceInclude {
 class KlarnaPaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -592,7 +546,6 @@ class LinkInclude extends ResourceInclude {
 
 class ManualGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -601,7 +554,6 @@ class ManualTaxCalculatorInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get tax_rules(): TaxRuleInclude { return new TaxRuleInclude(this.include('tax_rules'))}
 }
@@ -623,7 +575,6 @@ class MarketInclude extends ResourceInclude {
 	get price_list_schedulers(): PriceListSchedulerInclude { return new PriceListSchedulerInclude(this.include('price_list_schedulers'))}
 	get order_validation_rules(): OrderValidationRuleInclude { return new OrderValidationRuleInclude(this.include('order_validation_rules'))} // polymorphic
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -631,7 +582,6 @@ class MarketInclude extends ResourceInclude {
 class MerchantInclude extends ResourceInclude {
 	get address(): AddressInclude { return new AddressInclude(this.include('address'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -679,14 +629,12 @@ class OrderInclude extends ResourceInclude {
 	get resource_errors(): ResourceErrorInclude { return new ResourceErrorInclude(this.include('resource_errors'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class OrderAmountPromotionRuleInclude extends ResourceInclude {
 	get promotion(): PromotionInclude { return new PromotionInclude(this.include('promotion'))} // polymorphic
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -721,7 +669,6 @@ class OrderSubscriptionInclude extends ResourceInclude {
 	get orders(): OrderInclude { return new OrderInclude(this.include('orders'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -739,7 +686,6 @@ class OrderSubscriptionItemInclude extends ResourceInclude {
 class OrderValidationRuleInclude extends ResourceInclude {
 	get market(): MarketInclude { return new MarketInclude(this.include('market'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -753,7 +699,6 @@ class PackageInclude extends ResourceInclude {
 	get stock_location(): StockLocationInclude { return new StockLocationInclude(this.include('stock_location'))}
 	get parcels(): ParcelInclude { return new ParcelInclude(this.include('parcels'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -764,7 +709,6 @@ class ParcelInclude extends ResourceInclude {
 	get parcel_line_items(): ParcelLineItemInclude { return new ParcelLineItemInclude(this.include('parcel_line_items'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -773,14 +717,12 @@ class ParcelLineItemInclude extends ResourceInclude {
 	get parcel(): ParcelInclude { return new ParcelInclude(this.include('parcel'))}
 	get stock_line_item(): StockLineItemInclude { return new StockLineItemInclude(this.include('stock_line_item'))}
 	get shipment_line_item(): ShipmentLineItemInclude { return new ShipmentLineItemInclude(this.include('shipment_line_item'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class PaymentGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -790,7 +732,6 @@ class PaymentMethodInclude extends ResourceInclude {
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
 	get store(): StoreInclude { return new StoreInclude(this.include('store'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -804,7 +745,6 @@ class PaymentOptionInclude extends ResourceInclude {
 
 class PaypalGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get paypal_payments(): PaypalPaymentInclude { return new PaypalPaymentInclude(this.include('paypal_payments'))}
 }
@@ -813,7 +753,6 @@ class PaypalGatewayInclude extends ResourceInclude {
 class PaypalPaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -830,7 +769,6 @@ class PercentageDiscountPromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
 }
@@ -851,7 +789,6 @@ class PriceInclude extends ResourceInclude {
 	get price_volume_tiers(): PriceVolumeTierInclude { return new PriceVolumeTierInclude(this.include('price_volume_tiers'))}
 	get price_frequency_tiers(): PriceFrequencyTierInclude { return new PriceFrequencyTierInclude(this.include('price_frequency_tiers'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get jwt_customer(): CustomerInclude { return new CustomerInclude(this.include('jwt_customer'))}
 	get jwt_markets(): MarketInclude { return new MarketInclude(this.include('jwt_markets'))}
 	get jwt_stock_locations(): StockLocationInclude { return new StockLocationInclude(this.include('jwt_stock_locations'))}
@@ -862,7 +799,6 @@ class PriceInclude extends ResourceInclude {
 class PriceFrequencyTierInclude extends ResourceInclude {
 	get price(): PriceInclude { return new PriceInclude(this.include('price'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 }
@@ -872,7 +808,6 @@ class PriceListInclude extends ResourceInclude {
 	get prices(): PriceInclude { return new PriceInclude(this.include('prices'))}
 	get price_list_schedulers(): PriceListSchedulerInclude { return new PriceListSchedulerInclude(this.include('price_list_schedulers'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -881,7 +816,6 @@ class PriceListSchedulerInclude extends ResourceInclude {
 	get market(): MarketInclude { return new MarketInclude(this.include('market'))}
 	get price_list(): PriceListInclude { return new PriceListInclude(this.include('price_list'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -889,7 +823,6 @@ class PriceListSchedulerInclude extends ResourceInclude {
 class PriceTierInclude extends ResourceInclude {
 	get price(): PriceInclude { return new PriceInclude(this.include('price'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -897,7 +830,6 @@ class PriceTierInclude extends ResourceInclude {
 class PriceVolumeTierInclude extends ResourceInclude {
 	get price(): PriceInclude { return new PriceInclude(this.include('price'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 }
@@ -915,14 +847,12 @@ class PromotionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class PromotionRuleInclude extends ResourceInclude {
 	get promotion(): PromotionInclude { return new PromotionInclude(this.include('promotion'))} // polymorphic
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -940,7 +870,6 @@ class RefundInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get reference_capture(): CaptureInclude { return new CaptureInclude(this.include('reference_capture'))}
 	get return(): ReturnInclude { return new ReturnInclude(this.include('return'))}
@@ -951,7 +880,6 @@ class ReservedStockInclude extends ResourceInclude {
 	get stock_item(): StockItemInclude { return new StockItemInclude(this.include('stock_item'))}
 	get sku(): SkuInclude { return new SkuInclude(this.include('sku'))}
 	get stock_reservations(): StockReservationInclude { return new StockReservationInclude(this.include('stock_reservations'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -974,7 +902,6 @@ class ReturnInclude extends ResourceInclude {
 	get resource_errors(): ResourceErrorInclude { return new ResourceErrorInclude(this.include('resource_errors'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -988,7 +915,6 @@ class ReturnLineItemInclude extends ResourceInclude {
 
 class SatispayGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get satispay_payments(): SatispayPaymentInclude { return new SatispayPaymentInclude(this.include('satispay_payments'))}
 }
@@ -997,7 +923,6 @@ class SatispayGatewayInclude extends ResourceInclude {
 class SatispayPaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1022,7 +947,6 @@ class ShipmentInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1033,7 +957,6 @@ class ShipmentLineItemInclude extends ResourceInclude {
 	get stock_item(): StockItemInclude { return new StockItemInclude(this.include('stock_item'))}
 	get sku(): SkuInclude { return new SkuInclude(this.include('sku'))}
 	get stock_reservation(): StockReservationInclude { return new StockReservationInclude(this.include('stock_reservation'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1041,7 +964,6 @@ class ShipmentLineItemInclude extends ResourceInclude {
 class ShippingCategoryInclude extends ResourceInclude {
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1058,7 +980,6 @@ class ShippingMethodInclude extends ResourceInclude {
 	get notifications(): NotificationInclude { return new NotificationInclude(this.include('notifications'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1066,7 +987,6 @@ class ShippingMethodInclude extends ResourceInclude {
 class ShippingMethodTierInclude extends ResourceInclude {
 	get shipping_method(): ShippingMethodInclude { return new ShippingMethodInclude(this.include('shipping_method'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1074,14 +994,13 @@ class ShippingMethodTierInclude extends ResourceInclude {
 class ShippingWeightTierInclude extends ResourceInclude {
 	get shipping_method(): ShippingMethodInclude { return new ShippingMethodInclude(this.include('shipping_method'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
 }
 
 
 class ShippingZoneInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1099,7 +1018,6 @@ class SkuInclude extends ResourceInclude {
 	get links(): LinkInclude { return new LinkInclude(this.include('links'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get jwt_customer(): CustomerInclude { return new CustomerInclude(this.include('jwt_customer'))}
 	get jwt_markets(): MarketInclude { return new MarketInclude(this.include('jwt_markets'))}
 	get jwt_stock_locations(): StockLocationInclude { return new StockLocationInclude(this.include('jwt_stock_locations'))}
@@ -1114,7 +1032,6 @@ class SkuListInclude extends ResourceInclude {
 	get bundles(): BundleInclude { return new BundleInclude(this.include('bundles'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get links(): LinkInclude { return new LinkInclude(this.include('links'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1122,14 +1039,12 @@ class SkuListInclude extends ResourceInclude {
 class SkuListItemInclude extends ResourceInclude {
 	get sku_list(): SkuListInclude { return new SkuListInclude(this.include('sku_list'))}
 	get sku(): SkuInclude { return new SkuInclude(this.include('sku'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class SkuListPromotionRuleInclude extends ResourceInclude {
 	get promotion(): PromotionInclude { return new PromotionInclude(this.include('promotion'))} // polymorphic
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get sku_list(): SkuListInclude { return new SkuListInclude(this.include('sku_list'))}
 	get skus(): SkuInclude { return new SkuInclude(this.include('skus'))}
@@ -1141,7 +1056,6 @@ class SkuOptionInclude extends ResourceInclude {
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1152,7 +1066,6 @@ class StockItemInclude extends ResourceInclude {
 	get reserved_stock(): ReservedStockInclude { return new ReservedStockInclude(this.include('reserved_stock'))}
 	get stock_reservations(): StockReservationInclude { return new StockReservationInclude(this.include('stock_reservations'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1163,7 +1076,6 @@ class StockLineItemInclude extends ResourceInclude {
 	get stock_item(): StockItemInclude { return new StockItemInclude(this.include('stock_item'))}
 	get sku(): SkuInclude { return new SkuInclude(this.include('sku'))}
 	get stock_reservation(): StockReservationInclude { return new StockReservationInclude(this.include('stock_reservation'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1176,7 +1088,6 @@ class StockLocationInclude extends ResourceInclude {
 	get stock_transfers(): StockTransferInclude { return new StockTransferInclude(this.include('stock_transfers'))}
 	get stores(): StoreInclude { return new StoreInclude(this.include('stores'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1202,7 +1113,6 @@ class StockTransferInclude extends ResourceInclude {
 	get stock_reservation(): StockReservationInclude { return new StockReservationInclude(this.include('stock_reservation'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1214,14 +1124,12 @@ class StoreInclude extends ResourceInclude {
 	get orders(): OrderInclude { return new OrderInclude(this.include('orders'))}
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class StripeGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get stripe_payments(): StripePaymentInclude { return new StripePaymentInclude(this.include('stripe_payments'))}
 }
@@ -1230,7 +1138,6 @@ class StripeGatewayInclude extends ResourceInclude {
 class StripePaymentInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get payment_gateway(): PaymentGatewayInclude { return new PaymentGatewayInclude(this.include('payment_gateway'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1239,7 +1146,6 @@ class StripeTaxAccountInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get tax_categories(): TaxCategoryInclude { return new TaxCategoryInclude(this.include('tax_categories'))}
 }
@@ -1262,7 +1168,6 @@ class TalonOneAccountInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get discount_engine_items(): DiscountEngineItemInclude { return new DiscountEngineItemInclude(this.include('discount_engine_items'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1271,7 +1176,6 @@ class TaxCalculatorInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1280,14 +1184,12 @@ class TaxCategoryInclude extends ResourceInclude {
 	get sku(): SkuInclude { return new SkuInclude(this.include('sku'))}
 	get tax_calculator(): TaxCalculatorInclude { return new TaxCalculatorInclude(this.include('tax_calculator'))} // polymorphic
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class TaxRuleInclude extends ResourceInclude {
 	get manual_tax_calculator(): ManualTaxCalculatorInclude { return new ManualTaxCalculatorInclude(this.include('manual_tax_calculator'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1296,7 +1198,6 @@ class TaxjarAccountInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get tax_categories(): TaxCategoryInclude { return new TaxCategoryInclude(this.include('tax_categories'))}
 }
@@ -1306,12 +1207,6 @@ class TransactionInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
-	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
-}
-
-
-class VersionInclude extends ResourceInclude {
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1320,7 +1215,6 @@ class VertexAccountInclude extends ResourceInclude {
 	get markets(): MarketInclude { return new MarketInclude(this.include('markets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1329,7 +1223,6 @@ class VoidInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 	get reference_authorization(): AuthorizationInclude { return new AuthorizationInclude(this.include('reference_authorization'))}
 }
@@ -1337,14 +1230,12 @@ class VoidInclude extends ResourceInclude {
 
 class WebhookInclude extends ResourceInclude {
 	get last_event_callbacks(): EventCallbackInclude { return new EventCallbackInclude(this.include('last_event_callbacks'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
 
 class WireTransferInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
-	get versions(): VersionInclude { return new VersionInclude(this.include('versions'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -1481,7 +1372,6 @@ export class IncludeHelper {
 	get tax_rules(): TaxRuleInclude { return new TaxRuleInclude() }
 	get taxjar_accounts(): TaxjarAccountInclude { return new TaxjarAccountInclude() }
 	get transactions(): TransactionInclude { return new TransactionInclude() }
-	get versions(): VersionInclude { return new VersionInclude() }
 	get vertex_accounts(): VertexAccountInclude { return new VertexAccountInclude() }
 	get voids(): VoidInclude { return new VoidInclude() }
 	get webhooks(): WebhookInclude { return new WebhookInclude() }

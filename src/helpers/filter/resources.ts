@@ -445,6 +445,7 @@ class ExportFilterFields<M extends Types.FilterMaster> extends ResourceFilterFie
 	get completed_at(): Types.FilterOperator<M> { return this.addField('completed_at') }
 	get interrupted_at(): Types.FilterOperator<M> { return this.addField('interrupted_at') }
 	get records_count(): Types.FilterOperator<M> { return this.addField('records_count') }
+	get processed_count(): Types.FilterOperator<M> { return this.addField('processed_count') }
 	get attachment_url(): Types.FilterOperator<M> { return this.addField('attachment_url') }
 	get errors_log(): Types.FilterOperator<M> { return this.addField('errors_log') }
 	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
@@ -1535,6 +1536,7 @@ class ShippingWeightTierFilterFields<M extends Types.FilterMaster> extends Resou
 	get price_amount_cents(): Types.FilterOperator<M> { return this.addField('price_amount_cents') }
 	get shipping_method(): ShippingMethodFilterFields<M> { return new ShippingMethodFilterFields<M>(this.master, this.operator, this.addRelationship('shipping_method')) }
 	get attachments(): AttachmentFilterFields<M> { return new AttachmentFilterFields<M>(this.master, this.operator, this.addRelationship('attachments')) }
+	get events(): EventFilterFields<M> { return new EventFilterFields<M>(this.master, this.operator, this.addRelationship('events')) }
 }
 
 export type ShippingWeightTierFilter = ShippingWeightTierFilterFields<ShippingWeightTierFilter>
@@ -1828,14 +1830,6 @@ class TransactionFilterFields<M extends Types.FilterMaster> extends ResourceFilt
 export type TransactionFilter = TransactionFilterFields<TransactionFilter>
 
 
-class VersionFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
-	get resource_type(): Types.FilterOperator<M> { return this.addField('resource_type') }
-	get resource_id(): Types.FilterOperator<M> { return this.addField('resource_id') }
-}
-
-export type VersionFilter = VersionFilterFields<VersionFilter>
-
-
 class VertexAccountFilterFields<M extends Types.FilterMaster> extends ResourceFilterFields<M> {
 	get name(): Types.FilterOperator<M> { return this.addField('name') }
 	get type(): Types.FilterOperator<M> { return this.addField('type') }
@@ -2014,7 +2008,6 @@ export class FilterHelper {
 	get tax_rules(): TaxRuleFilter { return new TaxRuleFilterFields<TaxRuleFilter>() }
 	get taxjar_accounts(): TaxjarAccountFilter { return new TaxjarAccountFilterFields<TaxjarAccountFilter>() }
 	get transactions(): TransactionFilter { return new TransactionFilterFields<TransactionFilter>() }
-	get versions(): VersionFilter { return new VersionFilterFields<VersionFilter>() }
 	get vertex_accounts(): VertexAccountFilter { return new VertexAccountFilterFields<VertexAccountFilter>() }
 	get voids(): VoidFilter { return new VoidFilterFields<VoidFilter>() }
 	get webhooks(): WebhookFilter { return new WebhookFilterFields<WebhookFilter>() }

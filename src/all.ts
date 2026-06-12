@@ -1,4 +1,4 @@
-import type { ApiError, DeletableResourceType, ListableResourceType, ListResponse, QueryParamsList, Resource, ResourceUpdate, UpdatableResourceType } from "@commercelayer/sdk"
+import type { ApiError, DeletableResourceType, ListableResourceType, ListResponse, QueryParamsList, QuerySort, Resource, ResourceUpdate, UpdatableResourceType } from "@commercelayer/sdk"
 import { sleep } from "./common"
 import { config } from "./config"
 import CommerceLayerUtils from "./init"
@@ -25,7 +25,7 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 	const allParams: QueryParamsList<R> = params || {}
 	allParams.pageNumber = 1
 	allParams.pageSize = config.api.page_max_size
-	allParams.sort = ['id'] as QueryParamsList<R>['sort']
+	allParams.sort = ['id'] as QuerySort<R>
 	if (!allParams.filters) allParams.filters = {}
 
 	do {
@@ -88,7 +88,7 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>, R extends 
 	const allParams: QueryParamsList<R> = params || {}
 	allParams.pageNumber = 1
 	allParams.pageSize = config.api.page_max_size
-	allParams.sort = ['id'] as QueryParamsList<R>['sort']
+	allParams.sort = ['id'] as QuerySort<R>
 	if (!allParams.filters) allParams.filters = {}
 
 	do {
@@ -161,7 +161,7 @@ export const deleteAll = async <R extends Resource>(resourceType: DeletableResou
 	const allParams: QueryParamsList<R> = params || {}
 	allParams.pageNumber = 1
 	allParams.pageSize = config.api.page_max_size
-	allParams.sort = ['id'] as QueryParamsList<R>['sort']
+	allParams.sort = ['id'] as QuerySort<R>
 	if (!allParams.filters) allParams.filters = {}
 
 	do {

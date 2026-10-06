@@ -33,7 +33,7 @@ describe('sdk-utils.batch suite', () => {
     for (const t of tasks) {
       expect(t.executed).toBeTruthy()
       expect(t.onSuccess?.result).toBeDefined()
-      expect((t.onSuccess?.result as Resource).id).toBeDefined()
+      expect((t.onSuccess?.result as Resource | undefined)?.id).toBeDefined()
     }
   })
 
@@ -62,7 +62,7 @@ describe('sdk-utils.batch suite', () => {
       if (index < errorTask) {
         expect(t.executed).toBeTruthy()
         expect(t.onSuccess?.result).toBeDefined()
-        expect((t.onSuccess?.result as Resource).id).toBeDefined()
+        expect((t.onSuccess?.result as Resource | undefined)?.id).toBeDefined()
       } else if (index === errorTask) {
         expect(t.executed).toBeTruthy()
         expect(t.onFailure?.error).toBeDefined()
@@ -96,14 +96,14 @@ describe('sdk-utils.batch suite', () => {
       if (index < errorTask) {
         expect(t.executed).toBeTruthy()
         expect(t.onSuccess?.result).toBeDefined()
-        expect((t.onSuccess?.result as Resource).id).toBeDefined()
+        expect((t.onSuccess?.result as Resource | undefined)?.id).toBeDefined()
       } else if (index === errorTask) {
         expect(t.executed).toBeTruthy()
         expect(t.onFailure?.error).toBeDefined()
       } else if (index > errorTask) {
         expect(t.executed).toBeTruthy()
         expect(t.onSuccess?.result).toBeDefined()
-        expect((t.onSuccess?.result as Resource).id).toBeDefined()
+        expect((t.onSuccess?.result as Resource | undefined)?.id).toBeDefined()
       }
     }
   })
@@ -137,7 +137,7 @@ describe('sdk-utils.batch suite', () => {
     for (const t of tasks) {
       expect(t.executed).toBeTruthy()
       expect(t.onSuccess?.result).toBeDefined()
-      expect((t.onSuccess?.result as Resource).id).toBeDefined()
+      expect((t.onSuccess?.result as Resource | undefined)?.id).toBeDefined()
     }
 
     expect(b.options?.refreshToken).toBeCalled()
@@ -174,7 +174,7 @@ describe('sdk-utils.batch suite', () => {
       if (index < errorTask) {
         expect(t.executed).toBeTruthy()
         expect(t.onSuccess?.result).toBeDefined()
-        expect((t.onSuccess?.result as Resource).id).toBeDefined()
+        expect((t.onSuccess?.result as Resource | undefined)?.id).toBeDefined()
       } else if (index === errorTask) {
         expect(t.executed).toBeTruthy()
         expect(t.onFailure?.error).toBeDefined()
@@ -211,7 +211,7 @@ describe('sdk-utils.batch suite', () => {
     for (const t of tasks) {
       expect(t.executed).toBeTruthy()
       expect(t.onSuccess?.result).toBeDefined()
-      expect((t.onSuccess?.result as Resource).id).toBeDefined()
+      expect((t.onSuccess?.result as Resource | undefined)?.id).toBeDefined()
       expect(t.onSuccess?.callback).toBeCalled()
     }
 

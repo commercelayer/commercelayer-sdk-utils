@@ -29,7 +29,8 @@
     "test-webhook": "tsx test/webhook.ts",
     "coverage": "vitest run --coverage",
     "semantic-release": "semantic-release",
-    "dep:semver": "pnpm dlx npm-check-updates --packageFile '**/package.json' -t semver -u && node replace-react.mjs",
+    "clean": "pnpx rimraf --glob **/node_modules **/pnpm-lock.yaml",
+    "dep:semver": "pnpm dlx npm-check-updates --packageFile '**/package.json' -t semver -u",
     "release": "pnpm upgrade && pnpm generate && pnpm lint && pnpm build && pnpm test"
   },
   "keywords": [
@@ -48,22 +49,21 @@
     "node": ">=20"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.8",
-    "@commercelayer/js-auth": "^7.4.2",
+    "@biomejs/biome": "^2.5.15",
+    "@commercelayer/js-auth": "^8.0.1",
     "@commercelayer/sdk": "^8.0.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/git": "^11.0.1",
     "@types/node": "^24.19.1",
-    "@vitest/coverage-v8": "^4.1.11",
-    "conventional-changelog-conventionalcommits": "^9.3.1",
-    "dotenv": "^16.6.1",
+    "@vitest/coverage-v8": "^5.0.3",
+    "dotenv": "^18.0.5",
     "jsonapi-typescript": "^0.1.3",
     "lefthook": "^2.1.17",
     "semantic-release": "^25.0.9",
     "tsup": "^8.5.1",
     "tsx": "^4.23.15",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.11"
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.3"
   },
   "peerDependencies": {
     "@commercelayer/sdk": "^8.0.0"

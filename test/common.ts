@@ -9,11 +9,12 @@ import {
 } from '@commercelayer/sdk/single-client'
 import dotenv from 'dotenv'
 import { CommerceLayerUtils, type CommerceLayerUtilsConfig } from '../src'
+import { GLOBAL_TIMEOUT } from './timeout'
 import getToken from './token'
 
 dotenv.config()
 
-export const GLOBAL_TIMEOUT = 15000
+export { GLOBAL_TIMEOUT }
 
 const organization = process.env.CL_SDK_ORGANIZATION as string
 const domain = process.env.CL_SDK_DOMAIN as string

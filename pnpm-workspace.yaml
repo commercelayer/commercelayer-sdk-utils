@@ -3,3 +3,5 @@ allowBuilds:
   lefthook: true
 minimumReleaseAgeExclude:
   - '@commercelayer/sdk@8.0.0'
+overrides:
+  "esbuild": "^0.28.2"

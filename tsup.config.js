@@ -12,7 +12,9 @@ const watch = isDev && (process.argv.filter(arg => (arg === '--watch') || (arg =
 export default defineConfig(() => ({
   sourcemap: isDev,
   clean: true,
-  dts: true,
+  // tsup always sets `baseUrl` for the declaration build, deprecated since
+  // TypeScript 6: silence it there only, until tsup stops setting it
+  dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
   format: ['cjs', 'esm'],
   minify: isProd,
   bundle: true,

@@ -1,0 +1,12 @@
+# Git hooks, installed on `pnpm install`: https://lefthook.dev
+pre-commit:
+  commands:
+    biome:
+      glob: "*.{js,ts,cjs,mjs,json}"
+      # Lint fixes and import sorting on the staged files only, then re-stage them
+      run: node_modules/.bin/biome check --write --enforce-assist=true --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+      env:
+        # GUI git clients (e.g. Fork) run hooks without the shell PATH: add the
+        # usual node locations, needed by the biome launcher
+        PATH: $PATH:/opt/homebrew/bin:/usr/local/bin

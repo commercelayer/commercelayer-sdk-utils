@@ -1,12 +1,24 @@
 # Git hooks, installed on `pnpm install`: https://lefthook.dev
+#
+# pnpm checks that node_modules matches the lockfile before running, and would
+# try to install from inside the hook (e.g. right after pulling a dependency
+# change): `verify-deps-before-run=warn` only prints a warning instead.
 pre-commit:
   commands:
     biome:
       glob: "*.{js,ts,cjs,mjs,json}"
-      # Lint fixes and import sorting on the staged files only, then re-stage them
-      run: node_modules/.bin/biome check --write --enforce-assist=true --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      # Lint fixes, formatting and import sorting on the staged files only, then re-stage them
+      run: pnpm --config.verify-deps-before-run=warn exec biome check --write --enforce-assist=true --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
       stage_fixed: true
       env:
         # GUI git clients (e.g. Fork) run hooks without the shell PATH: add the
-        # usual node locations, needed by the biome launcher
+        # usual locations of pnpm and node
+        PATH: $PATH:/opt/homebrew/bin:/usr/local/bin
+
+pre-push:
+  commands:
+    ts-check:
+      # A few seconds: catches type errors before CI does (specs and scripts included)
+      run: pnpm --config.verify-deps-before-run=warn ts:check
+      env:
         PATH: $PATH:/opt/homebrew/bin:/usr/local/bin

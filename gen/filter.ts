@@ -52,7 +52,7 @@ export const generate = async (resources: any): Promise<any> => {
 
   try {
     const resourceHelpers: Partial<Record<ResourceTypeLock, string>> = {}
-    resources.forEach((r) => {
+    resources.forEach((r: any) => {
       if (!r.attributes.singleton) resourceHelpers[r.id as ResourceTypeLock] = Inflector.camelize(r.id)
     })
 

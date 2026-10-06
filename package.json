@@ -21,6 +21,7 @@
   "scripts": {
     "generate": "tsx gen/generator.ts && biome format --write src/helpers",
     "lint": "biome check --enforce-assist=true",
+    "ts:check": "tsc -p tsconfig.check.json",
     "check": "biome check --enforce-assist=true --write",
     "build": "tsup",
     "test": "vitest",

@@ -1,0 +1,6 @@
+{
+  // Type-checks everything, specs and scripts included: tsconfig.json only covers src (the build)
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true, "rootDir": "." },
+  "include": ["src/**/*.ts", "specs/**/*.ts", "test/**/*.ts", "gen/**/*.ts"]
+}

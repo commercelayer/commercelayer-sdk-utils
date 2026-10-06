@@ -1,7 +1,7 @@
 import CommerceLayer, { type QueryParamsList } from '@commercelayer/sdk'
-import CommerceLayerUtils from '../lib'
-import { buildFilter, Filter } from '../lib/helpers/filter'
-import { buildInclude, Include } from '../lib/helpers/include'
+import CommerceLayerUtils from '../src'
+import { buildFilter, Filter } from '../src/helpers/filter'
+import { buildInclude, Include } from '../src/helpers/include'
 
 const organization = 'sdk-test-org'
 const accessToken =

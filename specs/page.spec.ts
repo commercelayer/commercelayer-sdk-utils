@@ -1,5 +1,5 @@
 
-import { type Customer, type Customers, customers } from '@commercelayer/sdk'
+import { type Customer, type Customers, customers } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { retrievePage } from '../src'
 import { sleep } from '../src/common'

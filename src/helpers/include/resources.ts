@@ -206,6 +206,8 @@ class CustomerInclude extends ResourceInclude {
 	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
 	get returns(): ReturnInclude { return new ReturnInclude(this.include('returns'))}
 	get sku_lists(): SkuListInclude { return new SkuListInclude(this.include('sku_lists'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
@@ -574,6 +576,7 @@ class MarketInclude extends ResourceInclude {
 	get stores(): StoreInclude { return new StoreInclude(this.include('stores'))}
 	get price_list_schedulers(): PriceListSchedulerInclude { return new PriceListSchedulerInclude(this.include('price_list_schedulers'))}
 	get order_validation_rules(): OrderValidationRuleInclude { return new OrderValidationRuleInclude(this.include('order_validation_rules'))} // polymorphic
+	get payment_rules(): PaymentRuleInclude { return new PaymentRuleInclude(this.include('payment_rules'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
@@ -599,6 +602,7 @@ class OrderInclude extends ResourceInclude {
 	get store(): StoreInclude { return new StoreInclude(this.include('store'))}
 	get default_shipping_method(): ShippingMethodInclude { return new ShippingMethodInclude(this.include('default_shipping_method'))}
 	get default_payment_method(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('default_payment_method'))}
+	get available_payment_settings(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('available_payment_settings'))} // polymorphic
 	get available_payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('available_payment_methods'))}
 	get available_customer_payment_sources(): CustomerPaymentSourceInclude { return new CustomerPaymentSourceInclude(this.include('available_customer_payment_sources'))}
 	get available_free_skus(): SkuInclude { return new SkuInclude(this.include('available_free_skus'))}
@@ -607,11 +611,17 @@ class OrderInclude extends ResourceInclude {
 	get discount_engine_item(): DiscountEngineItemInclude { return new DiscountEngineItemInclude(this.include('discount_engine_item'))}
 	get line_items(): LineItemInclude { return new LineItemInclude(this.include('line_items'))}
 	get line_item_options(): LineItemOptionInclude { return new LineItemOptionInclude(this.include('line_item_options'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
 	get stock_reservations(): StockReservationInclude { return new StockReservationInclude(this.include('stock_reservations'))}
 	get stock_line_items(): StockLineItemInclude { return new StockLineItemInclude(this.include('stock_line_items'))}
 	get stock_transfers(): StockTransferInclude { return new StockTransferInclude(this.include('stock_transfers'))}
 	get shipments(): ShipmentInclude { return new ShipmentInclude(this.include('shipments'))}
 	get payment_options(): PaymentOptionInclude { return new PaymentOptionInclude(this.include('payment_options'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))} // polymorphic
+	get payment_authorizations(): PaymentAuthorizationInclude { return new PaymentAuthorizationInclude(this.include('payment_authorizations'))}
+	get payment_captures(): PaymentCaptureInclude { return new PaymentCaptureInclude(this.include('payment_captures'))}
+	get payment_voids(): PaymentVoidInclude { return new PaymentVoidInclude(this.include('payment_voids'))}
+	get payment_refunds(): PaymentRefundInclude { return new PaymentRefundInclude(this.include('payment_refunds'))}
 	get transactions(): TransactionInclude { return new TransactionInclude(this.include('transactions'))} // polymorphic
 	get authorizations(): AuthorizationInclude { return new AuthorizationInclude(this.include('authorizations'))}
 	get captures(): CaptureInclude { return new CaptureInclude(this.include('captures'))}
@@ -662,11 +672,14 @@ class OrderSubscriptionInclude extends ResourceInclude {
 	get source_order(): OrderInclude { return new OrderInclude(this.include('source_order'))}
 	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
 	get customer_payment_source(): CustomerPaymentSourceInclude { return new CustomerPaymentSourceInclude(this.include('customer_payment_source'))}
+	get payment_wallet(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallet'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))}
 	get order_subscription_items(): OrderSubscriptionItemInclude { return new OrderSubscriptionItemInclude(this.include('order_subscription_items'))}
 	get order_factories(): OrderFactoryInclude { return new OrderFactoryInclude(this.include('order_factories'))}
 	get order_copies(): OrderCopyInclude { return new OrderCopyInclude(this.include('order_copies'))}
 	get recurring_order_copies(): RecurringOrderCopyInclude { return new RecurringOrderCopyInclude(this.include('recurring_order_copies'))}
 	get orders(): OrderInclude { return new OrderInclude(this.include('orders'))}
+	get resource_errors(): ResourceErrorInclude { return new ResourceErrorInclude(this.include('resource_errors'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get tags(): TagInclude { return new TagInclude(this.include('tags'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
@@ -721,8 +734,43 @@ class ParcelLineItemInclude extends ResourceInclude {
 }
 
 
+class PaymentAuthorizationInclude extends ResourceInclude {
+	get payment_session(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_session'))}
+	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))} // polymorphic
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+	get payment_void(): PaymentVoidInclude { return new PaymentVoidInclude(this.include('payment_void'))}
+	get payment_captures(): PaymentCaptureInclude { return new PaymentCaptureInclude(this.include('payment_captures'))}
+}
+
+
+class PaymentCaptureInclude extends ResourceInclude {
+	get payment_session(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_session'))}
+	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))} // polymorphic
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+	get payment_authorization(): PaymentAuthorizationInclude { return new PaymentAuthorizationInclude(this.include('payment_authorization'))}
+	get payment_refunds(): PaymentRefundInclude { return new PaymentRefundInclude(this.include('payment_refunds'))}
+}
+
+
 class PaymentGatewayInclude extends ResourceInclude {
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude(this.include('payment_methods'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentLinkInclude extends ResourceInclude {
+	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
+	get billing_address(): AddressInclude { return new AddressInclude(this.include('billing_address'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))}
+	get payment_session(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_session'))}
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -739,6 +787,160 @@ class PaymentMethodInclude extends ResourceInclude {
 class PaymentOptionInclude extends ResourceInclude {
 	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentRefundInclude extends ResourceInclude {
+	get payment_session(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_session'))}
+	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))} // polymorphic
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+	get payment_capture(): PaymentCaptureInclude { return new PaymentCaptureInclude(this.include('payment_capture'))}
+	get return(): ReturnInclude { return new ReturnInclude(this.include('return'))}
+}
+
+
+class PaymentRuleInclude extends ResourceInclude {
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSessionInclude extends ResourceInclude {
+	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))} // polymorphic
+	get payment_wallet(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallet'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_authorization(): PaymentAuthorizationInclude { return new PaymentAuthorizationInclude(this.include('payment_authorization'))}
+	get payment_void(): PaymentVoidInclude { return new PaymentVoidInclude(this.include('payment_void'))}
+	get payment_captures(): PaymentCaptureInclude { return new PaymentCaptureInclude(this.include('payment_captures'))}
+	get payment_refunds(): PaymentRefundInclude { return new PaymentRefundInclude(this.include('payment_refunds'))}
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingAdyenInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingBraintreeInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingCheckoutComInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingExternalInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingGiftCardInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingManualInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingPaypalInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentSettingStripeInclude extends ResourceInclude {
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude(this.include('payment_links'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude(this.include('payment_transactions'))}
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude(this.include('payment_wallets'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentTransactionInclude extends ResourceInclude {
+	get payment_session(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_session'))}
+	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))} // polymorphic
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+}
+
+
+class PaymentVoidInclude extends ResourceInclude {
+	get payment_session(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_session'))}
+	get order(): OrderInclude { return new OrderInclude(this.include('order'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))} // polymorphic
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
+	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
+	get payment_authorization(): PaymentAuthorizationInclude { return new PaymentAuthorizationInclude(this.include('payment_authorization'))}
+}
+
+
+class PaymentWalletInclude extends ResourceInclude {
+	get customer(): CustomerInclude { return new CustomerInclude(this.include('customer'))}
+	get payment_setting(): PaymentSettingInclude { return new PaymentSettingInclude(this.include('payment_setting'))}
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude(this.include('payment_sessions'))}
+	get order_subscriptions(): OrderSubscriptionInclude { return new OrderSubscriptionInclude(this.include('order_subscriptions'))}
+	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
+	get events(): EventInclude { return new EventInclude(this.include('events'))}
 	get event_stores(): EventStoreInclude { return new EventStoreInclude(this.include('event_stores'))}
 }
 
@@ -898,6 +1100,7 @@ class ReturnInclude extends ResourceInclude {
 	get reference_capture(): CaptureInclude { return new CaptureInclude(this.include('reference_capture'))}
 	get reference_refund(): RefundInclude { return new RefundInclude(this.include('reference_refund'))}
 	get return_line_items(): ReturnLineItemInclude { return new ReturnLineItemInclude(this.include('return_line_items'))}
+	get payment_refunds(): PaymentRefundInclude { return new PaymentRefundInclude(this.include('payment_refunds'))}
 	get attachments(): AttachmentInclude { return new AttachmentInclude(this.include('attachments'))}
 	get resource_errors(): ResourceErrorInclude { return new ResourceErrorInclude(this.include('resource_errors'))}
 	get events(): EventInclude { return new EventInclude(this.include('events'))}
@@ -1320,9 +1523,27 @@ export class IncludeHelper {
 	get packages(): PackageInclude { return new PackageInclude() }
 	get parcels(): ParcelInclude { return new ParcelInclude() }
 	get parcel_line_items(): ParcelLineItemInclude { return new ParcelLineItemInclude() }
+	get payment_authorizations(): PaymentAuthorizationInclude { return new PaymentAuthorizationInclude() }
+	get payment_captures(): PaymentCaptureInclude { return new PaymentCaptureInclude() }
 	get payment_gateways(): PaymentGatewayInclude { return new PaymentGatewayInclude() }
+	get payment_links(): PaymentLinkInclude { return new PaymentLinkInclude() }
 	get payment_methods(): PaymentMethodInclude { return new PaymentMethodInclude() }
 	get payment_options(): PaymentOptionInclude { return new PaymentOptionInclude() }
+	get payment_refunds(): PaymentRefundInclude { return new PaymentRefundInclude() }
+	get payment_rules(): PaymentRuleInclude { return new PaymentRuleInclude() }
+	get payment_sessions(): PaymentSessionInclude { return new PaymentSessionInclude() }
+	get payment_settings(): PaymentSettingInclude { return new PaymentSettingInclude() }
+	get payment_setting_adyens(): PaymentSettingAdyenInclude { return new PaymentSettingAdyenInclude() }
+	get payment_setting_braintrees(): PaymentSettingBraintreeInclude { return new PaymentSettingBraintreeInclude() }
+	get payment_setting_checkout_coms(): PaymentSettingCheckoutComInclude { return new PaymentSettingCheckoutComInclude() }
+	get payment_setting_externals(): PaymentSettingExternalInclude { return new PaymentSettingExternalInclude() }
+	get payment_setting_gift_cards(): PaymentSettingGiftCardInclude { return new PaymentSettingGiftCardInclude() }
+	get payment_setting_manuals(): PaymentSettingManualInclude { return new PaymentSettingManualInclude() }
+	get payment_setting_paypals(): PaymentSettingPaypalInclude { return new PaymentSettingPaypalInclude() }
+	get payment_setting_stripes(): PaymentSettingStripeInclude { return new PaymentSettingStripeInclude() }
+	get payment_transactions(): PaymentTransactionInclude { return new PaymentTransactionInclude() }
+	get payment_voids(): PaymentVoidInclude { return new PaymentVoidInclude() }
+	get payment_wallets(): PaymentWalletInclude { return new PaymentWalletInclude() }
 	get paypal_gateways(): PaypalGatewayInclude { return new PaypalGatewayInclude() }
 	get paypal_payments(): PaypalPaymentInclude { return new PaypalPaymentInclude() }
 	get percentage_discount_promotions(): PercentageDiscountPromotionInclude { return new PercentageDiscountPromotionInclude() }

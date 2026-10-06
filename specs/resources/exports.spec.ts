@@ -1,5 +1,5 @@
 
-import { type ExportCreate, exports, prices } from '@commercelayer/sdk'
+import { type ExportCreate, exports, prices } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import type { Task, TaskResult } from '../../src'
 import { executeExport, exportsToBatchTasks, splitExport } from '../../src'
@@ -29,7 +29,7 @@ describe('sdk-utils.exports suite', () => {
 		const resourceCount = await ApiResourceClient(resourceType).count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
-		const expCreate = {
+		const expCreate: ExportCreate = {
 			resource_type: resourceType
 		}
 
@@ -117,7 +117,7 @@ describe('sdk-utils.exports suite', () => {
 		const resourceCount = await ApiResourceClient(resourceType).count()	// await cl[resourceType].count()
 		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
-		const expCreate = {
+		const expCreate: ExportCreate = {
 			resource_type: resourceType
 		}
 

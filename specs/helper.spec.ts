@@ -1,6 +1,6 @@
 
 import type { QueryFilter, QueryInclude, QueryParams, QueryParamsList } from '@commercelayer/sdk'
-import { type Customers, customer_groups, customers, type Orders, orders } from '@commercelayer/sdk'
+import { type Customers, customer_groups, customers, type Orders, orders } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { buildFilter, Filter } from '../src/helpers/filter'
 import { buildInclude, Include } from '../src/helpers/include'

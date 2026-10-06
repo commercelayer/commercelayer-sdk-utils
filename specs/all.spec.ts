@@ -1,5 +1,5 @@
 
-import { type ShippingCategory, type Sku, type SkuCreate, type Skus, shipping_categories, skus } from '@commercelayer/sdk'
+import { type ShippingCategory, type Sku, type SkuCreate, type Skus, shipping_categories, skus } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { deleteAll, retrieveAll, updateAll } from '../src'
 import { ApiResourceClient } from '../src/init'

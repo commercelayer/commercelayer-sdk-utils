@@ -6,7 +6,7 @@ const organization = 'cli-test-org'
 const accessToken = 'pippo'
 const refreshedAccessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJ3UlBwRUZPRWxSIiwic2x1ZyI6InNkay10ZXN0LW9yZyIsImVudGVycHJpc2UiOmZhbHNlfSwiYXBwbGljYXRpb24iOnsiaWQiOiJWcERYV2lxa0JwIiwia2luZCI6ImludGVncmF0aW9uIiwicHVibGljIjpmYWxzZX0sInRlc3QiOnRydWUsImV4cCI6MTY5NTg5NTYwMCwicmFuZCI6MC42NTUyMTM3NzE2NzgyNzU1fQ.w3QctexjFmF3wz6G9pY_3AoVUirVcjWqgKB44WzWcCtPegE3LaPhiJGd7uM4f6tqkXTUuXh1lCskhxxhdK39xg'
 
-const cl = CommerceLayer({ organization, accessToken })
+const cl = CommerceLayer({ organization, accessToken, apiVersion: '2026-05' })
 
 const _utils = CommerceLayerUtils(cl)
 

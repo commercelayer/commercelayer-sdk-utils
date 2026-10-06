@@ -502,7 +502,7 @@ async function dnormalizeTest(response: string): Promise<void> {
 
   const accessToken = await token('integration')
 
-  const cl = CommerceLayer({ accessToken: accessToken.accessToken })
+  const cl = CommerceLayer({ accessToken: accessToken.accessToken, apiVersion: '2026-05' })
 
   const _utils = CommerceLayerUtils(cl)
 

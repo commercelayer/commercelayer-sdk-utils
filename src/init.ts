@@ -1,4 +1,15 @@
-import { type ApiResource, type CommerceLayerClient, CommerceLayerStatic, type Resource, type ResourceTypeLock } from "@commercelayer/sdk"
+import { type ApiResource, CommerceLayerStatic, type Resource, type ResourceTypeLock } from "@commercelayer/sdk"
+// Base class of both SDK v8 clients: the bundled one (default entry) extends it,
+// and the single-client one (`@commercelayer/sdk/single-client`) is it.
+import type { CommerceLayerSingleClient as CommerceLayerClient } from "@commercelayer/sdk/single-client"
+
+
+/** The client's own instance of a resource: only a bundled client has one */
+const clientResource = (cl: CommerceLayerClient, type: ResourceTypeLock): ApiResource<Resource> | undefined => {
+	const field = CommerceLayerStatic.isSingleton(type)? type.slice(0, -1) : type
+	const res = (cl as any)[field] as ApiResource<Resource> | undefined
+	return (res?.type && (res.type() === type))? res : undefined
+}
 
 
 class CommerceLayerUtilsConfig {
@@ -33,8 +44,10 @@ class CommerceLayerUtilsConfig {
 
 	addApiResource(resource: ApiResource<Resource>): this {
 		const type = resource.type()
-		if (CommerceLayerStatic.resources().includes(type)) this.#api[type] = resource
-		else throw Error(`Invalid resource: [${type}]`)
+		if (!CommerceLayerStatic.resources().includes(type)) throw Error(`Invalid resource: [${type}]`)
+		// A standalone resource sends its requests through the last single client
+		// created, not necessarily this one: prefer the client's own instance if any
+		this.#api[type] = (this.#sdk && clientResource(this.#sdk, type)) || resource
 		return this
 	}
 
@@ -58,9 +71,8 @@ function CommerceLayerUtils(cl?: CommerceLayerClient, resources?: Array<ApiResou
 		const resList: Array<ApiResource<Resource>> = resources || []
 		if (resList.length === 0) {
 			for (const res of cl.resources()) {
-				const resField = CommerceLayerStatic.isSingleton(res as ResourceTypeLock)? res.slice(0, -1) : res
-				const resApi = (cl as any)[resField] as ApiResource<Resource>
-				if (resApi?.type && CommerceLayerStatic.resources().includes(resApi.type())) resList.push(resApi)
+				const resApi = clientResource(cl, res as ResourceTypeLock)
+				if (resApi && CommerceLayerStatic.resources().includes(resApi.type())) resList.push(resApi)
 			}
 		}
 		

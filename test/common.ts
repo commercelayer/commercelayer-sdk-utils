@@ -1,5 +1,5 @@
 import { inspect } from 'node:util'
-import { type ApiResource, CommerceLayer, type CommerceLayerClient, type Resource } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
+import { API_SCHEMA_VERSION, type ApiResource, type ApiVersion, CommerceLayer, type CommerceLayerSingleClient as CommerceLayerClient, type Resource } from '@commercelayer/sdk/single-client'
 import dotenv from 'dotenv'
 import { CommerceLayerUtils, type CommerceLayerUtilsConfig } from '../src'
 import getToken from './token'
@@ -13,6 +13,10 @@ const organization = process.env.CL_SDK_ORGANIZATION as string
 const domain = process.env.CL_SDK_DOMAIN as string
 
 export { domain, organization }
+
+// The Core API is versioned and `apiVersion` is required by the SDK: target the
+// version its types were generated for.
+export const API_VERSION = API_SCHEMA_VERSION as ApiVersion
 
 const INTERCEPTOR_CANCEL = 'TEST-INTERCEPTED'
 const _REQUEST_TIMEOUT = 5550
@@ -50,7 +54,7 @@ const initClient = async (): Promise<CommerceLayerClient> => {
 	const accessToken = token.accessToken
 	currentAccessToken = accessToken
 	
-	const client = CommerceLayer({ organization, accessToken, domain })
+	const client = CommerceLayer({ organization, accessToken, domain, apiVersion: API_VERSION })
 	client.config({ timeout: GLOBAL_TIMEOUT })
 
 	try { vi.setConfig({ testTimeout: GLOBAL_TIMEOUT })  } catch(_err: any) {}
@@ -62,7 +66,7 @@ const initClient = async (): Promise<CommerceLayerClient> => {
 
 const fakeClient = async (): Promise<CommerceLayerClient> => {
 	const accessToken = 'fake-access-token'
-	const client = CommerceLayer({ organization, accessToken, domain })
+	const client = CommerceLayer({ organization, accessToken, domain, apiVersion: API_VERSION })
 	currentAccessToken = accessToken
 	return client
 }

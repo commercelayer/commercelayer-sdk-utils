@@ -1,6 +1,6 @@
 
 
-import { type CleanupCreate, skus } from '@commercelayer/sdk'
+import { type CleanupCreate, skus } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { cleanupsToBatchTasks, splitCleanup, type Task, type TaskResult,  } from '../../src'
 import type { TemplateTask } from '../../src/batch'
@@ -30,7 +30,7 @@ describe('sdk-utils.cleanups suite', () => {
 		const resourceCount = await ApiResourceClient(resourceType).count()
 		const expectedCleanups = Math.ceil(resourceCount / cleanupMaxSize)
 		
-		const clpCreate = {
+		const clpCreate: CleanupCreate = {
 			resource_type: resourceType
 		}
 

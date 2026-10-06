@@ -1,5 +1,5 @@
 
-import { customers, type Resource, type SdkError } from '@commercelayer/sdk'
+import { customers, type Resource, type SdkError } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
 import { executeBatch } from '../src'

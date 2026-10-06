@@ -18,7 +18,7 @@ const BODY = '{"data":{"id":"OeRyhjDlje","type":"customers","links":{"self":"/ap
 
 
 
-const cl = CommerceLayer({ organization, accessToken })
+const cl = CommerceLayer({ organization, accessToken, apiVersion: '2026-05' })
 
 const _utils = CommerceLayerUtils(cl)
 

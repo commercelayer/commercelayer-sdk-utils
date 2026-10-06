@@ -1,19 +1,26 @@
-import type { Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate, QueryFilter, ResourceTypeLock } from "@commercelayer/sdk"
-import type { Task, TemplateTask } from "./batch"
-import { groupUID, sleep } from "./common"
-import { config } from "./config"
-import CommerceLayerUtils from "./init"
-import { computeRateLimits, headerRateLimits } from "./rate_limit"
-
+import type {
+  Cleanup,
+  CleanupCreate,
+  Export,
+  ExportCreate,
+  Import,
+  ImportCreate,
+  QueryFilter,
+  ResourceTypeLock,
+} from '@commercelayer/sdk'
+import type { Task, TemplateTask } from './batch'
+import { groupUID, sleep } from './common'
+import { config } from './config'
+import CommerceLayerUtils from './init'
+import { computeRateLimits, headerRateLimits } from './rate_limit'
 
 export type JobOptions = {
-	size?: number			// The output size of the jobs
-	delay?: number			// Delay to use between requests if made in conjunction with other external calls
-	queueLength?: number	// Max length of remote queue of jobs
-	noGroupId?: boolean		// groupId won't be added to generated resources
-	noMetadata?: boolean	// Job metadata won't be added to generated resources
+  size?: number // The output size of the jobs
+  delay?: number // Delay to use between requests if made in conjunction with other external calls
+  queueLength?: number // Max length of remote queue of jobs
+  noGroupId?: boolean // groupId won't be added to generated resources
+  noMetadata?: boolean // Job metadata won't be added to generated resources
 }
-
 
 export type JobOutputType = 'exports' | 'cleanups'
 export type JobInputType = 'imports'
@@ -27,202 +34,199 @@ export type ResourceJobResult = ResourceJobOutputResult | ResourceJobInputResult
 export type ResourceJobOutputResult = Export | Cleanup
 export type ResourceJobInputResult = Import
 
+export const splitInputJob = <JI extends ResourceJobInput>(
+  job: JI,
+  jobType: JobInputType,
+  options?: JobOptions,
+): JI[] => {
+  const jobs: JI[] = []
+  if (!job?.inputs || job.inputs.length === 0) return jobs
+  const groupId = options?.noGroupId ? undefined : groupUID()
 
+  const jobSize = options?.size
+  const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
 
-export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: JobInputType, options?: JobOptions): JI[] => {
+  const allInputs = job.inputs
+  const totJobs = Math.ceil(allInputs.length / jobMaxSize)
 
-	const jobs: JI[] = []
-	if (!job?.inputs || (job.inputs.length === 0)) return jobs
-	const groupId = options?.noGroupId? undefined : groupUID()
+  let jobNum = 0
+  while (allInputs.length > 0) {
+    jobNum++
 
-	const jobSize = options?.size
-	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
+    const jobCreate: JI = {
+      ...job,
+      inputs: allInputs.splice(0, jobMaxSize),
+      metadata: { ...job.metadata },
+    }
+    if (groupId) jobCreate.reference = `${groupId}-${jobNum}`
+    // Job metadata
+    if (!options?.noMetadata) {
+      if (!jobCreate.metadata) jobCreate.metadata = {}
+      jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
+      if (groupId) jobCreate.metadata.group_id = groupId
+    }
 
-	const allInputs = job.inputs
-	const totJobs = Math.ceil(allInputs.length / jobMaxSize)
+    jobs.push(jobCreate)
+  }
 
-	let jobNum = 0
-	while (allInputs.length > 0) {
-
-		jobNum++
-
-		const jobCreate: JI = {
-			...job,
-			inputs: allInputs.splice(0, jobMaxSize),
-			metadata: { ...job.metadata }
-		}
-		if (groupId) jobCreate.reference = `${groupId}-${jobNum}`
-		// Job metadata
-		if (!options?.noMetadata) {
-			if (!jobCreate.metadata) jobCreate.metadata = {}
-			jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
-			if (groupId) jobCreate.metadata.group_id = groupId
-		}
-
-		jobs.push(jobCreate)
-
-	}
-
-	return jobs
-
+  return jobs
 }
 
+export const splitOutputJob = async <JO extends ResourceJobOutput>(
+  job: JO,
+  jobType: JobOutputType,
+  options?: JobOptions,
+): Promise<JO[]> => {
+  const cl = CommerceLayerUtils().sdk
+  const rrr = cl.addRawResponseReader({ headers: true })
+  // const resSdk = cl[job.resource_type as ListableResourceType] as unknown as ApiResource<ListableResource>
+  const resSdk = CommerceLayerUtils().api(job.resource_type as ResourceTypeLock)
+  const jobSize = options?.size
+  const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
+  let delay = options?.delay
 
-export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobType: JobOutputType, options?: JobOptions): Promise<JO[]> => {
+  const totRecords = await resSdk.count({ filters: job.filters as QueryFilter, pageSize: 1, pageNumber: 1 })
 
-	const cl = CommerceLayerUtils().sdk
-	const rrr = cl.addRawResponseReader({ headers: true })
-	// const resSdk = cl[job.resource_type as ListableResourceType] as unknown as ApiResource<ListableResource>
-	const resSdk = CommerceLayerUtils().api(job.resource_type as ResourceTypeLock)
-	const jobSize = options?.size
-	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
-	let delay = options?.delay
+  // Rate limit
+  if (!delay) {
+    const rateLimits = headerRateLimits(rrr.headers)
+    const rateLimit = computeRateLimits(rateLimits, jobType)
+    delay = rateLimit.delay
+  }
 
-	const totRecords = await resSdk.count({ filters: job.filters as QueryFilter, pageSize: 1, pageNumber: 1 })
+  cl.removeRawResponseReader()
 
-	// Rate limit
-	if (!delay) {
-		const rateLimits = headerRateLimits(rrr.headers)
-		const rateLimit = computeRateLimits(rateLimits, jobType)
-		delay = rateLimit.delay
-	}
-	
-	cl.removeRawResponseReader()
+  const totJobs = Math.ceil(totRecords / jobMaxSize)
 
-	const totJobs = Math.ceil(totRecords / jobMaxSize)
+  const jobs: JO[] = []
+  const groupId = options?.noGroupId ? undefined : groupUID()
 
+  let startId = null
+  let stopId = null
+  let jobPage = 0
 
-	const jobs: JO[] = []
-	const groupId = options?.noGroupId? undefined : groupUID()
+  for (let curJob = 0; curJob < totJobs; curJob++) {
+    const jobNum = curJob + 1
 
-	let startId = null
-	let stopId = null
-	let jobPage = 0
+    const jobCreate: JO = {
+      ...job,
+      filters: { ...job.filters },
+      metadata: { ...job.metadata },
+    }
+    if (groupId) jobCreate.reference = `${groupId}-${jobNum}`
+    if (!jobCreate.filters) jobCreate.filters = {}
+    // Job metadata
+    if (!options?.noMetadata) {
+      if (!jobCreate.metadata) jobCreate.metadata = {}
+      jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
+      if (groupId) jobCreate.metadata.group_id = groupId
+    }
 
+    const pageSize = 1
+    const curJobRecords = Math.min(jobMaxSize, totRecords - jobMaxSize * curJob)
+    const curJobPages = Math.ceil(curJobRecords / pageSize)
+    jobPage += curJobPages
 
-	for (let curJob = 0; curJob < totJobs; curJob++) {
+    await sleep(delay)
+    const curJobLastPage = await resSdk.list({
+      filters: job.filters as QueryFilter,
+      pageSize,
+      pageNumber: jobPage,
+      sort: { id: 'asc' },
+    })
 
-		const jobNum = curJob +1 
+    stopId = curJobLastPage.last()?.id
 
-		const jobCreate: JO = {
-			...job,
-			filters: { ...job.filters },
-			metadata: { ...job.metadata }
-		}
-		if (groupId) jobCreate.reference = `${groupId}-${jobNum}`
-		if (!jobCreate.filters) jobCreate.filters = {}
-		// Job metadata
-		if (!options?.noMetadata) {
-			if (!jobCreate.metadata) jobCreate.metadata = {}
-			jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
-			if (groupId) jobCreate.metadata.group_id = groupId
-		}
+    if (startId) jobCreate.filters.id_gt = startId
+    if (jobNum < totJobs) jobCreate.filters.id_lteq = stopId
 
-		const pageSize = 1
-		const curJobRecords = Math.min(jobMaxSize, totRecords - (jobMaxSize * curJob))
-		const curJobPages = Math.ceil(curJobRecords / pageSize)
-		jobPage += curJobPages
+    jobs.push(jobCreate)
 
-		await sleep(delay)
-		const curJobLastPage = await resSdk.list({ filters: job.filters as QueryFilter, pageSize, pageNumber: jobPage, sort: { id: 'asc' } })
+    startId = stopId
+  }
 
-		stopId = curJobLastPage.last()?.id
-		
-		if (startId) jobCreate.filters.id_gt = startId
-		if ((jobNum < totJobs)) jobCreate.filters.id_lteq = stopId
-
-		jobs.push(jobCreate)
-
-		startId = stopId
-
-	}
-
-	return jobs
-
+  return jobs
 }
 
+export const jobsToBatchTasks = (
+  jobs: ResourceJob[],
+  jobType: JobType,
+  baseTask?: TemplateTask,
+): Array<Task & { operation: 'create' }> => {
+  return jobs.map((job) => {
+    const task: Task = {
+      operation: 'create',
+      resourceType: jobType,
+      resource: { ...job },
+    }
 
-export const jobsToBatchTasks = (jobs: ResourceJob[], jobType: JobType, baseTask?: TemplateTask): Array<Task & { operation: 'create' }> => {
+    if (baseTask) {
+      task.onFailure = baseTask.onFailure
+      task.onSuccess = baseTask.onSuccess
+      task.params = baseTask.params
+      task.options = baseTask.options
+    }
 
-	return jobs.map(job => {
-
-		const task: Task = {
-			operation: 'create',
-			resourceType: jobType,
-			resource: { ...job }
-		}
-
-		if (baseTask) {
-			task.onFailure = baseTask.onFailure
-			task.onSuccess = baseTask.onSuccess
-			task.params = baseTask.params
-			task.options = baseTask.options
-		}
-
-		return task
-
-	})
-
+    return task
+  })
 }
-
 
 const isRunning = (job: ResourceJobResult): boolean => {
-	return (!job.status || ['pending', 'in_progress'].includes(job.status))
+  return !job.status || ['pending', 'in_progress'].includes(job.status)
 }
 
 const countRunning = (jobs: ResourceJobResult[]): number => {
-	return jobs.filter(j => isRunning(j)).length
+  return jobs.filter((j) => isRunning(j)).length
 }
 
 const isCompleted = (job: ResourceJobResult): boolean => {
-	return ['completed', 'interrupted'].includes(job.status)
+  return ['completed', 'interrupted'].includes(job.status)
 }
 
 const countCompleted = (jobs: ResourceJobResult[]): number => {
-	return jobs.filter(j => isCompleted(j)).length
+  return jobs.filter((j) => isCompleted(j)).length
 }
 
+export const executeJobs = async <J extends ResourceJobResult>(
+  jobs: ResourceJob[],
+  jobType: JobType,
+  options?: JobOptions,
+): Promise<J[]> => {
+  const checkInterval = 1000 // ms
 
-export const executeJobs = async <J extends ResourceJobResult>(jobs: ResourceJob[], jobType: JobType, options?: JobOptions): Promise<J[]> => {
+  const cl = CommerceLayerUtils().sdk
+  const rrr = cl.addRawResponseReader({ headers: true })
+  // const resSdk = cl(jobType]
+  const resSdk = CommerceLayerUtils().api(jobType)
+  const results: J[] = []
 
-	const checkInterval = 1000	// ms
+  const queueMax = options?.queueLength || config[jobType].queue_size || jobs.length
+  let delay = -1
 
-	const cl = CommerceLayerUtils().sdk
-	const rrr = cl.addRawResponseReader({ headers: true })
-	// const resSdk = cl(jobType]
-	const resSdk = CommerceLayerUtils().api(jobType)
-	const results: J[] = []
+  do {
+    // Create job if there are slots available
+    while (countRunning(results) < queueMax && results.length < jobs.length) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      const job = await (resSdk as any).create(jobs[results.length] as any)
+      results.push(job as J)
+      if (delay < 0) {
+        const rateLimits = headerRateLimits(rrr.headers)
+        const rateLimit = computeRateLimits(rateLimits, jobType)
+        delay = rateLimit.delay
+        cl.removeRawResponseReader()
+      } else await sleep(delay)
+    }
 
-	const queueMax = options?.queueLength || config[jobType].queue_size || jobs.length
-	let delay = -1
+    // Check job status
+    for (const job of results) {
+      if (isCompleted(job)) continue
+      await sleep(delay)
+      const j = await resSdk.retrieve(job)
+      Object.assign(job, j)
+    }
 
-	do {
+    await sleep(checkInterval)
+  } while (countCompleted(results) < jobs.length)
 
-		// Create job if there are slots available
-		while ((countRunning(results) < queueMax) && (results.length < jobs.length)) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			const job = await (resSdk as any).create(jobs[results.length] as any)
-			results.push(job as J)
-			if (delay < 0) {
-				const rateLimits = headerRateLimits(rrr.headers)
-				const rateLimit = computeRateLimits(rateLimits, jobType)
-				delay = rateLimit.delay
-				cl.removeRawResponseReader()
-			} else await sleep(delay)
-		}
-
-		// Check job status
-		for (const job of results) {
-			if (isCompleted(job)) continue
-			await sleep(delay)
-			const j = await resSdk.retrieve(job)
-			Object.assign(job, j)
-		}
-
-		await sleep(checkInterval)
-
-	} while (countCompleted(results) < jobs.length)
-
-	return results
-
+  return results
 }

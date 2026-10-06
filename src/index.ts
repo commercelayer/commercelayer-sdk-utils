@@ -1,5 +1,3 @@
-
-
 // All
 export { all, deleteAll, retrieveAll, updateAll } from './all'
 export type { Batch, BatchOptions, InvalidTokenError, Task, TaskResult } from './batch'
@@ -14,7 +12,6 @@ export { retrievePage } from './page'
 // Util
 export { headerRateLimits } from './rate_limit'
 export { currentTokenData as tokenData } from './util'
-
 
 // RESOURCES //
 

@@ -1,15 +1,13 @@
-import type { QueryParams } from "@commercelayer/sdk"
-
+import type { QueryParams } from '@commercelayer/sdk'
 
 class IncludePath {
-
   #resources: string[] = []
 
   clear(): this {
     this.#resources = []
     return this
   }
-  
+
   add(resource: string): this {
     this.#resources.push(resource)
     return this
@@ -18,12 +16,9 @@ class IncludePath {
   get(): string[] {
     return this.#resources
   }
-
 }
 
-
 export class ResourceInclude {
-
   readonly #includePath: IncludePath
 
   constructor(includePath?: IncludePath) {
@@ -53,5 +48,4 @@ export class ResourceInclude {
     }
     this.#includePath.clear()
   }
-
 }

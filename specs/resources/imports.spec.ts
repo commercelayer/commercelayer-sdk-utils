@@ -1,4 +1,3 @@
-
 import type { ImportCreate } from '@commercelayer/sdk'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import type { Task, TaskResult } from '../../src'
@@ -6,83 +5,70 @@ import { importsToBatchTasks, splitImport } from '../../src'
 import type { TemplateTask } from '../../src/batch'
 import { initialize } from '../../test/common'
 
-
-
 beforeAll(async () => {
-	await initialize()
+  await initialize()
 })
 
 afterEach(() => {
-	vi.resetAllMocks()
+  vi.resetAllMocks()
 })
 
-
-
 describe('sdk-utils.imports suite', () => {
+  test('imports.split', async () => {
+    const numInputs = 1000
+    const impSize = 100
 
-	test('imports.split', async () => {
+    const inputs: Record<string, any>[] = []
 
-		const numInputs = 1000
-		const impSize = 100
+    for (let i = 0; i < numInputs; i++) {
+      inputs.push({ attr: `input_${i}` })
+    }
 
-		const inputs: Record<string, any>[] = []
+    const ic: ImportCreate = {
+      resource_type: 'customers',
+      inputs,
+    }
 
-		for (let i = 0; i < numInputs; i++) {
-			inputs.push({ attr: `input_${i}` })
-		  }
-		
-		  const ic: ImportCreate = {
-			resource_type: 'customers',
-			inputs
-		  }
-		
-		  const imports = splitImport(ic, { size: impSize })
+    const imports = splitImport(ic, { size: impSize })
 
-		  expect(imports.length).toBe(Math.ceil(numInputs / impSize))
-		  for (let i = 1; i <= imports.length; i++) {
-			const imp = imports[i-1]
-			if (i === imports.length) expect(imp.inputs.length).toBeLessThanOrEqual(impSize)
-			else expect(imp.inputs.length).toBe(impSize)
-		  }
+    expect(imports.length).toBe(Math.ceil(numInputs / impSize))
+    for (let i = 1; i <= imports.length; i++) {
+      const imp = imports[i - 1]
+      if (i === imports.length) expect(imp.inputs.length).toBeLessThanOrEqual(impSize)
+      else expect(imp.inputs.length).toBe(impSize)
+    }
+  })
 
-	})
+  test('imports.toBatchTasks', async () => {
+    const imports: ImportCreate[] = [
+      { resource_type: 'customers', inputs: [] },
+      { resource_type: 'customers', inputs: [] },
+      { resource_type: 'customers', inputs: [] },
+    ]
 
+    const task: TemplateTask = {
+      onSuccess: {
+        callback: (_output: TaskResult, _task: Task): void => {},
+      },
+      onFailure: {
+        haltOnError: true,
+      },
+    }
 
-	test('imports.toBatchTasks', async () => {
+    const tasks = importsToBatchTasks(imports, task)
 
-		const imports: ImportCreate[] = [
-			{ resource_type: 'customers', inputs: [] },
-			{ resource_type: 'customers', inputs: [] },
-			{ resource_type: 'customers', inputs: [] }
-		]
+    expect(tasks.length).toBe(imports.length)
 
-		const task: TemplateTask = {
-			onSuccess: {
-				callback: (_output: TaskResult, _task: Task): void => {}
-			},
-			onFailure: {
-				haltOnError: true
-			}
-		}
+    for (let i = 0; i < tasks.length; i++) {
+      const exp = imports[i]
+      const tsk = tasks[i]
 
-		const tasks = importsToBatchTasks(imports, task)
+      expect(tsk.operation).toBe('create')
+      expect(tsk.resourceType).toBe('imports')
+      expect(tsk.resource).toEqual(exp)
 
-		expect(tasks.length).toBe(imports.length)
-
-		for (let i = 0; i < tasks.length; i++) {
-
-			const exp = imports[i]
-			const tsk = tasks[i]
-
-			expect(tsk.operation).toBe('create')
-			expect(tsk.resourceType).toBe('imports')
-			expect(tsk.resource).toEqual(exp)
-
-			expect(tsk.onFailure?.haltOnError).toBeTruthy()
-			expect(tsk.onSuccess?.callback).toBeDefined()
-
-		}
-
-	})
-
+      expect(tsk.onFailure?.haltOnError).toBeTruthy()
+      expect(tsk.onSuccess?.callback).toBeDefined()
+    }
+  })
 })

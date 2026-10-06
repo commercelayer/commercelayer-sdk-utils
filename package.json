@@ -19,7 +19,7 @@
     }
   },
   "scripts": {
-    "generate": "tsx gen/generator.ts",
+    "generate": "tsx gen/generator.ts && biome format --write src/helpers",
     "lint": "biome check --enforce-assist=true",
     "check": "biome check --enforce-assist=true --write",
     "build": "tsup",

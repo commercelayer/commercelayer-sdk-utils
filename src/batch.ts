@@ -1,7 +1,24 @@
-import type { ApiError, CreatableResourceType, DeletableResourceType, ListableResourceType, ListResponse, QueryParams, QueryParamsList, Resource, ResourceCreate, ResourceId, ResourcesConfig, ResourceTypeLock, ResourceUpdate, RetrievableResourceType, SdkError, UpdatableResourceType } from "@commercelayer/sdk"
-import { invalidToken, sleep } from "./common"
+import type {
+  ApiError,
+  CreatableResourceType,
+  DeletableResourceType,
+  ListableResourceType,
+  ListResponse,
+  QueryParams,
+  QueryParamsList,
+  Resource,
+  ResourceCreate,
+  ResourceId,
+  ResourcesConfig,
+  ResourceTypeLock,
+  ResourceUpdate,
+  RetrievableResourceType,
+  SdkError,
+  UpdatableResourceType,
+} from '@commercelayer/sdk'
+import { invalidToken, sleep } from './common'
 import CommerceLayerUtils from './init'
-import { computeRateLimits, headerRateLimits, type RateLimitInfo } from "./rate_limit"
+import { computeRateLimits, headerRateLimits, type RateLimitInfo } from './rate_limit'
 
 /*
 createAll: 		KO, can be done with imports
@@ -16,262 +33,257 @@ export type TaskResourceParam = ResourceId | ResourceCreate | ResourceUpdate
 export type TaskResourceResult = Resource | ListResponse<Resource>
 export type TaskResult = TaskResourceResult | undefined
 
-
 export class InvalidTokenError extends Error {
-	readonly cause: ApiError
-	constructor(error: ApiError) {
-		super(error.first().detail as string)
-		this.cause = error
-	}
+  readonly cause: ApiError
+  constructor(error: ApiError) {
+    super(error.first().detail as string)
+    this.cause = error
+  }
 }
-
 
 export type SuccessCallback = (output: TaskResult, task: Task) => Promise<void> | void
 export type FailureCallback = (error: SdkError, task: Task) => Promise<boolean> | boolean
 export type TokenCallback = (error: InvalidTokenError, task: Task) => Promise<string> | string
 
 export type PrepareResourceResult = TaskResourceParam | undefined
-export type PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult) => Promise<PrepareResourceResult> | PrepareResourceResult
+export type PrepareResourceCallback = (
+  resource: TaskResourceParam,
+  last: TaskResourceResult,
+) => Promise<PrepareResourceResult> | PrepareResourceResult
 
 export type TemplateTask = Partial<Task>
 
 type CreateTask = CRUDTask & {
-	resourceType: CreatableResourceType,
-	operation: 'create',
-	resource: ResourceCreate
+  resourceType: CreatableResourceType
+  operation: 'create'
+  resource: ResourceCreate
 }
 
 type UpdateTask = CRUDTask & {
-	resourceType: UpdatableResourceType,
-	operation: 'update',
-	resource: ResourceUpdate
+  resourceType: UpdatableResourceType
+  operation: 'update'
+  resource: ResourceUpdate
 }
 
 type DeleteTask = CRUDTask & {
-	resourceType: DeletableResourceType,
-	operation: 'delete',
-	resource: ResourceId
+  resourceType: DeletableResourceType
+  operation: 'delete'
+  resource: ResourceId
 }
 
 type ListTask = {
-	resourceType: ListableResourceType,
-	operation: 'list',
-	params?: QueryParamsList
+  resourceType: ListableResourceType
+  operation: 'list'
+  params?: QueryParamsList
 }
 
 type RetrieveTask = CRUDTask & {
-	resourceType: RetrievableResourceType,
-	operation: 'retrieve',
-	resource: ResourceId
+  resourceType: RetrievableResourceType
+  operation: 'retrieve'
+  resource: ResourceId
 }
 
 type CRUDTask = {
-	resourceType: ResourceTypeLock
-	operation: 'create' | 'retrieve' | 'update' | 'delete'
-	resource: Record<string, any>
-	prepareResource?: PrepareResourceCallback
+  resourceType: ResourceTypeLock
+  operation: 'create' | 'retrieve' | 'update' | 'delete'
+  resource: Record<string, any>
+  prepareResource?: PrepareResourceCallback
 }
-
 
 export type Task = {
-	label?: string
-	resourceType: ResourceTypeLock
-	operation: TaskOperation
-	params?: QueryParams
-	options?: ResourcesConfig
-	executed?: boolean
-	onSuccess?: {
-		callback?: SuccessCallback
-		result?: TaskResult,
-	},
-	onFailure?: {
-		error?: SdkError
-		haltOnError?: boolean
-		errorHandler?: FailureCallback
-	}
+  label?: string
+  resourceType: ResourceTypeLock
+  operation: TaskOperation
+  params?: QueryParams
+  options?: ResourcesConfig
+  executed?: boolean
+  onSuccess?: {
+    callback?: SuccessCallback
+    result?: TaskResult
+  }
+  onFailure?: {
+    error?: SdkError
+    haltOnError?: boolean
+    errorHandler?: FailureCallback
+  }
 } & (CreateTask | UpdateTask | DeleteTask | ListTask | RetrieveTask)
 
-
 export type BatchResult = {
-	startedAt: Date,
-	finishedAt?: Date
+  startedAt: Date
+  finishedAt?: Date
 }
-
 
 export type BatchOptions = {
-	haltOnError?: boolean,
-	refreshToken?: TokenCallback
+  haltOnError?: boolean
+  refreshToken?: TokenCallback
 }
-
 
 export type Batch = {
-	tasks: Task[]
-	rateLimits?: Partial<Record<ResourceTypeLock, Partial<Record<TaskOperation, RateLimitInfo>>>>
-	running?: boolean
-	runningTask?: string,
-	options?: BatchOptions
+  tasks: Task[]
+  rateLimits?: Partial<Record<ResourceTypeLock, Partial<Record<TaskOperation, RateLimitInfo>>>>
+  running?: boolean
+  runningTask?: string
+  options?: BatchOptions
 }
-
-
 
 const isCRUDTask = (task: any): task is CRUDTask => {
-	return task.resource && ['create', 'retrieve', 'update', 'delete'].includes(task.operation as string)
+  return task.resource && ['create', 'retrieve', 'update', 'delete'].includes(task.operation as string)
 }
-
 
 const taskRateLimit = (batch: Batch, task: Task, info?: RateLimitInfo): RateLimitInfo | undefined => {
+  if (info) {
+    if (!batch.rateLimits) batch.rateLimits = {}
+    Object.assign(batch.rateLimits || {}, { [task.resourceType]: { [task.operation]: info } })
+  }
 
-	if (info) {
-		if (!batch.rateLimits) batch.rateLimits = {}
-		Object.assign(batch.rateLimits || {}, { [task.resourceType]: { [task.operation]: info } })
-	}
-
-	const resLimits = batch.rateLimits?.[task.resourceType]
-	return resLimits ? resLimits[task.operation] : undefined
-
+  const resLimits = batch.rateLimits?.[task.resourceType]
+  return resLimits ? resLimits[task.operation] : undefined
 }
-
-
 
 const executeTask = async (task: Task, options: BatchOptions = {}): Promise<TaskResult> => {
+  // const client = cl[task.resourceType as keyof CommerceLayerBundle]
+  const client = CommerceLayerUtils().api(task.resourceType)
+  let out: TaskResult
 
-	// const client = cl[task.resourceType as keyof CommerceLayerBundle]
-	const client = CommerceLayerUtils().api(task.resourceType)
-	let out: TaskResult
+  try {
+    task.executed = false
 
-	try {
+    const op = client[task.operation as keyof typeof client] as any
+    if (!op) throw new Error(`Unsupported operation [resource: ${task.resourceType}, operation: ${task.operation}]`)
 
-		task.executed = false
+    switch (task.operation) {
+      case 'list': {
+        out = (await (client[task.operation as keyof typeof client] as any)(
+          task.params,
+          task.options,
+        )) as ListResponse<Resource>
+        break
+      }
+      case 'delete': {
+        await (client[task.operation as keyof typeof client] as any)(task.resource, task.options)
+        break
+      }
+      case 'create':
+      case 'retrieve':
+      case 'update': {
+        out = (await (client[task.operation as keyof typeof client] as any)(
+          task.resource,
+          task.params,
+          task.options,
+        )) as Resource
+        break
+      }
+    }
 
-		const op = client[task.operation as keyof typeof client] as any
-		if (!op) throw new Error(`Unsupported operation [resource: ${task.resourceType}, operation: ${task.operation}]`)
+    if (!task.onSuccess) task.onSuccess = {}
+    const success = task.onSuccess
+    success.result = out
+    if (success.callback)
+      try {
+        await success.callback(success.result, task)
+      } catch (_err) {}
 
-		switch (task.operation) {
-			case 'list': {
-				out = await (client[task.operation as keyof typeof client] as any)(task.params, task.options) as ListResponse<Resource>
-				break
-			}
-			case 'delete': {
-				await (client[task.operation as keyof typeof client] as any)(task.resource, task.options)
-				break
-			}
-			case 'create':
-			case 'retrieve':
-			case 'update': {
-				out = await (client[task.operation as keyof typeof client] as any)(task.resource, task.params, task.options) as Resource
-				break
-			}
-		}
+    return out
+  } catch (error: unknown) {
+    if (invalidToken(error)) throw new InvalidTokenError(error)
 
-		if (!task.onSuccess) task.onSuccess = {}
-		const success = task.onSuccess
-		success.result = out
-		if (success.callback) try { await success.callback(success.result, task) } catch (_err) { }
-
-		return out
-
-	} catch (error: unknown) {
-
-		if (invalidToken(error)) throw new InvalidTokenError(error)
-
-		if (!task.onFailure) task.onFailure = {}
-		const failure = task.onFailure
-		failure.error = error as SdkError
-		let halt = options.haltOnError || failure.haltOnError
-		if (failure.errorHandler) try { halt = halt || await failure.errorHandler(failure.error, task) } catch (_err) { }
-		if (halt) throw error
-
-	} finally {
-		task.executed = true
-	}
-
+    if (!task.onFailure) task.onFailure = {}
+    const failure = task.onFailure
+    failure.error = error as SdkError
+    let halt = options.haltOnError || failure.haltOnError
+    if (failure.errorHandler)
+      try {
+        halt = halt || (await failure.errorHandler(failure.error, task))
+      } catch (_err) {}
+    if (halt) throw error
+  } finally {
+    task.executed = true
+  }
 }
 
+const resolvePlaceholders: PrepareResourceCallback = (
+  _resource: TaskResourceParam,
+  _last: TaskResourceResult,
+): undefined => {
+  /*
+  if (!last) return
+  let lastResult: Resource
+  if (Array.isArray(last)) {
+    if (last.length === 0) return
+    lastResult = last[0]
+  } else lastResult = last
 
-const resolvePlaceholders: PrepareResourceCallback = (_resource: TaskResourceParam, _last: TaskResourceResult): undefined => {
-	/*
-	if (!last) return
-	let lastResult: Resource
-	if (Array.isArray(last)) {
-		if (last.length === 0) return
-		lastResult = last[0]
-	} else lastResult = last
+  Object.entries(resource.).forEach(([k, v]) => {
+    const val = String(v)
+    const vars = val.match(/{{[\w]{2,}\([\d]\)?}}/g)
+    if (vars?.length) for (const v of vars) {
+      const newVal = lastResult[v as keyof typeof lastResult]
 
-	Object.entries(resource.).forEach(([k, v]) => {
-		const val = String(v)
-		const vars = val.match(/{{[\w]{2,}\([\d]\)?}}/g)
-		if (vars?.length) for (const v of vars) {
-			const newVal = lastResult[v as keyof typeof lastResult]
-
-		}
-	})
-	*/
+    }
+  })
+  */
 }
-
 
 export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
+  const cl = CommerceLayerUtils().sdk
+  const rrr = cl.addRawResponseReader({ headers: true })
+  batch.running = false
 
-	const cl = CommerceLayerUtils().sdk
-	const rrr = cl.addRawResponseReader({ headers: true })
-	batch.running = false
+  const result: BatchResult = {
+    startedAt: new Date(),
+  }
 
-	const result: BatchResult = {
-		startedAt: new Date()
-	}
+  let runningIndex = -1
+  let lastResult: TaskResult
+  for (const task of batch.tasks) {
+    runningIndex++
+    batch.running = true
+    batch.runningTask = task.label || String(runningIndex)
 
-	let runningIndex = -1
-	let lastResult: TaskResult
-	for (const task of batch.tasks) {
+    let rateLimit = taskRateLimit(batch, task)
+    if (rateLimit) await sleep(rateLimit.delay)
 
-		runningIndex++
-		batch.running = true
-		batch.runningTask = task.label || String(runningIndex)
+    try {
+      if (lastResult && isCRUDTask(task)) {
+        let modRes: PrepareResourceResult
+        try {
+          if (task.resource && task.prepareResource) modRes = await task.prepareResource(task.resource, lastResult)
+          else modRes = await resolvePlaceholders(task.resource, lastResult)
+        } catch (_e: any) {
+          modRes = undefined
+        }
+        if (modRes) task.resource = modRes
+      }
+      lastResult = undefined
+      lastResult = await executeTask(task, batch.options)
+    } catch (err: unknown) {
+      // Refresh access token if needed and re-execute the task
+      if (err instanceof InvalidTokenError && batch.options?.refreshToken) {
+        const newAccessToken = await batch.options.refreshToken(err, task)
+        cl.config({ accessToken: newAccessToken })
+        await executeTask(task, batch.options)
+      } else throw err
+    } finally {
+      batch.running = false
+      batch.runningTask = undefined
+    }
 
-		let rateLimit = taskRateLimit(batch, task)
-		if (rateLimit) await sleep(rateLimit.delay)
+    if (!rateLimit)
+      try {
+        // Compute and store rate limit for this kind of resource/operation
+        const rateLimits = headerRateLimits(rrr.headers)
+        rateLimit = computeRateLimits(rateLimits, task, batch.tasks)
+        taskRateLimit(batch, task, rateLimit)
+      } catch (_error: any) {}
+  }
 
-		try {
-			if (lastResult && isCRUDTask(task)) {
-				let modRes: PrepareResourceResult
-				try {
-					if (task.resource && task.prepareResource) modRes = await task.prepareResource(task.resource, lastResult)
-					else modRes = await resolvePlaceholders(task.resource, lastResult)
-				} catch (_e: any) { modRes = undefined }
-				if (modRes) task.resource = modRes
-			}
-			lastResult = undefined
-			lastResult = await executeTask(task, batch.options)
-		} catch (err: unknown) {
-			// Refresh access token if needed and re-execute the task
-			if ((err instanceof InvalidTokenError) && batch.options?.refreshToken) {
-				const newAccessToken = await batch.options.refreshToken(err, task)
-				cl.config({ accessToken: newAccessToken })
-				await executeTask(task, batch.options)
-			} else throw err
-		} finally {
-			batch.running = false
-			batch.runningTask = undefined
-		}
+  if (cl && rrr) cl.removeRawResponseReader()
 
-		if (!rateLimit) try {
-			// Compute and store rate limit for this kind of resource/operation
-			const rateLimits = headerRateLimits(rrr.headers)
-			rateLimit = computeRateLimits(rateLimits, task, batch.tasks)
-			taskRateLimit(batch, task, rateLimit)
-		} catch (_error: any) { }
+  result.finishedAt = new Date()
 
-	}
-
-	if (cl && rrr) cl.removeRawResponseReader()
-
-	result.finishedAt = new Date()
-
-
-	return result
-
+  return result
 }
 
-
 export const batch = {
-	execute: executeBatch
+  execute: executeBatch,
 }

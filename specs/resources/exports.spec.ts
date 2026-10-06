@@ -1,4 +1,3 @@
-
 import { type ExportCreate, exports, prices } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import type { Task, TaskResult } from '../../src'
@@ -7,137 +6,118 @@ import type { TemplateTask } from '../../src/batch'
 import { ApiResourceClient } from '../../src/init'
 import { initialize } from '../../test/common'
 
-
 const resourceType = 'prices'
 
-
 beforeAll(async () => {
-	await initialize(exports, prices)
+  await initialize(exports, prices)
 })
 
 afterEach(() => {
-	vi.resetAllMocks()
+  vi.resetAllMocks()
 })
 
-
-
 describe('sdk-utils.exports suite', () => {
+  test('exports.split', async () => {
+    const exportMaxSize = 30
+    const resourceCount = await ApiResourceClient(resourceType).count()
+    const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 
-	test('exports.split', async () => {
+    const expCreate: ExportCreate = {
+      resource_type: resourceType,
+    }
 
-		const exportMaxSize = 30
-		const resourceCount = await ApiResourceClient(resourceType).count()
-		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
-		
-		const expCreate: ExportCreate = {
-			resource_type: resourceType
-		}
+    const exports = await splitExport(expCreate, { size: exportMaxSize, delay: 700 })
 
-		const exports = await splitExport(expCreate, { size: exportMaxSize, delay: 700 })
+    expect(exports.length).toBe(expectedExports)
 
-		expect(exports.length).toBe(expectedExports)
+    for (let i = 0; i < exports.length; i++) {
+      const exp = exports[i]
 
-		for (let i = 0; i < exports.length; i++) {
+      expect(exp.filters).toBeDefined()
+      if (!exp.filters) exp.filters = {}
+      if (i === 0) {
+        expect(exp.filters.id_gt).toBeUndefined()
+        expect(exp.filters.id_lteq).toBeDefined()
+      } else {
+        if (i === exports.length - 1) {
+          const expPre = exports[i - 1]
+          if (!expPre.filters) expPre.filters = {}
+          expect(exp.filters.id_gt).toBe(expPre.filters.id_lteq)
+          expect(exp.filters.id_lteq).toBeUndefined()
+        } else if (i < exports.length - 1) {
+          const expPre = exports[i - 1]
+          if (!expPre.filters) expPre.filters = {}
+          expect(exp.filters.id_gt).toBe(expPre.filters.id_lteq)
+          expect(exp.filters.id_gt).not.toBe(exp.filters.id_lteq)
+        }
+      }
 
-			const exp = exports[i]
-			
-			expect(exp.filters).toBeDefined()
-			if (!exp.filters) exp.filters = {}
-			if (i === 0) {
-				expect(exp.filters.id_gt).toBeUndefined()
-				expect(exp.filters.id_lteq).toBeDefined()
-			} else {
-				if (i === exports.length-1) {
-					const expPre = exports[i-1]
-					if (!expPre.filters) expPre.filters = {}
-					expect(exp.filters.id_gt).toBe(expPre.filters.id_lteq)
-					expect(exp.filters.id_lteq).toBeUndefined()
-				} else 
-				if (i < exports.length-1) {
-					const expPre = exports[i-1]
-					if (!expPre.filters) expPre.filters = {}
-					expect(exp.filters.id_gt).toBe(expPre.filters.id_lteq)
-					expect(exp.filters.id_gt).not.toBe(exp.filters.id_lteq)
-				}
-			}
+      expect(exp.metadata).toBeDefined()
+      if (exp.metadata) {
+        expect(exp.metadata.group_id).toBeDefined
+        expect(exp.metadata.progress_number).toBeDefined()
+      }
+    }
+  })
 
-			expect(exp.metadata).toBeDefined()
-			if (exp.metadata) {
-				expect(exp.metadata.group_id).toBeDefined
-				expect(exp.metadata.progress_number).toBeDefined()
-			}
+  test('exports.toBatchTasks', async () => {
+    const exports: ExportCreate[] = [
+      { resource_type: resourceType },
+      { resource_type: resourceType },
+      { resource_type: resourceType },
+    ]
 
-		}
+    const task: TemplateTask = {
+      onSuccess: {
+        callback: (_output: TaskResult, _task: Task): void => {},
+      },
+      onFailure: {
+        haltOnError: true,
+      },
+    }
 
-	})
+    const tasks = exportsToBatchTasks(exports, task)
 
+    expect(tasks.length).toBe(exports.length)
 
-	test('exports.toBatchTasks', async () => {
+    for (let i = 0; i < tasks.length; i++) {
+      const exp = exports[i]
+      const tsk = tasks[i]
 
-		const exports: ExportCreate[] = [
-			{ resource_type: resourceType },
-			{ resource_type: resourceType },
-			{ resource_type: resourceType }
-		]
+      expect(tsk.operation).toBe('create')
+      expect(tsk.resourceType).toBe('exports')
+      expect(tsk.resource).toEqual(exp)
 
-		const task: TemplateTask = {
-			onSuccess: {
-				callback: (_output: TaskResult, _task: Task): void => {}
-			},
-			onFailure: {
-				haltOnError: true
-			}
-		}
+      expect(tsk.onFailure?.haltOnError).toBeTruthy()
+      expect(tsk.onSuccess?.callback).toBeDefined()
+    }
+  })
 
-		const tasks = exportsToBatchTasks(exports, task)
+  test('exports.execute', async () => {
+    const exportMaxSize = 5
+    const queueLength = 5
+    const resourceCount = await ApiResourceClient(resourceType).count() // await cl[resourceType].count()
+    const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 
-		expect(tasks.length).toBe(exports.length)
+    const expCreate: ExportCreate = {
+      resource_type: resourceType,
+    }
 
-		for (let i = 0; i < tasks.length; i++) {
+    const exports = await executeExport(expCreate, { size: exportMaxSize, queueLength })
 
-			const exp = exports[i]
-			const tsk = tasks[i]
+    expect(exports.length).toBe(expectedExports)
 
-			expect(tsk.operation).toBe('create')
-			expect(tsk.resourceType).toBe('exports')
-			expect(tsk.resource).toEqual(exp)
+    for (const exp of exports) {
+      expect(exp.records_count).toBeLessThanOrEqual(exportMaxSize)
+      expect(exp.reference).toBeDefined()
+      expect(exp.metadata).toBeDefined()
+      if (exp.metadata) {
+        expect(exp.metadata.group_id).toBeDefined
+        expect(exp.metadata.progress_number).toBeDefined()
+      }
+      expect(['completed', 'interrupted']).toContain(exp.status)
+    }
 
-			expect(tsk.onFailure?.haltOnError).toBeTruthy()
-			expect(tsk.onSuccess?.callback).toBeDefined()
-
-		}
-
-	})
-
-
-	test('exports.execute', async () => {
-
-		const exportMaxSize = 5
-		const queueLength = 5
-		const resourceCount = await ApiResourceClient(resourceType).count()	// await cl[resourceType].count()
-		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
-		
-		const expCreate: ExportCreate = {
-			resource_type: resourceType
-		}
-
-		const exports = await executeExport(expCreate, { size: exportMaxSize, queueLength })
-
-		expect(exports.length).toBe(expectedExports)
-
-		for (const exp of exports) {
-			expect(exp.records_count).toBeLessThanOrEqual(exportMaxSize)
-			expect(exp.reference).toBeDefined()
-			expect(exp.metadata).toBeDefined()
-			if (exp.metadata) {
-				expect(exp.metadata.group_id).toBeDefined
-				expect(exp.metadata.progress_number).toBeDefined()
-			}
-			expect(['completed', 'interrupted']).toContain(exp.status)
-		}
-
-		// console.log(exports[0].metadata?.group_id)
-
-	}, 0)
-
+    // console.log(exports[0].metadata?.group_id)
+  }, 0)
 })

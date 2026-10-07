@@ -1,13 +1,10 @@
-
-import { type Customer, type Customers, customers } from '@commercelayer/sdk'
+import { type Customer, type Customers, customers } from '@commercelayer/sdk/single-client'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { retrievePage } from '../src'
 import { sleep } from '../src/common'
 import { ApiResourceClient } from '../src/init'
 import { currentTokenData } from '../src/util'
 import { cl, initialize } from '../test/common'
-
-
 
 beforeAll(async () => {
   await initialize(customers)
@@ -17,15 +14,11 @@ afterEach(() => {
   vi.resetAllMocks()
 })
 
-
-
 describe('sdk-utils.page suite', () => {
-
   test('page.retrievePage', async () => {
-
     process.env.CL_SDK_TEST = 'on'
 
-    await sleep(12000)  // await to avoid rate limit due to concurrent requests
+    await sleep(12000) // await to avoid rate limit due to concurrent requests
 
     const tokenData = currentTokenData(cl.currentAccessToken)
     const maxPageSizeApi = tokenData.test ? 475 : 950 // Test requires more api requests
@@ -42,35 +35,34 @@ describe('sdk-utils.page suite', () => {
       pageNumber = pageNumberTest
       pageNumberMax = pageNumberMaxTest
       pageSize = Math.min(pageSizeTest, maxPageSizeApi)
-    }
-    else
-    do {
+    } else
+      do {
+        pageSizeMax = Math.floor(recordCount / 2)
+        pageSize = Math.min(maxPageSizeApi, Math.floor(Math.random() * pageSizeMax))
 
-      pageSizeMax = Math.floor(recordCount / 2)
-      pageSize = Math.min(maxPageSizeApi, Math.floor(Math.random() * pageSizeMax))
-
-      pageNumberMax = Math.ceil(recordCount / pageSize)
-      pageNumber = Math.ceil(Math.random() * pageNumberMax)
-
-    } while ((pageNumber > pageNumberMax) || (pageSize > pageSizeMax))
+        pageNumberMax = Math.ceil(recordCount / pageSize)
+        pageNumber = Math.ceil(Math.random() * pageNumberMax)
+      } while (pageNumber > pageNumberMax || pageSize > pageSizeMax)
 
     const customers = await retrievePage<Customer>('customers', { pageNumber, pageSize, sort: ['email'] })
 
-    const startRecord = (pageSize * (pageNumber - 1)) + 1
+    const startRecord = pageSize * (pageNumber - 1) + 1
     const endRecord = Math.min(recordCount, startRecord + pageSize - 1)
 
-    const startResource = (await ApiResourceClient<Customers>('customers').list({ pageNumber: startRecord, pageSize: 1, sort: ['email'] })).first()
-    const endResource = (await ApiResourceClient<Customers>('customers').list({ pageNumber: endRecord, pageSize: 1, sort: ['email'] })).first()
+    const startResource = (
+      await ApiResourceClient<Customers>('customers').list({ pageNumber: startRecord, pageSize: 1, sort: ['email'] })
+    ).first()
+    const endResource = (
+      await ApiResourceClient<Customers>('customers').list({ pageNumber: endRecord, pageSize: 1, sort: ['email'] })
+    ).first()
 
     const firstRetrieved = customers.first()
     const lastRetrieved = customers.last()
 
-    const modPageSize = (pageNumber === pageNumberMax)? (recordCount % pageSize) || pageSize : pageSize
+    const modPageSize = pageNumber === pageNumberMax ? recordCount % pageSize || pageSize : pageSize
 
     expect(customers.length).toBe(modPageSize)
     expect(startResource?.id).toBe(firstRetrieved?.id)
     expect(endResource?.id).toBe(lastRetrieved?.id)
-
   }, 0)
-
 })

@@ -1,123 +1,117 @@
 import { inspect } from 'node:util'
-import { type ApiResource, CommerceLayer, type CommerceLayerClient, type Resource } from '@commercelayer/sdk'	// '@commercelayer/sdk/bundle'
+import {
+  API_SCHEMA_VERSION,
+  type ApiResource,
+  type ApiVersion,
+  CommerceLayer,
+  type CommerceLayerSingleClient as CommerceLayerClient,
+  type Resource,
+} from '@commercelayer/sdk/single-client'
 import dotenv from 'dotenv'
 import { CommerceLayerUtils, type CommerceLayerUtilsConfig } from '../src'
+import { GLOBAL_TIMEOUT } from './timeout'
 import getToken from './token'
-
 
 dotenv.config()
 
-export const GLOBAL_TIMEOUT = 15000
+export { GLOBAL_TIMEOUT }
 
 const organization = process.env.CL_SDK_ORGANIZATION as string
 const domain = process.env.CL_SDK_DOMAIN as string
 
 export { domain, organization }
 
+// The Core API is versioned and `apiVersion` is required by the SDK: target the
+// version its types were generated for.
+export const API_VERSION = API_SCHEMA_VERSION as ApiVersion
+
 const INTERCEPTOR_CANCEL = 'TEST-INTERCEPTED'
 const _REQUEST_TIMEOUT = 5550
 
-
 export const TestData = {
-	id: 'testId',
-	reference: 'sdk-test',
-	reference_origin: 'cl-sdk',
-	metadata: {
-		meta_key_1: 'meta_value_1',
-	}
+  id: 'testId',
+  reference: 'sdk-test',
+  reference_origin: 'cl-sdk',
+  metadata: {
+    meta_key_1: 'meta_value_1',
+  },
 } as const
-
-
 
 export let currentAccessToken: string
 export let cl: CommerceLayerClient
 export let utils: CommerceLayerUtilsConfig
 
-
 export const initialize = async (...resources: ApiResource<Resource>[]): Promise<CommerceLayerUtilsConfig> => {
-	cl = await getClient(true)
-	utils = CommerceLayerUtils(cl)
-	if (resources?.length > 0) utils.addApiResources(...resources)
-	return utils
+  cl = await getClient(true)
+  utils = CommerceLayerUtils(cl)
+  if (resources?.length > 0) utils.addApiResources(...resources)
+  return utils
 }
-
 
 const initClient = async (): Promise<CommerceLayerClient> => {
+  const token = await getToken('integration')
+  if (token === null) throw new Error('Unable to get access token')
 
-	const token = await getToken('integration')
-	if (token === null) throw new Error('Unable to get access token')
+  const accessToken = token.accessToken
+  currentAccessToken = accessToken
 
-	const accessToken = token.accessToken
-	currentAccessToken = accessToken
-	
-	const client = CommerceLayer({ organization, accessToken, domain })
-	client.config({ timeout: GLOBAL_TIMEOUT })
+  const client = CommerceLayer({ organization, accessToken, domain, apiVersion: API_VERSION })
+  client.config({ timeout: GLOBAL_TIMEOUT })
 
-	try { vi.setConfig({ testTimeout: GLOBAL_TIMEOUT })  } catch(_err: any) {}
+  try {
+    vi.setConfig({ testTimeout: GLOBAL_TIMEOUT })
+  } catch (_err: any) {}
 
-	return client
-
+  return client
 }
 
-
 const fakeClient = async (): Promise<CommerceLayerClient> => {
-	const accessToken = 'fake-access-token'
-	const client = CommerceLayer({ organization, accessToken, domain })
-	currentAccessToken = accessToken
-	return client
+  const accessToken = 'fake-access-token'
+  const client = CommerceLayer({ organization, accessToken, domain, apiVersion: API_VERSION })
+  currentAccessToken = accessToken
+  return client
 }
 
 const getClient = (instance?: boolean): Promise<CommerceLayerClient> => {
-	return instance ? initClient() : fakeClient()
+  return instance ? initClient() : fakeClient()
 }
 
 const printObject = (obj: unknown): string => {
-	return inspect(obj, false, null, true)
+  return inspect(obj, false, null, true)
 }
-
 
 export { fakeClient, getClient, initClient, printObject }
 
-
-
 const handleError = (error: any) => {
-	if (error.message !== INTERCEPTOR_CANCEL) throw error
+  if (error.message !== INTERCEPTOR_CANCEL) throw error
 }
-
 
 const randomValue = (type: string, name?: string): any | Array<any> => {
+  const numbers = [0, 1, 10, 100, 1000, 10000, 5, 55, 555, 12345, 6666]
+  const strings = ['alfa', 'beta', 'gamma', 'delta', 'epsilon', 'kappa', 'lambda', 'omega', 'sigma', 'zeta']
+  const booleans = [true, false, true, false, true, false, true, false, true, false]
+  const objects = [{ key11: 'val11' }, { key21: 'val21' }, { key31: 'val31' }, { key41: 'val41' }, { key51: 'val51' }]
 
-	const numbers = [0, 1, 10, 100, 1000, 10000, 5, 55, 555, 12345, 6666]
-	const strings = ['alfa', 'beta', 'gamma', 'delta', 'epsilon', 'kappa', 'lambda', 'omega', 'sigma', 'zeta']
-	const booleans = [true, false, true, false, true, false, true, false, true, false]
-	const objects = [{ key11: 'val11' }, { key21: 'val21' }, { key31: 'val31' }, { key41: 'val41' }, { key51: 'val51' }]
+  let values: Array<string | number | boolean | object>
 
-	let values: Array<string | number | boolean | object>
+  if (name) {
+    // type =
+  }
 
-	if (name) {
-		// type = 
-	}
+  if (type.startsWith('boolean')) values = booleans
+  else if (type.startsWith('integer') || type.startsWith('number')) values = numbers
+  else if (type.startsWith('fload') || type.startsWith('decimal')) values = numbers
+  else if (type.startsWith('object')) values = objects
+  else if (type.startsWith('string')) values = strings
+  else values = strings
 
-	if (type.startsWith('boolean')) values = booleans
-	else
-	if (type.startsWith('integer') || type.startsWith('number')) values = numbers
-	else
-	if (type.startsWith('fload') || type.startsWith('decimal')) values = numbers
-	else
-	if (type.startsWith('object')) values = objects
-	else
-	if (type.startsWith('string')) values = strings
-	else values = strings
+  let value = values[Math.floor(Math.random() * (values.length - 1))]
 
-	let value = values[Math.floor(Math.random() * (values.length - 1))]
+  if (type === 'string') value = `${value}_${Math.floor(Math.random() * 100)}`
 
-	if (type === 'string') value = `${value}_${Math.floor(Math.random() * 100)}`
+  if (type.endsWith('[]')) value = [value]
 
-	if (type.endsWith('[]')) value = [ value ]
-
-	return value
-
+  return value
 }
-
 
 export { handleError, randomValue }

@@ -1,0 +1,62 @@
+name: Publish preview package
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview:
+    name: pkg.pr.new
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build package
+        run: pnpm build
+
+      - name: Publish preview
+        run: npx pkg-pr-new publish --no-template
+
+      - name: Print install URL
+        run: |
+          # On a pull_request the checkout is a merge commit, so HEAD does not
+          # match what pkg-pr-new published: it takes the PR head sha
+          FULL='${{ github.event.pull_request.head.sha }}'
+          [ -n "$FULL" ] || FULL="$(git rev-parse HEAD)"
+          SHA="${FULL:0:7}"
+          REPO='${{ github.repository }}'
+          {
+            echo '### Preview package'
+            echo
+            echo "- **Commit:** [\`${SHA}\`](https://github.com/${REPO}/commit/${FULL})"
+            echo
+            echo '```'
+            echo "npm i https://pkg.pr.new/${REPO}/@commercelayer/sdk-utils@${SHA}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

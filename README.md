@@ -12,54 +12,51 @@ A JavaScript Library that makes even more easier to interact with [Commerce Laye
 
 ## Installation and usage
 
-#### SDK v6.x
+#### SDK v8.x (requires `^8.0.0`)
+
+The Core API is versioned, so SDK v8 requires `apiVersion` when creating the client. The default entry of `@commercelayer/sdk` is the bundled client, which carries every resource: pass it to `CommerceLayerUtils` and all of them are available to the utilities.
 
 ```ts
-import CommerceLayer from "@commercelayer/sdk"
+import { CommerceLayer } from "@commercelayer/sdk"
 import CommerceLayerUtils, { executeBatch } from '@commercelayer/sdk-utils'
 
-const cl = CommerceLayer({ organization, accessToken })
+const cl = CommerceLayer({ organization, accessToken, apiVersion: '2026-05' })
 CommerceLayerUtils(cl)
 
 await executeBatch(batch)
 ```
 
-#### SDK v7.x (requires `^7.11.0`)
-
-Starting from SDK v7 you can take advantage of the tree shaking using only the resources that you really need.
+To take advantage of tree shaking, use the single client from `@commercelayer/sdk/single-client` and pass only the resources you really need.
 
 ```ts
-import CommerceLayer, { orders, customers } from "@commercelayer/sdk"
+import { CommerceLayer, orders, customers } from "@commercelayer/sdk/single-client"
 import CommerceLayerUtils, { retrieveAll } from '@commercelayer/sdk-utils'
 
-const cl = CommerceLayer({ organization, accessToken })
+const cl = CommerceLayer({ organization, accessToken, apiVersion: '2026-05' })
 CommerceLayerUtils(cl, [ orders, customers ])
 
-const skus = await retrieveAll<Sku>('skus')
+const customerList = await retrieveAll<Customer>('customers')
 ```
 
-Resources can also be added later to CommerceLayerUtils configuration.
+Resources can also be added later to the CommerceLayerUtils configuration.
 
 ```ts
-import CommerceLayer, { orders, customers, skus } from "@commercelayer/sdk"
+import { CommerceLayer, orders, customers, skus } from "@commercelayer/sdk/single-client"
 import CommerceLayerUtils from '@commercelayer/sdk-utils'
 
-const cl = CommerceLayer({ organization, accessToken })
+const cl = CommerceLayer({ organization, accessToken, apiVersion: '2026-05' })
 const utilsConfig = CommerceLayerUtils(cl)
 
-utilsConfig.addResources(orders, customer)
-utilsConfig.addResource(skus)
+utilsConfig.addApiResources(orders, customers)
+utilsConfig.addApiResource(skus)
 ```
 
-It is always possible to load the resources all together as with SDK v6 using the special bundle client implementation.
+> [!NOTE]
+> With the single client, a utility can only use the resources that were passed to `CommerceLayerUtils`: calling `retrieveAll('skus')` without adding `skus` throws `Resource [skus] not available`.
 
-```ts
-import  { CommerceLayer } from "@commercelayer/sdk/bundle"
-import CommerceLayerUtils from '@commercelayer/sdk-utils'
+#### SDK v7.x
 
-const cl = CommerceLayer({ organization, accessToken })
-const utilsConfig = CommerceLayerUtils(cl)
-```
+Use `@commercelayer/sdk-utils` 4.x (requires `^7.11.0`).
 
 ---
 

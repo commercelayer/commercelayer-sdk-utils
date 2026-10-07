@@ -1,24 +1,28 @@
-import type { CustomerCreate } from "@commercelayer/sdk"
-import { CommerceLayer } from "@commercelayer/sdk/bundle"
-import CommerceLayerUtils, { type Batch, executeBatch, type InvalidTokenError, type Task, type TaskResult } from '../src'
+import type { CustomerCreate } from '@commercelayer/sdk'
+import { CommerceLayer } from '@commercelayer/sdk/bundle'
+import CommerceLayerUtils, {
+  type Batch,
+  executeBatch,
+  type InvalidTokenError,
+  type Task,
+  type TaskResult,
+} from '../src'
 
 const organization = 'cli-test-org'
 const accessToken = 'pippo'
-const refreshedAccessToken = 'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJ3UlBwRUZPRWxSIiwic2x1ZyI6InNkay10ZXN0LW9yZyIsImVudGVycHJpc2UiOmZhbHNlfSwiYXBwbGljYXRpb24iOnsiaWQiOiJWcERYV2lxa0JwIiwia2luZCI6ImludGVncmF0aW9uIiwicHVibGljIjpmYWxzZX0sInRlc3QiOnRydWUsImV4cCI6MTY5NTg5NTYwMCwicmFuZCI6MC42NTUyMTM3NzE2NzgyNzU1fQ.w3QctexjFmF3wz6G9pY_3AoVUirVcjWqgKB44WzWcCtPegE3LaPhiJGd7uM4f6tqkXTUuXh1lCskhxxhdK39xg'
+const refreshedAccessToken =
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJ3UlBwRUZPRWxSIiwic2x1ZyI6InNkay10ZXN0LW9yZyIsImVudGVycHJpc2UiOmZhbHNlfSwiYXBwbGljYXRpb24iOnsiaWQiOiJWcERYV2lxa0JwIiwia2luZCI6ImludGVncmF0aW9uIiwicHVibGljIjpmYWxzZX0sInRlc3QiOnRydWUsImV4cCI6MTY5NTg5NTYwMCwicmFuZCI6MC42NTUyMTM3NzE2NzgyNzU1fQ.w3QctexjFmF3wz6G9pY_3AoVUirVcjWqgKB44WzWcCtPegE3LaPhiJGd7uM4f6tqkXTUuXh1lCskhxxhdK39xg'
 
-const cl = CommerceLayer({ organization, accessToken })
+const cl = CommerceLayer({ organization, accessToken, apiVersion: '2026-05' })
 
 const _utils = CommerceLayerUtils(cl)
 
-
 const testCreate = async (): Promise<void> => {
-
   async function print(res: TaskResult, _task: Task): Promise<void> {
     console.log('SUCCESS')
     if (!res) console.log('No output')
-    else
-      if (Array.isArray(res)) for (const r of res) console.log(`Creato customer ${r.id}`)
-      else console.log(`Creato customer ${res.id}`)
+    else if (Array.isArray(res)) for (const r of res) console.log(`Creato customer ${r.id}`)
+    else console.log(`Creato customer ${res.id}`)
   }
 
   async function handler(error: Error, _task: Task): Promise<boolean> {
@@ -32,22 +36,20 @@ const testCreate = async (): Promise<void> => {
     return refreshedAccessToken
   }
 
-
   const tasks: Task[] = []
-
 
   const NUM_REQUESTS = 5
   const NUM_TEST = 15
 
   for (let i = 0; i < NUM_REQUESTS; i++) {
     const task: Task = {
-      resourceType: "customers",
-      operation: "create",
+      resourceType: 'customers',
+      operation: 'create',
       resource: {
-        email: `batchuser_longtask_${String(NUM_TEST).padStart(2, '0')}_${i}@cli-test.org`
+        email: `batchuser_longtask_${String(NUM_TEST).padStart(2, '0')}_${i}@cli-test.org`,
       } as CustomerCreate,
       onSuccess: { callback: print },
-      onFailure: { errorHandler: handler }
+      onFailure: { errorHandler: handler },
     }
     tasks.push(task)
   }
@@ -55,8 +57,8 @@ const testCreate = async (): Promise<void> => {
   const b: Batch = {
     tasks,
     options: {
-      refreshToken: refreshAccessToken
-    }
+      refreshToken: refreshAccessToken,
+    },
   }
 
   try {
@@ -64,18 +66,13 @@ const testCreate = async (): Promise<void> => {
   } catch (error: any) {
     console.log(error.message)
   }
-
 }
 
-
-
 const _testList = async (): Promise<void> => {
-
   async function print(res: TaskResult, _task: Task): Promise<void> {
     if (!res) console.log('No output')
-    else
-      if (Array.isArray(res)) for (const r of res) console.log(`Creato customer ${r.id}`)
-      else console.log(`Creato customer ${res.id}`)
+    else if (Array.isArray(res)) for (const r of res) console.log(`Creato customer ${r.id}`)
+    else console.log(`Creato customer ${res.id}`)
   }
 
   async function handler(error: Error, _task: Task): Promise<boolean> {
@@ -85,25 +82,24 @@ const _testList = async (): Promise<void> => {
 
   const tasks: Task[] = []
 
-
   const NUM_REQUESTS = 100
   const NUM_TEST = 11
 
   for (let i = 0; i < NUM_REQUESTS; i++) {
     const task: Task = {
-      resourceType: "customers",
-      operation: "create",
+      resourceType: 'customers',
+      operation: 'create',
       resource: {
-        email: `batchuser_longtask_${String(NUM_TEST).padStart(2, '0')}_${i}@cli-test.org`
+        email: `batchuser_longtask_${String(NUM_TEST).padStart(2, '0')}_${i}@cli-test.org`,
       } as CustomerCreate,
       onSuccess: { callback: print },
-      onFailure: { errorHandler: handler }
+      onFailure: { errorHandler: handler },
     }
     tasks.push(task)
   }
 
   const b: Batch = {
-    tasks
+    tasks,
   }
 
   try {
@@ -111,8 +107,6 @@ const _testList = async (): Promise<void> => {
   } catch (error: any) {
     console.log(error.message)
   }
-
 }
-
 
 void testCreate()

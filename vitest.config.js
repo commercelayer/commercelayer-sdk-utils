@@ -1,5 +1,8 @@
+// Loads .env into the main process, inherited by the test workers: specs read
+// process.env at any time, before or without importing test/common
+import 'dotenv/config'
 import { defineConfig } from 'vitest/config'
-import { GLOBAL_TIMEOUT } from './test/common'
+import { GLOBAL_TIMEOUT } from './test/timeout.ts'
 
 
 export default defineConfig({

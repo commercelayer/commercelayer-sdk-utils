@@ -2,7 +2,6 @@ import type { Sku } from '@commercelayer/sdk'
 import { describe, expect, test } from 'vitest'
 import { denormalizeResponse } from '../src/jsonapi'
 
-
 const PAYLOAD = `{
   "data": [
     {
@@ -496,12 +495,8 @@ const PAYLOAD = `{
   }
 }`
 
-
-
 describe('sdk-utils.jsonapi suite', () => {
-
   test('jsonapi.denormalize', async () => {
-
     const payload = PAYLOAD
 
     const skuResponse = denormalizeResponse<Sku>(payload)
@@ -516,7 +511,5 @@ describe('sdk-utils.jsonapi suite', () => {
 
     expect(sku.type).toBe('skus')
     expect(sku.id).not.toBeNull()
-
   })
-
 })

@@ -1,12 +1,63 @@
 name: Publish
+
+# Publishes to npm once a human publishes the draft release created by
+# release.yml, then announces it. The draft is the gate: nothing reaches npm
+# until someone reviews the generated notes and hits publish.
+#
+# npm authentication is OIDC trusted publishing, no NPM_TOKEN: the package's
+# trusted publisher on npmjs.com must name this workflow file (publish.yml).
 on:
   release:
     types: [ published ]
+
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          # Build from exactly the tree the release was created from
+          ref: ${{ github.event.release.tag_name }}
+          persist-credentials: false
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: latest
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+          registry-url: https://registry.npmjs.org
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Type-check
+        run: pnpm ts:check
+      - name: Build package
+        run: pnpm build
+      - name: Run specs
+        env:
+          CL_SDK_ORGANIZATION: sdk-test-org
+          CL_SDK_CLIENT_ID: ${{secrets.CL_SDK_CLIENT_ID}}
+          CL_SDK_CLIENT_SECRET: ${{secrets.CL_SDK_CLIENT_SECRET}}
+          WEBHOOK_SECRET_CUSTOMER_CREATE: e4f274c9a36610abb209c4ffa0baa839
+        run: pnpm test
+      # npm (not pnpm) performs the OIDC token exchange for trusted publishing,
+      # and attaches provenance automatically
+      - name: Publish prerelease
+        if: github.event.release.prerelease
+        run: npm publish --tag beta
+      - name: Publish release
+        if: '!github.event.release.prerelease'
+        run: npm publish
       - name: Post to a Slack channel
         id: slack
         uses: slackapi/slack-github-action@v3

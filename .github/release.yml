@@ -1,0 +1,34 @@
+# GitHub's native release-notes configuration: entries are PR titles, grouped by
+# PR label, the same categories as commercelayer-sdk. The labels also drive the
+# version that `pnpm release:version` suggests (breaking-change -> major,
+# enhancement/feature -> minor, anything else -> patch).
+#
+# A PR with none of the labels below still appears, under "Other Changes".
+# Label a PR `ignore-for-release` to keep it out entirely.
+
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - dependabot
+  categories:
+    - title: 💥 Breaking Change
+      labels:
+        - breaking-change
+    - title: 🚀 Enhancement
+      labels:
+        - enhancement
+        - feature
+    - title: 🐛 Bug Fix
+      labels:
+        - bug
+    - title: 📝 Documentation
+      labels:
+        - documentation
+    - title: 🆙 Dependencies
+      labels:
+        - dependencies
+    - title: Other Changes
+      labels:
+        - "*"

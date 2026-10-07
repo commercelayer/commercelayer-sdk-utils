@@ -3,10 +3,9 @@
 [![Version](https://img.shields.io/npm/v/@commercelayer/sdk-utils.svg)](https://npmjs.org/package/@commercelayer/sdk-utils)
 [![Downloads/week](https://img.shields.io/npm/dw/@commercelayer/sdk-utils.svg)](https://npmjs.org/package/@commercelayer/sdk-utils)
 [![License](https://img.shields.io/npm/l/@commercelayer/sdk-utils.svg)](https://github.com/commercelayer/commercelayer-sdk-utils/blob/master/package.json)
-[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
-[![Release](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/semantic-release.yml/badge.svg)](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/semantic-release.yml)
+[![Test](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/test.yml/badge.svg)](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/test.yml)
 [![CodeQL](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/commercelayer/commercelayer-sdk-utils/actions/workflows/codeql-analysis.yml)
-[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript%205-%230074c1.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript%206-%230074c1.svg)](https://www.typescriptlang.org/)
 
 A JavaScript Library that makes even more easier to interact with [Commerce Layer API](https://docs.commercelayer.io/developers) using the official [JavaScript SDK](https://github.com/commercelayer/commercelayer-sdk).
 

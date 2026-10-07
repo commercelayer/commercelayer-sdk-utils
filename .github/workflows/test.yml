@@ -1,8 +1,6 @@
 name: Test
 on:
   push:
-    # Release branches are tested by the Release workflow before publishing
-    branches-ignore: [ main, beta, prerelease ]
 # The specs run against a live organization: never run two pushes of the same
 # branch at once (a newer pending run replaces an older pending one)
 concurrency:

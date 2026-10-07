@@ -1,0 +1,121 @@
+name: Release
+
+# Drafts a GitHub release for a new version, created by `pnpm release:version`
+# through either path:
+#
+#   - PR: a merged `release/v<version>` PR. This workflow tags the merge commit.
+#   - direct: a `v<version>` tag pushed on main by someone with push rights.
+#
+# The tag this workflow creates on the PR path is pushed with the workflow
+# token, which never triggers workflows, so the tag trigger cannot fire again
+# for the same release.
+#
+# Release notes come from PR titles and labels via .github/release.yml. Nothing
+# reaches npm here: publish.yml publishes once a human reviews and publishes the
+# draft.
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    types: [ closed ]
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  github_release:
+    name: Draft GitHub release
+    if: >-
+      github.event_name == 'push' ||
+      (github.event.pull_request.merged && startsWith(github.event.pull_request.head.ref, 'release/v'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          # The commit being released; full history and tags so the previous tag
+          # can be found and the commit checked against main
+          ref: ${{ github.event_name == 'push' && github.sha || github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Resolve version and previous tag
+        id: meta
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="v${VERSION}"
+          SHA=$(git rev-parse HEAD)
+
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            if [ "$GITHUB_REF_NAME" != "$TAG" ]; then
+              echo "::error::Tag ${GITHUB_REF_NAME} does not match package.json version ${VERSION}."
+              exit 1
+            fi
+            # A release is cut from main: a tag pushed from any other branch is rejected
+            if ! git merge-base --is-ancestor "$SHA" origin/main; then
+              echo "::error::Tag ${TAG} points to ${SHA}, which is not on main."
+              exit 1
+            fi
+          else
+            if [ "$HEAD_REF" != "release/${TAG}" ]; then
+              echo "::error::Branch ${HEAD_REF} does not match package.json version ${VERSION} (expected release/${TAG})."
+              exit 1
+            fi
+            if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+              echo "::error::Tag ${TAG} already exists."
+              exit 1
+            fi
+          fi
+
+          # A semver prerelease has a hyphen in the version (5.1.0-beta.1). A
+          # stable release is compared with the previous stable one, so its notes
+          # cover everything since then, not just what followed the last beta.
+          case "$VERSION" in
+            *-*) PRERELEASE=true;  PREV=$(git tag --list 'v*' --sort=-v:refname | grep -vFx "$TAG" | head -1 || true) ;;
+            *)   PRERELEASE=false; PREV=$(git tag --list 'v*' --sort=-v:refname | grep -vFx "$TAG" | grep -v -- '-' | head -1 || true) ;;
+          esac
+
+          {
+            echo "version=$VERSION"
+            echo "tag=$TAG"
+            echo "sha=$SHA"
+            echo "previous_tag=$PREV"
+            echo "prerelease=$PRERELEASE"
+          } >> "$GITHUB_OUTPUT"
+          echo "Releasing ${TAG} at ${SHA} (prerelease=${PRERELEASE}, previous=${PREV:-none})"
+
+      - name: Tag the merge commit
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f "ref=refs/tags/${{ steps.meta.outputs.tag }}" \
+            -f "sha=${{ steps.meta.outputs.sha }}"
+
+      # Generated through the API rather than the release action's
+      # `generate_release_notes`, which cannot be given the previous tag
+      - name: Generate release notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          ARGS=(-f "tag_name=${{ steps.meta.outputs.tag }}")
+          PREV='${{ steps.meta.outputs.previous_tag }}'
+          [ -n "$PREV" ] && ARGS+=(-f "previous_tag_name=${PREV}")
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" "${ARGS[@]}" --jq .body > release-notes.md
+          cat release-notes.md
+
+      - name: Create a draft GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: ${{ steps.meta.outputs.tag }}
+          draft: true
+          prerelease: ${{ steps.meta.outputs.prerelease }}
+          body_path: release-notes.md

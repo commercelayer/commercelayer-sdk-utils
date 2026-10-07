@@ -1,3 +1,5 @@
+> For releases after 5.0.0, release notes are published on [GitHub Releases](https://github.com/commercelayer/commercelayer-sdk-utils/releases). This file is kept for the history up to 5.0.0.
+
 # [5.0.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v4.0.0...v5.0.0) (2026-10-07)
 
 

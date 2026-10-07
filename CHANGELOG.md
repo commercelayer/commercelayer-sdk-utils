@@ -1,3 +1,26 @@
+# [5.0.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v4.0.0...v5.0.0) (2026-10-07)
+
+
+### Bug Fixes
+
+* bump dependencies to latest major ([dc99bc0](https://github.com/commercelayer/commercelayer-sdk-utils/commit/dc99bc0fdb9550052ef86d499e823f20dca561a8))
+
+
+### Features
+
+* support @commercelayer/sdk v8 ([639a9c8](https://github.com/commercelayer/commercelayer-sdk-utils/commit/639a9c88bcf157304db26f112c180460fd847a5c))
+
+
+### BREAKING CHANGES
+
+* @commercelayer/sdk ^8.0.0 is now required as peer
+dependency; use @commercelayer/sdk-utils 4.x with SDK v7.
+- the SDK client must be created with the apiVersion option
+- standalone resources must be imported from @commercelayer/sdk/single-client
+- ApiSdkUtils() and CommerceLayerUtils().sdk are typed as the SDK single
+  client base class: cast to CommerceLayerClient to access the bundled
+  client resources
+
 # [4.0.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v3.5.1...v4.0.0) (2026-06-12)
 
 
